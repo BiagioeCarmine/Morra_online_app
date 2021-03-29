@@ -6,19 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".PlayWithFriends">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/createLobbyButton"
+            style="@android:style/Widget.Button"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:layout_width="wrap_content"
+            android:padding="5sp"
+            android:layout_height="wrap_content"
+            android:text="METTITI IN ATTESA"
+            android:textSize="18sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="GIOCA CON GLI AMICI"
+            android:text="OPPURE"
             android:textSize="24sp" />
+
+
+
+        <EditText
+            android:id="@+id/lobbyIdInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="ID Utente"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/playWithFriendButton"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5sp"
+            android:text="UNISCITI AD UTENTE"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
