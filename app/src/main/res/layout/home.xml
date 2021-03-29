@@ -50,14 +50,22 @@
         android:text="MATCHMAKING"
         android:textColor="#FFFFFF"
         android:textSize="24sp" /-->
-
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/settingsButton"
         android:background="#432c1c"
         android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:padding="10dp"
         android:layout_height="wrap_content"
         android:text="Impostazioni" />
+    <Button
+        android:id="@+id/aboutButton"
+        android:background="#432c1c"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text="INFORMAZIONI" />
+
 
 </LinearLayout>
