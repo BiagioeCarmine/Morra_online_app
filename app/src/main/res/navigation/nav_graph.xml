@@ -12,17 +12,24 @@
         tools:layout="@layout/home">
 
         <action
-            android:id="@+id/goToMM"
-            app:destination="@id/matchmaking" />
-        <action
-            android:id="@+id/goToFriends"
-            app:destination="@id/play_with_friends" />
-        <action
             android:id="@+id/goToAbout"
             app:destination="@id/about" />
         <action
             android:id="@+id/goToSettings"
             app:destination="@id/settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/play"
+        android:name="com.carminezacc.morra.Home"
+        android:label="Play"
+        tools:layout="@layout/play">
+
+        <action
+            android:id="@+id/goToMM"
+            app:destination="@id/matchmaking" />
+        <action
+            android:id="@+id/goToFriends"
+            app:destination="@id/play_with_friends" />
     </fragment>
     <fragment
         android:id="@+id/play_with_friends"

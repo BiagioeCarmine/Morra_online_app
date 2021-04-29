@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-public class Home extends Fragment {
+public class Play extends Fragment {
     ImageButton mmButton; // tasto matchmaking
     ImageButton friendsButton;  // tasto gioca con amici
     Button aboutButton; // tasto "informazioni"
@@ -34,7 +34,7 @@ public class Home extends Fragment {
         mmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
+                NavHostFragment.findNavController(Play.this)
                         .navigate(R.id.goToMM);
             }
         });
@@ -42,7 +42,7 @@ public class Home extends Fragment {
         friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
+                NavHostFragment.findNavController(Play.this)
                         .navigate(R.id.goToFriends);
             }
         });
@@ -50,7 +50,7 @@ public class Home extends Fragment {
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
+                NavHostFragment.findNavController(Play.this)
                         .navigate(R.id.goToAbout);
             }
         });
