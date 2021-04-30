@@ -72,6 +72,12 @@
         android:text="MATCHMAKING"
         android:textColor="#FFFFFF"
         android:textSize="24sp" /-->
+    <!--
+        per ora lascio qui questi 5 bottoni che andranno spostati in home.xml
+        lo faccio solo per togliere gli errori che dava android studio,
+        visto che non ho ancora un'idea su come fare home.xml
+    /-->
+
     <Button
         android:id="@+id/settingsButton"
         android:background="#432c1c"
@@ -80,6 +86,31 @@
         android:padding="10dp"
         android:layout_height="wrap_content"
         android:text="Impostazioni" />
+
+    <Button
+        android:id="@+id/recordsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:background="#432c1c"
+        android:padding="10dp"
+        android:text="Records"
+        android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/playButton"
+        android:background="#432c1c"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text="PLAY" />
+    <Button
+        android:id="@+id/exitButton"
+        android:background="#432c1c"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text="Exit" />
     <Button
         android:id="@+id/aboutButton"
         android:background="#432c1c"
