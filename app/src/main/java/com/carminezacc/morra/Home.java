@@ -22,7 +22,7 @@ public class Home extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.play, null);
+        return inflater.inflate(R.layout.home, null);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
