@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -64,5 +65,13 @@ public class Home extends Fragment {
                         .navigate(R.id.goToAbout);
             }
         });
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.exit(0);
+            }
+        });
     }
+
+
 }
