@@ -12,10 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class Home extends Fragment {
-    ImageButton mmButton; // tasto matchmaking
-    ImageButton friendsButton;  // tasto gioca con amici
+    Button settingsButton; // tasto options
+    Button recordsButton;  // tasto records
     Button aboutButton; // tasto "informazioni"
-
+    Button playButton; //tasto play
+    Button exitButton; //tasto exit
+/*
+* CI SONO ERRORI, MA NON È NIENTE DI GRAVE, SO COME FIXARE
+* */
 
     @Override
     public View onCreateView(
@@ -27,23 +31,25 @@ public class Home extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mmButton = view.findViewById(R.id.imageButton2);
-        friendsButton = view.findViewById(R.id.imageButton3);
+        settingsButton = view.findViewById(R.id.settingsButton);
+        recordsButton = view.findViewById(R.id.recordsButton);
         aboutButton = view.findViewById(R.id.aboutButton);
+        playButton = view.findViewById(R.id.playButton);
+        exitButton = view.findViewById(R.id.exitButton);
 
-        mmButton.setOnClickListener(new View.OnClickListener() {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToMM);
+                        .navigate(R.id.goToSettings);
             }
         });
 
-        friendsButton.setOnClickListener(new View.OnClickListener() {
+        recordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToFriends);
+                        .navigate(R.id.goToRecords);
             }
         });
 

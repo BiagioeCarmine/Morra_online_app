@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 public class Play extends Fragment {
     ImageButton mmButton; // tasto matchmaking
     ImageButton friendsButton;  // tasto gioca con amici
-    Button aboutButton; // tasto "informazioni"
 
 
     @Override
@@ -29,7 +28,6 @@ public class Play extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mmButton = view.findViewById(R.id.imageButton2);
         friendsButton = view.findViewById(R.id.imageButton3);
-        aboutButton = view.findViewById(R.id.aboutButton);
 
         mmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,14 +42,6 @@ public class Play extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Play.this)
                         .navigate(R.id.goToFriends);
-            }
-        });
-
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Play.this)
-                        .navigate(R.id.goToAbout);
             }
         });
     }

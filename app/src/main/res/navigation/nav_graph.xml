@@ -12,15 +12,21 @@
         tools:layout="@layout/home">
 
         <action
+            android:id="@+id/goToRecords"
+            app:destination="@id/records" />
+        <action
             android:id="@+id/goToAbout"
             app:destination="@id/about" />
         <action
             android:id="@+id/goToSettings"
             app:destination="@id/settings" />
+        <action
+            android:id="@+id/goToPlay"
+            app:destination="@id/play" />
     </fragment>
     <fragment
         android:id="@+id/play"
-        android:name="com.carminezacc.morra.Home"
+        android:name="com.carminezacc.morra.Play"
         android:label="Play"
         tools:layout="@layout/play">
 
@@ -30,6 +36,9 @@
         <action
             android:id="@+id/goToFriends"
             app:destination="@id/play_with_friends" />
+        <action
+            android:id="@+id/play_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/play_with_friends"
@@ -69,6 +78,16 @@
 
         <action
             android:id="@+id/about_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/records"
+        android:name="com.carminezacc.morra.Records"
+        android:label="Records"
+        tools:layout="@layout/records">
+
+        <action
+            android:id="@+id/records_to_home"
             app:destination="@id/home" />
     </fragment>
 </navigation>
