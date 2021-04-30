@@ -6,32 +6,69 @@
     android:layout_height="wrap_content"
     android:background="@drawable/menu_background"
     android:elevation="8dp"
-    android:gravity="end"
+    android:layout_gravity="center"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="40dp"
+    tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="400dp"
-        android:layout_height="214dp"
-        android:layout_marginBottom="@dimen/cardview_default_elevation"
-        android:gravity="center"
-        android:text="MORRA ONLINE"
-        android:textSize="50dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Morra online"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textSize="32sp"
+        android:textColor="#000000" />
 
-    <TextView
-        android:layout_width="400dp"
-        android:layout_height="144dp"
-        android:layout_marginBottom="@dimen/cardview_default_elevation"
-        android:gravity="center"
-        android:text="MORRA ONLINE"
-        android:textSize="50dp" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/settingsButton"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#0080c0"
+        android:padding="20dp"
+        android:text="Impostazioni"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/recordsButton"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#0080c0"
+        android:padding="20dp"
+        android:text="Records"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="144dp"
+        android:layout_height="62dp"
+        android:layout_gravity="center"
+        android:background="#0080c0"
+        android:padding="10dp"
+        android:text="PLAY"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:background="#0080c0"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_width="144dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text="Exit" />
+    <Button
+        android:id="@+id/aboutButton"
+        android:background="#0080c0"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_width="144dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:text="INFORMAZIONI" />
+
+
 </LinearLayout>
-
-    <!--
-    TODO: trovare un' idea e finire questo layout
-
-    /-->

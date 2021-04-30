@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,9 +16,6 @@ public class Home extends Fragment {
     Button aboutButton; // tasto "informazioni"
     Button playButton; //tasto play
     Button exitButton; //tasto exit
-/*
-* CI SONO ERRORI, MA NON È NIENTE DI GRAVE, SO COME FIXARE
-* */
 
     @Override
     public View onCreateView(
@@ -50,6 +46,14 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Home.this)
                         .navigate(R.id.goToRecords);
+            }
+        });
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Home.this)
+                        .navigate(R.id.goToPlay);
             }
         });
 
