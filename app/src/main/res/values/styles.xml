@@ -4,7 +4,6 @@
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">#00c0ff</item>
         <item name="android:colorBackground">#42ffff</item>
-        <item name="android:button">#0080c0</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
