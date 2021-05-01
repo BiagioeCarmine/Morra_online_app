@@ -19,7 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUp extends Fragment {
 
-    TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
+    TextInputEditText textInputEditTextUsername, textInputEditTextPassword, textInputEditTextConfPassword;
     Button loginButton;
 
     @Override
@@ -28,22 +28,31 @@ public class SignUp extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.login, container, false);
+        return inflater.inflate(R.layout.sign_up, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginButton = view.findViewById(R.id.buttonLogIn);
-        textInputEditTextUsername = view.findViewById(R.id.username);
-        textInputEditTextPassword = view.findViewById(R.id.password);
+        textInputEditTextConfPassword = view.findViewById(R.id.conf_password);
+        textInputEditTextUsername = view.findViewById(R.id.username_s);
+        textInputEditTextPassword = view.findViewById(R.id.password_s);
+        /*
+        boolean validateUsername(){
+            String username = textInputEditTextUsername.toString();
+            if (username.length() < 3 || username.length() > 30){
+                return false;
+            }
+        }*/
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SignUp.this)
-                        .navigate(R.id.goToHome);
+                        .navigate(R.id.goToLogin);
             }
         });
+
     }
 
 

@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class LogIn extends Fragment {
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
-    Button loginButton;
+    Button loginButton, signupButton;
 
     @Override
     public View onCreateView(
@@ -28,14 +28,23 @@ public class LogIn extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginButton = view.findViewById(R.id.buttonLogIn);
-        textInputEditTextUsername = view.findViewById(R.id.username);
-        textInputEditTextPassword = view.findViewById(R.id.password);
+        signupButton = view.findViewById(R.id.buttonSignUp_2);
+        textInputEditTextUsername = view.findViewById(R.id.username_l);
+        textInputEditTextPassword = view.findViewById(R.id.password_l);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(LogIn.this)
                         .navigate(R.id.goToHome);
+            }
+        });
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(LogIn.this)
+                        .navigate(R.id.goToSignup);
             }
         });
     }

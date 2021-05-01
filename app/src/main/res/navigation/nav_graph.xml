@@ -45,6 +45,9 @@
         <action
             android:id="@+id/goToHome"
             app:destination="@id/home"/>
+        <action
+            android:id="@+id/goToSignup"
+            app:destination="@id/signup"/>
 
     </fragment>
     <fragment
