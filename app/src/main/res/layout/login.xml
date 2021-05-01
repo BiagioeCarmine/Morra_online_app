@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:gravity="center"
-        android:text="Sign Up"
+        android:text="Accedi"
         android:textColor="#0080c0"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -52,22 +52,6 @@
 
     </com.google.android.material.textfield.TextInputEditText>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/conf_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="352dp"
-        android:layout_marginRight="30dp"
-        android:drawableEnd="@drawable/ic_baseline_lock_24"
-        android:hint="Conferma password"
-        android:password="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.google.android.material.textfield.TextInputEditText>
-
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
@@ -79,14 +63,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/buttonSignUp"
-        android:background="@color/colorButtons"
-        android:textColor="#ffffff"
+        android:id="@+id/buttonLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="430dp"
-        android:text="Registrati"
+        android:layout_marginTop="403dp"
+        android:background="@color/colorButtons"
+        android:text="Accedi"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="oppure"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="467dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/buttonSignUp_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="516dp"
+        android:background="@color/colorButtons"
+        android:text="Registrati"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress" />
 

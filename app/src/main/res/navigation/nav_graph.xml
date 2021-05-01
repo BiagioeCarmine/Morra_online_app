@@ -25,6 +25,20 @@
             app:destination="@id/play" />
     </fragment>
     <fragment
+        android:id="@+id/signup"
+        android:name="com.carminezacc.morra.LogIn"
+        android:label="LogIn"
+        tools:layout="@layout/sign_up">
+
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.carminezacc.morra.SignUp"
+        android:label="SignUp"
+        tools:layout="@layout/login">
+
+    </fragment>
+    <fragment
         android:id="@+id/play"
         android:name="com.carminezacc.morra.Play"
         android:label="Play"
