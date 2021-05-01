@@ -68,7 +68,8 @@ public class Home extends Fragment {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.exit(0);
+                NavHostFragment.findNavController(Home.this)
+                        .navigate(R.id.goToLogin);
             }
         });
     }
