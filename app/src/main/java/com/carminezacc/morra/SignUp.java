@@ -1,7 +1,6 @@
 package com.carminezacc.morra;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,8 +25,8 @@ import java.util.regex.Pattern;
 public class SignUp extends Fragment {
 
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword, textInputEditTextConfPassword;
-    Button loginButton;
-    ProgressBar progressBar;
+    Button RegistratiButton;
+    //ProgressBar progressBar;
     private AlertDialog mDialog;
 
     @Override
@@ -41,13 +40,13 @@ public class SignUp extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loginButton = view.findViewById(R.id.buttonLogIn);
+        RegistratiButton = view.findViewById(R.id.buttonSignUp);
         textInputEditTextConfPassword = view.findViewById(R.id.conf_password);
         textInputEditTextUsername = view.findViewById(R.id.username_s);
         textInputEditTextPassword = view.findViewById(R.id.password_s);
-        progressBar = view.findViewById(R.id.progress_s);
+        //progressBar = view.findViewById(R.id.progress_s);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        RegistratiButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O_MR1)
             @Override
             public void onClick(View view) {
