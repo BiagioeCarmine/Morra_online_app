@@ -9,18 +9,10 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-interface SignUpHandler {
-    void handleSignUp(boolean success);
-}
-
-interface LogInHandler {
-    void handleLogIn(boolean success, String jwt);
-}
-
 public class Users {
     static final String url = "https://morra.carminezacc.com";
 
-    static void signUp(final String username, final String password, final SignUpHandler handler) {
+    public static void signUp(final String username, final String password, final SignUpHandler handler) {
         String path = "/users/signup";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
