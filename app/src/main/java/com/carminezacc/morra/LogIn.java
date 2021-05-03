@@ -1,5 +1,8 @@
 package com.carminezacc.morra;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.carminezacc.morra.backend.LogInHandler;
+import com.carminezacc.morra.backend.Users;
 import com.google.android.material.textfield.TextInputEditText;
+
 
 public class LogIn extends Fragment {
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
     Button loginButton, signupButton;
+    private AlertDialog mDialog;
 
     @Override
     public View onCreateView(
@@ -35,8 +42,31 @@ public class LogIn extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(LogIn.this)
-                        .navigate(R.id.goToHome);
+
+                final String username, password;
+                username = String.valueOf(textInputEditTextUsername.getText());
+                password = String.valueOf(textInputEditTextPassword.getText());
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                Users.LogIn(username, password, LogIn.this.getContext().getApplicationContext(), new LogInHandler() {
+                    @Override
+                    public void handleLogIn(boolean success, String jwt) {
+                        if (success){
+                            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("token", jwt);
+                            editor.apply();
+                            NavHostFragment.findNavController(LogIn.this)
+                                    .navigate(R.id.goToHome);
+                        }
+                        else{
+                            builder.setTitle("OPS! QUALCOSA È ANDATO STORTO");
+                            builder.setMessage("Si è verificato un errore durante l'accesso");
+                            builder.setCancelable(true);
+                            mDialog = builder.show();
+                        }
+                    }
+                });
             }
         });
 

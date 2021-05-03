@@ -42,8 +42,9 @@ public class Users {
         };
         QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
-    static void LogIn(final String username, final String password, final LogInHandler handler) {
+    public static void LogIn(final String username, final String password, Context context, final LogInHandler handler) {
         String path = "/users/login";
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -66,5 +67,6 @@ public class Users {
                 return params;
             }
         };
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }
