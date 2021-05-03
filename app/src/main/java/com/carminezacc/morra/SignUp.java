@@ -62,18 +62,21 @@ public class SignUp extends Fragment {
                     builder.setMessage("La password che hai usato è troppo corta o troppo lunga");
                     builder.setCancelable(true);
                     mDialog = builder.show();
+                    return;
                 }
                 if (!(password.equals(confpass))){
                     builder.setTitle("OPS! QUALCOSA È ANDATO STORTO");
                     builder.setMessage("Le 2 password messe non sono uguali");
                     builder.setCancelable(true);
                     mDialog = builder.show();
+                    return;
                 }
                 if (username.length() < 3 || username.length() > 30){
                     builder.setTitle("OPS! QUALCOSA È ANDATO STORTO");
                     builder.setMessage("L'username che hai usato è troppo corto o troppo lungo");
                     builder.setCancelable(true);
                     mDialog = builder.show();
+                    return;
                 }
                 String pattern = "^[A-Za-z0-9]*$";
                 Pattern p = Pattern.compile(pattern);
@@ -84,6 +87,7 @@ public class SignUp extends Fragment {
                     builder.setMessage("L'username che hai usato ha caratteri non supportati");
                     builder.setCancelable(true);
                     mDialog = builder.show();
+                    return;
                 }
                 Users.signUp(username, password, new SignUpHandler() {
                     @Override

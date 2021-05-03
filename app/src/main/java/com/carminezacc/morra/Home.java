@@ -69,7 +69,7 @@ public class Home extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToLogin);
+                        .navigate(R.id.goToLoginfromHome);
             }
         });
     }

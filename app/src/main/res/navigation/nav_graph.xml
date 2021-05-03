@@ -24,13 +24,13 @@
             android:id="@+id/goToPlay"
             app:destination="@id/play" />
         <action
-            android:id="@+id/goToLogin"
+            android:id="@+id/goToLoginfromHome"
             app:destination="@id/login"/>
     </fragment>
     <fragment
         android:id="@+id/signup"
-        android:name="com.carminezacc.morra.LogIn"
-        android:label="LogIn"
+        android:name="com.carminezacc.morra.SignUp"
+        android:label="SignUp"
         tools:layout="@layout/sign_up">
         <action
             android:id="@+id/goToLogin"
@@ -39,8 +39,8 @@
     </fragment>
     <fragment
         android:id="@+id/login"
-        android:name="com.carminezacc.morra.SignUp"
-        android:label="SignUp"
+        android:name="com.carminezacc.morra.LogIn"
+        android:label="LogIn"
         tools:layout="@layout/login">
         <action
             android:id="@+id/goToHome"
