@@ -1,6 +1,9 @@
 package com.carminezacc.morra.backend;
 
+import android.content.Context;
+
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -12,8 +15,9 @@ import java.util.Map;
 public class Users {
     static final String url = "https://morra.carminezacc.com";
 
-    public static void signUp(final String username, final String password, final SignUpHandler handler) {
+    public static void signUp(final String username, final String password, Context context, final SignUpHandler handler) {
         String path = "/users/signup";
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -36,6 +40,7 @@ public class Users {
                 return params;
             }
         };
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
     static void LogIn(final String username, final String password, final LogInHandler handler) {
         String path = "/users/login";

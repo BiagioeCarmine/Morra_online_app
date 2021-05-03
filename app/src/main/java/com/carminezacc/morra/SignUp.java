@@ -14,8 +14,10 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.android.volley.RequestQueue;
 import com.carminezacc.morra.backend.SignUpHandler;
 import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.backend.QueueSingleton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.regex.Matcher;
@@ -89,7 +91,7 @@ public class SignUp extends Fragment {
                     mDialog = builder.show();
                     return;
                 }
-                Users.signUp(username, password, new SignUpHandler() {
+                Users.signUp(username, password, SignUp.this.getContext().getApplicationContext(), new SignUpHandler() {
                     @Override
                     public void handleSignUp(boolean success) {
                         if (success){
@@ -104,6 +106,7 @@ public class SignUp extends Fragment {
                         }
                     }
                 });
+
             }
         });
 
