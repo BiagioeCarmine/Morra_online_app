@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -28,7 +27,6 @@ public class SignUp extends Fragment {
 
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword, textInputEditTextConfPassword;
     Button RegistratiButton;
-    //ProgressBar progressBar;
     private AlertDialog mDialog;
 
     @Override
@@ -46,7 +44,6 @@ public class SignUp extends Fragment {
         textInputEditTextConfPassword = view.findViewById(R.id.conf_password);
         textInputEditTextUsername = view.findViewById(R.id.username_s);
         textInputEditTextPassword = view.findViewById(R.id.password_s);
-        //progressBar = view.findViewById(R.id.progress_s);
 
         RegistratiButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O_MR1)
@@ -106,7 +103,6 @@ public class SignUp extends Fragment {
                         }
                     }
                 });
-
             }
         });
 
