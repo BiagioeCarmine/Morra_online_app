@@ -41,6 +41,8 @@ public class Home extends Fragment {
         playButton = view.findViewById(R.id.playButton);
         exitButton = view.findViewById(R.id.exitButton);
 
+        //TODO: approfondire mancata rimozione bad token
+
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final String token = sharedPref.getString("token","");
         Log.d("token", token);
