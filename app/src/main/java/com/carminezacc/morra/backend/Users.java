@@ -93,7 +93,14 @@ public class Users {
                     handler.handleVerify(false, 0);
                 }
             }
-        );
+        ){
+            @Override
+            public Map getHeaders() {
+                Map params = new HashMap();
+                params.put("Authorization", "Bearer " + jwt);
+                return params;
+            }
+        };
         QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }
