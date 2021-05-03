@@ -1,6 +1,9 @@
 package com.carminezacc.morra;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,10 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.backend.VerifyHandler;
+import com.carminezacc.morra.state.SessionSingleton;
 
 public class Home extends Fragment {
     Button settingsButton; // tasto options
@@ -33,6 +40,32 @@ public class Home extends Fragment {
         aboutButton = view.findViewById(R.id.aboutButton);
         playButton = view.findViewById(R.id.playButton);
         exitButton = view.findViewById(R.id.exitButton);
+
+        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final String token = sharedPref.getString("token","");
+        Log.d("token", token);
+        if (token.length() == 0){
+            NavHostFragment.findNavController(Home.this)
+                    .navigate(R.id.goToLoginfromHome);
+        }
+        else{
+            Users.verify(token, Home.this.getContext().getApplicationContext(), new VerifyHandler() {
+                @Override
+                public void handleVerify(boolean success, int userId) {
+                    if (success){
+                        SessionSingleton session = SessionSingleton.getInstance();
+                        session.setSession(userId, token);
+                    }
+                    else{
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.remove("token");
+                        editor.commit();
+                        NavHostFragment.findNavController(Home.this)
+                                .navigate(R.id.goToLoginfromHome);
+                    }
+                }
+            });
+        }
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +101,12 @@ public class Home extends Fragment {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove("token");
+                editor.commit();
                 NavHostFragment.findNavController(Home.this)
                         .navigate(R.id.goToLoginfromHome);
             }
         });
     }
-
-
 }

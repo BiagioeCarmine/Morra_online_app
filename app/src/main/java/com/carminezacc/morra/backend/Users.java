@@ -6,8 +6,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,5 +72,28 @@ public class Users {
             }
         };
         QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+    public static void verify(final String jwt, Context context, final VerifyHandler handler){
+        String path = "/users/verify";
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null,  new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    handler.handleVerify(true, response.getInt("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    handler.handleVerify(false, 0);
+                }
+            }
+        }, new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error){
+                    handler.handleVerify(false, 0);
+                }
+            }
+        );
+        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }
