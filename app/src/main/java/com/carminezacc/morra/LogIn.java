@@ -48,7 +48,7 @@ public class LogIn extends Fragment {
                 password = String.valueOf(textInputEditTextPassword.getText());
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                Users.LogIn(username, password, LogIn.this.getContext().getApplicationContext(), new LogInHandler() {
+                Users.logIn(username, password, LogIn.this.getContext().getApplicationContext(), new LogInHandler() {
                     @Override
                     public void handleLogIn(boolean success, String jwt) {
                         if (success){
