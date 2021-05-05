@@ -41,6 +41,8 @@ public class Home extends Fragment {
         playButton = view.findViewById(R.id.playButton);
         exitButton = view.findViewById(R.id.exitButton);
 
+        //TODO: approfondire mancata rimozione bad token
+
         final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         final String token = sharedPref.getString("token","");
         Log.d("token", token);
@@ -58,8 +60,9 @@ public class Home extends Fragment {
                     }
                     else{
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.remove("token");
-                        editor.commit();
+                        editor.putString("token",null);
+                        editor.apply();
+                        Log.d("token", token);
                         NavHostFragment.findNavController(Home.this)
                                 .navigate(R.id.goToLoginfromHome);
                     }
