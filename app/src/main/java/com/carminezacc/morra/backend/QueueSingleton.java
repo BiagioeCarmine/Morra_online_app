@@ -9,6 +9,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+/**
+ * Implementazione standard di Singleton per la coda di richieste di volley
+ * come consigliato da Google <a href="https://developer.android.com/training/volley/requestqueue#singleton">
+ * nella documentazione ufficiale di Volley per Android</a>.
+ */
 public class QueueSingleton {
     private static QueueSingleton instance;
     private RequestQueue requestQueue;
