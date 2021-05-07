@@ -8,8 +8,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.models.Match;
+import com.carminezacc.morra.models.User;
 
-
+import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 
 public class Users {
     static final String url = "https://morra.carminezacc.com";
+    static final Gson gson = new Gson();
 
     public static void signUp(final String username, final String password, Context context, final SignUpHandler handler) {
         String path = "/users/signup";
@@ -102,5 +105,23 @@ public class Users {
             }
         };
         QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+    public static void getUser(int userId, Context context, final GetUserHandler handler){
+        String path = "/users/user/" + userId;
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handler.resultReturned(gson.fromJson(response, User.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                //TODO: Error handling
+            }
+        }
+        );
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

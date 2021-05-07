@@ -9,15 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.carminezacc.morra.backend.GetUserHandler;
 import com.carminezacc.morra.backend.MatchResultCallback;
 import com.carminezacc.morra.backend.Matches;
+import com.carminezacc.morra.backend.Users;
 import com.carminezacc.morra.models.Match;
+import com.carminezacc.morra.models.User;
 
 public class WaitingForMatchConfirmation extends Fragment {
     private static final String ARG_PARAM1 = "matchId";
 
     private int matchId;
     Match match;
+    User user1, user2;
 
     public WaitingForMatchConfirmation() {
         // Required empty public constructor
@@ -54,8 +58,20 @@ public class WaitingForMatchConfirmation extends Fragment {
             @Override
             public void resultReturned(Match returnedMatch) {
                 match = returnedMatch;
+                Users.getUser(match.getUserid1(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
+                    @Override
+                    public void resultReturned(User user) {
+                        user1 = user;
+                    }
+                });
+                Users.getUser(match.getUserid2(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
+                    @Override
+                    public void resultReturned(User user) {
+                        user2 = user;
+                    }
+                });
                 IDText.setText(String.valueOf(match.getId()));
-                DataText.setText(String.valueOf(match.getUserid1())+" vs "+String.valueOf(match.getUserid2()));
+                DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
             }
         });
 
