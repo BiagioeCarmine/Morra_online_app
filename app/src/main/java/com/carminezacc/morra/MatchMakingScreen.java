@@ -69,6 +69,7 @@ public class MatchMakingScreen extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        pollingThread.running = false;
+        if(pollingThread != null)
+            pollingThread.running = false;
     }
 }
