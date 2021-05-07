@@ -9,7 +9,7 @@ import com.carminezacc.morra.backend.QueueStatusHandler;
 import org.joda.time.DateTime;
 
 
-public class PollingThread implements Runnable {
+public class PollingThreadQueue implements Runnable {
     Context context;
     DateTime pollTime;
     boolean queueIsPublic;
@@ -17,13 +17,13 @@ public class PollingThread implements Runnable {
     boolean waiting = true;
     public boolean running = true;
 
-    public PollingThread(DateTime date, boolean queueIsPublic, Context context, QueueStatusHandler handler) {
+    public PollingThreadQueue(DateTime date, boolean queueIsPublic, Context context, QueueStatusHandler handler) {
         this.context = context;
         this.pollTime = date;
         this.handler = handler;
         this.queueIsPublic = queueIsPublic;
     }
-    
+
     @Override
     public void run() {
         if(!running){

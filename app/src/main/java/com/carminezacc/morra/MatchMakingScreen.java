@@ -11,13 +11,13 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.backend.QueueStatusHandler;
-import com.carminezacc.morra.polling.PollingThread;
+import com.carminezacc.morra.polling.PollingThreadQueue;
 
 import org.joda.time.DateTime;
 
 public class MatchMakingScreen extends Fragment {
 
-    PollingThread pollingThread;
+    PollingThreadQueue pollingThreadQueue;
 
 
 
@@ -48,7 +48,7 @@ public class MatchMakingScreen extends Fragment {
             public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
                 if (inQueue){
 
-                    pollingThread = new PollingThread(pollBefore, true, MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler(){
+                    pollingThreadQueue = new PollingThreadQueue(pollBefore, true, MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler(){
                         @Override
                         public void handleMatchCreation(int matchId) {
                             playMatch(matchId);
@@ -59,7 +59,7 @@ public class MatchMakingScreen extends Fragment {
                             //NIENTE
                         }
                     });
-                    Thread t = new Thread(pollingThread);
+                    Thread t = new Thread(pollingThreadQueue);
                     t.start();
                 }
             }
@@ -69,7 +69,7 @@ public class MatchMakingScreen extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(pollingThread != null)
-            pollingThread.running = false;
+        if(pollingThreadQueue != null)
+            pollingThreadQueue.running = false;
     }
 }
