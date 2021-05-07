@@ -29,7 +29,7 @@ public class Matches {
         RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         final String jwt = session.getToken();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 handler.resultReturned(gson.fromJson(response, Match.class));
