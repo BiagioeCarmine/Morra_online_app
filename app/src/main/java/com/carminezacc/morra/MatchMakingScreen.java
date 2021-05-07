@@ -47,7 +47,8 @@ public class MatchMakingScreen extends Fragment {
             @Override
             public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
                 if (inQueue){
-                    Thread t = new Thread(new PollingThread(pollBefore, true, MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler(){
+
+                    pollingThread = new PollingThread(pollBefore, true, MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler(){
                         @Override
                         public void handleMatchCreation(int matchId) {
                             playMatch(matchId);
@@ -57,7 +58,8 @@ public class MatchMakingScreen extends Fragment {
                         public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
                             //NIENTE
                         }
-                    }));
+                    });
+                    Thread t = new Thread(pollingThread);
                     t.start();
                 }
             }
