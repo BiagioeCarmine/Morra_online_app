@@ -65,7 +65,7 @@ public class PollingThreadQueue implements Runnable {
                             Matchmaking.addToPrivateQueue(context, new QueueStatusHandler() {
                                 @Override
                                 public void handleMatchCreation(int matchId) {
-                                    // NON VERRÀ MAI CHIAMATO PERCHÉ LO GESTISCE IL THREAD
+                                    // NON VERRÀ MAI CHIAMATO PERCHÉ NON È POSSIBILE CHE VENGA CREATA UNA PARTITA QUANDO TI AGGIUNGI ALLA PRIV QUEUE
                                     handler.handleMatchCreation(matchId);
                                 }
 
