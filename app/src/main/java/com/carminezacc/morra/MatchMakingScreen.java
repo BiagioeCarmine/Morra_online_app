@@ -11,10 +11,21 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.backend.QueueStatusHandler;
+import com.carminezacc.morra.polling.PollingThread;
 
 import org.joda.time.DateTime;
 
 public class MatchMakingScreen extends Fragment {
+
+    PollingThread pollingThread;
+
+
+
+    private void playMatch(int matchId){
+        Bundle bundle = new Bundle();
+        bundle.putInt("matchId", matchId);
+        NavHostFragment.findNavController(MatchMakingScreen.this).navigate(R.id.mm_to_confirm, bundle);
+    }
 
     @Override
     public View onCreateView(
@@ -30,15 +41,32 @@ public class MatchMakingScreen extends Fragment {
         Matchmaking.addToPublicQueue(MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler() {
             @Override
             public void handleMatchCreation(int matchId) {
-                //VIENE CREATA LA PARTITA E QUINDI BISOGNA PASSARE IL MATCHID A MATCHES
+                playMatch(matchId);
             }
 
             @Override
-            public void handlePolling(boolean inQueue, DateTime pollBefore) {
+            public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
                 if (inQueue){
-                    //CHIAMARE FUNZIONE PER IL POLLING
+                    Thread t = new Thread(new PollingThread(pollBefore, true, MatchMakingScreen.this.getContext().getApplicationContext(), new QueueStatusHandler(){
+                        @Override
+                        public void handleMatchCreation(int matchId) {
+                            playMatch(matchId);
+                        }
+
+                        @Override
+                        public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
+                            //NIENTE
+                        }
+                    }));
+                    t.start();
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        pollingThread.running = false;
     }
 }

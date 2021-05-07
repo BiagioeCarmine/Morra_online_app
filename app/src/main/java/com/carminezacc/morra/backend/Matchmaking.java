@@ -33,10 +33,10 @@ public class Matchmaking {
                         handler.handleMatchCreation(response.getInt("match"));
                     }
                     else if (response.getBoolean("inQueue")){
-                        handler.handlePolling(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
+                        handler.handlePollingRequired(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
                     }
                     else{
-                        handler.handlePolling(false, null);
+                        handler.handlePollingRequired(false, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -75,9 +75,9 @@ public class Matchmaking {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.getBoolean("inQueue")) {
-                        handler.handlePolling(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
+                        handler.handlePollingRequired(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
                     } else {
-                        handler.handlePolling(false, null);
+                        handler.handlePollingRequired(false, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -158,10 +158,10 @@ public class Matchmaking {
                         handler.handleMatchCreation(response.getInt("match"));
                     }
                     else if (response.getBoolean("inQueue")){
-                        handler.handlePolling(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
+                        handler.handlePollingRequired(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
                     }
                     else{
-                        handler.handlePolling(false, null);
+                        handler.handlePollingRequired(false, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

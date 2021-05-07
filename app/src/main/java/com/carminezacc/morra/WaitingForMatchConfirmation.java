@@ -15,7 +15,7 @@ import com.carminezacc.morra.models.Match;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WaitingForMatchConfirmation#newInstance} factory method to
+ * Use the {@link WaitingForMatchConfirmation} factory method to
  * create an instance of this fragment.
  */
 public class WaitingForMatchConfirmation extends Fragment {
@@ -30,20 +30,6 @@ public class WaitingForMatchConfirmation extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param matchId Parameter 1.
-     * @return A new instance of fragment WaitingForMatchConfirmation.
-     */
-    public static WaitingForMatchConfirmation newInstance(int matchId) {
-        WaitingForMatchConfirmation fragment = new WaitingForMatchConfirmation();
-        Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, matchId);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

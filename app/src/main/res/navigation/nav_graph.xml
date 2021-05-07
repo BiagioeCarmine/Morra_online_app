@@ -85,6 +85,9 @@
         <action
             android:id="@+id/mm_to_home"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/mm_to_confirm"
+            app:destination="@id/waiting_for_match_confirmation"/>
     </fragment>
     <fragment
         android:id="@+id/settings"
@@ -115,5 +118,12 @@
         <action
             android:id="@+id/records_to_home"
             app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/waiting_for_match_confirmation"
+        android:name="com.carminezacc.morra.WaitingForMatchConfirmation"
+        android:label="Match_Confirmation"
+        tools:layout="@layout/fragment_waiting_for_match_confirmation">
+
     </fragment>
 </navigation>
