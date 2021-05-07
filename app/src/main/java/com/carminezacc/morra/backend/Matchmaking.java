@@ -1,12 +1,14 @@
 package com.carminezacc.morra.backend;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;
@@ -25,10 +27,11 @@ public class Matchmaking {
         RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         final String jwt = session.getToken();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url + path, null, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String res) {
                 try {
+                    JSONObject response = new JSONObject(res);
                     if(response.getBoolean("created")) {
                         handler.handleMatchCreation(response.getInt("match"));
                     }
@@ -45,7 +48,8 @@ public class Matchmaking {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO: Error handling
+                Log.e("public queue", String.valueOf(error.networkResponse.statusCode));
+                error.printStackTrace();
             }
         }
         ) {
@@ -62,7 +66,7 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void addToPrivateQueue(Context context, final QueueStatusHandler handler){
@@ -70,10 +74,11 @@ public class Matchmaking {
         RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url + path, null, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String res) {
                 try {
+                    JSONObject response = new JSONObject(res);
                     if (response.getBoolean("inQueue")) {
                         handler.handlePollingRequired(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
                     } else {
@@ -103,7 +108,7 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
 
@@ -112,10 +117,11 @@ public class Matchmaking {
         RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url + path, null, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String res) {
                 try {
+                    JSONObject response = new JSONObject(res);
                     handler.handlerPlayWithFriend(true, response.getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -142,7 +148,7 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void queueStatus(Context context, final QueueStatusHandler handler){
