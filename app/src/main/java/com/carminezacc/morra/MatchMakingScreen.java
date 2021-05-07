@@ -32,7 +32,6 @@ public class MatchMakingScreen extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.matchmaking, container, false);
     }
 
@@ -56,7 +55,7 @@ public class MatchMakingScreen extends Fragment {
 
                         @Override
                         public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
-                            //NIENTE
+                            // NON VERRÀ MAI CHIAMATO PERCHÉ LO GESTISCE IL THREAD
                         }
                     });
                     Thread t = new Thread(pollingThreadQueue);

@@ -13,14 +13,7 @@ import com.carminezacc.morra.backend.MatchResultCallback;
 import com.carminezacc.morra.backend.Matches;
 import com.carminezacc.morra.models.Match;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WaitingForMatchConfirmation} factory method to
- * create an instance of this fragment.
- */
 public class WaitingForMatchConfirmation extends Fragment {
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "matchId";
 
     private int matchId;
@@ -47,7 +40,6 @@ public class WaitingForMatchConfirmation extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_waiting_for_match_confirmation, container, false);
     }
 
