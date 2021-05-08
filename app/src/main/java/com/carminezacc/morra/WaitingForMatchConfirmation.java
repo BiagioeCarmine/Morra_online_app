@@ -62,16 +62,22 @@ public class WaitingForMatchConfirmation extends Fragment {
                     @Override
                     public void resultReturned(User user) {
                         user1 = user;
+                        if(user2 != null){
+                            IDText.setText(String.valueOf(match.getId()));
+                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                        }
                     }
                 });
                 Users.getUser(match.getUserid2(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
                     @Override
                     public void resultReturned(User user) {
                         user2 = user;
+                        if(user1 != null){
+                            IDText.setText(String.valueOf(match.getId()));
+                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                        }
                     }
                 });
-                IDText.setText(String.valueOf(match.getId()));
-                DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
             }
         });
 
