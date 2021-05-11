@@ -3,6 +3,7 @@ package com.carminezacc.morra;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,10 @@ import com.carminezacc.morra.backend.Matches;
 import com.carminezacc.morra.backend.Users;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.models.User;
+import com.carminezacc.morra.polling.PollingThreadConfirmation;
+import com.carminezacc.morra.state.MatchSingleton;
+import com.carminezacc.morra.state.SessionSingleton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class WaitingForMatchConfirmation extends Fragment {
     private static final String ARG_PARAM1 = "matchId";
@@ -48,23 +53,29 @@ public class WaitingForMatchConfirmation extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         final TextView IDText = view.findViewById(R.id.idPartita);
         final TextView DataText = view.findViewById(R.id.datiPartita);
+        IDText.setText(String.valueOf(matchId));
 
         Matches.getMatch(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
             @Override
             public void resultReturned(Match returnedMatch) {
                 match = returnedMatch;
+                // dati dei due utenti da mostrare all'utente
                 Users.getUser(match.getUserid1(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
                     @Override
                     public void resultReturned(User user) {
                         user1 = user;
                         if(user2 != null){
-                            IDText.setText(String.valueOf(match.getId()));
-                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
+                                DataText.setText((user2.getUsername()));
+                            } else {
+                                DataText.setText((user1.getUsername()));
+                            }
+
                         }
                     }
                 });
@@ -73,11 +84,27 @@ public class WaitingForMatchConfirmation extends Fragment {
                     public void resultReturned(User user) {
                         user2 = user;
                         if(user1 != null){
-                            IDText.setText(String.valueOf(match.getId()));
-                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
+                                DataText.setText((user2.getUsername()));
+                            } else {
+                                DataText.setText((user1.getUsername()));
+                            }
                         }
                     }
                 });
+
+                // attendiamo la conferma della partita
+                PollingThreadConfirmation pollingThreadConfirmation = new PollingThreadConfirmation(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
+                    @Override
+                    public void resultReturned(Match match) {
+                        Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
+                        MatchSingleton.getInstance().setMatchData(match, user1, user2);
+                        // TODO:NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id., );
+                    }
+                });
+
+                Thread thread = new Thread(pollingThreadConfirmation);
+                thread.start();
             }
         });
 
