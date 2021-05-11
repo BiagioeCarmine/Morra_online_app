@@ -11,12 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ID partita:"
+        android:textColor="#0080c0"
         android:textSize="25dp"/>
 
     <TextView
         android:id="@+id/idPartita"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#0080c0"
         android:text="Caricamento in corso"
         android:textSize="25dp"/>
 
@@ -24,6 +26,8 @@
         android:paddingTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#0080c0"
+        android:layout_marginTop="100dp"
         android:text="Altri dati partita:"
         android:textSize="25dp"/>
 
@@ -31,7 +35,10 @@
         android:id="@+id/datiPartita"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="Caricamento in corso"
-        android:textSize="25dp"/>
+        android:textColor="#0080c0"
+        android:textSize="25dp" />
 
 </LinearLayout>
