@@ -3,6 +3,7 @@ package com.carminezacc.morra;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.carminezacc.morra.backend.Users;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.models.User;
 import com.carminezacc.morra.polling.PollingThreadConfirmation;
+import com.carminezacc.morra.state.MatchSingleton;
+import com.carminezacc.morra.state.SessionSingleton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class WaitingForMatchConfirmation extends Fragment {
@@ -67,7 +70,12 @@ public class WaitingForMatchConfirmation extends Fragment {
                     public void resultReturned(User user) {
                         user1 = user;
                         if(user2 != null){
-                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
+                                DataText.setText((user2.getUsername()));
+                            } else {
+                                DataText.setText((user1.getUsername()));
+                            }
+
                         }
                     }
                 });
@@ -76,7 +84,11 @@ public class WaitingForMatchConfirmation extends Fragment {
                     public void resultReturned(User user) {
                         user2 = user;
                         if(user1 != null){
-                            DataText.setText((user1.getUsername()+" vs "+user2.getUsername()));
+                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
+                                DataText.setText((user2.getUsername()));
+                            } else {
+                                DataText.setText((user1.getUsername()));
+                            }
                         }
                     }
                 });
@@ -86,7 +98,8 @@ public class WaitingForMatchConfirmation extends Fragment {
                     @Override
                     public void resultReturned(Match match) {
                         Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
-                        // TODO:passa a schermata per giocare partita quando sarà pronta
+                        MatchSingleton.getInstance().setMatchData(match, user1, user2);
+                        // TODO:NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id., );
                     }
                 });
 

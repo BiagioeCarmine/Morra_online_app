@@ -107,6 +107,7 @@ public class Home extends Fragment {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.remove("token");
                 editor.commit();
+                SessionSingleton.getInstance().logOut();
                 NavHostFragment.findNavController(Home.this)
                         .navigate(R.id.goToLoginfromHome);
             }

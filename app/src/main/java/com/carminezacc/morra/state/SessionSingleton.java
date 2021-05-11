@@ -18,18 +18,17 @@ package com.carminezacc.morra.state;
  * Esempio: login eseguito, token in variabile chiamata {@code jwt}, user ID
  * in variabile chiamata {@code userId}, impostiamo la sessione:
  * <pre>
- *     SessionSingleton session = SessionSingleton.getInstance();
+ * SessionSingleton session = SessionSingleton.getInstance();
  *
- *     session.setSession(userId, jwt);
- *
+ * session.setSession(userId, jwt);
  * </pre>
  *
  * Esempio: ci serve l'userId e il token per una richiesta
  * <pre>
- *     SessionSingleton session = SessionSingleton.getInstance();
+ * SessionSingleton session = SessionSingleton.getInstance();
  *
- *     int userId = session.getUserId();
- *     String token = session.getToken();
+ * int userId = session.getUserId();
+ * String token = session.getToken();
  * </pre>
  */
 public class SessionSingleton {
@@ -40,7 +39,7 @@ public class SessionSingleton {
     static private SessionSingleton instance = null;
 
     /**
-     * ID dell'utente, 0 se non
+     * ID dell'utente, 0 se non è stato impostato
      */
     int userId = 0;
     String token = null;
@@ -89,6 +88,14 @@ public class SessionSingleton {
         return this.userId != 0 && this.token != null;
     }
 
+
+    /**
+     * Elimina i dati salvati nel {@link #SessionSingleton}
+     */
+    public void logOut() {
+        this.token = null;
+        this.userId = 0;
+    }
 
     /**
      * Metodo usato per ottenere l'istanza del Singleton, che è unica per l'intera app in
