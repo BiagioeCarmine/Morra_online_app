@@ -27,6 +27,7 @@
             android:id="@+id/goToLoginfromHome"
             app:destination="@id/login"/>
     </fragment>
+
     <fragment
         android:id="@+id/signup"
         android:name="com.carminezacc.morra.SignUp"
@@ -35,8 +36,8 @@
         <action
             android:id="@+id/goToLogin"
             app:destination="@id/login"/>
-
     </fragment>
+
     <fragment
         android:id="@+id/login"
         android:name="com.carminezacc.morra.LogIn"
@@ -48,8 +49,8 @@
         <action
             android:id="@+id/goToSignup"
             app:destination="@id/signup"/>
-
     </fragment>
+
     <fragment
         android:id="@+id/play"
         android:name="com.carminezacc.morra.Play"
@@ -66,6 +67,7 @@
             android:id="@+id/play_to_home"
             app:destination="@id/home" />
     </fragment>
+
     <fragment
         android:id="@+id/play_with_friends"
         android:name="com.carminezacc.morra.PlayWithFriends"
@@ -76,6 +78,7 @@
             android:id="@+id/friends_to_home"
             app:destination="@id/home" />
     </fragment>
+
     <fragment
         android:id="@+id/matchmaking"
         android:name="com.carminezacc.morra.MatchMakingScreen"
@@ -89,6 +92,7 @@
             android:id="@+id/mm_to_confirm"
             app:destination="@id/waiting_for_match_confirmation"/>
     </fragment>
+
     <fragment
         android:id="@+id/settings"
         android:name="com.carminezacc.morra.Settings"
@@ -99,6 +103,7 @@
             android:id="@+id/settings_to_home"
             app:destination="@id/home" />
     </fragment>
+
     <fragment
         android:id="@+id/about"
         android:name="com.carminezacc.morra.About"
@@ -109,6 +114,7 @@
             android:id="@+id/about_to_home"
             app:destination="@id/home" />
     </fragment>
+
     <fragment
         android:id="@+id/records"
         android:name="com.carminezacc.morra.Records"
@@ -119,11 +125,22 @@
             android:id="@+id/records_to_home"
             app:destination="@id/home" />
     </fragment>
+
     <fragment
         android:id="@+id/waiting_for_match_confirmation"
         android:name="com.carminezacc.morra.WaitingForMatchConfirmation"
         android:label="Match_Confirmation"
         tools:layout="@layout/fragment_waiting_for_match_confirmation">
 
+        <action
+            android:id="@+id/confirm_to_match"
+            app:destination="@id/matches"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/matches"
+        android:name="com.carminezacc.morra.Matches"
+        android:label="Matches"
+        tools:layout="@layout/matches">
     </fragment>
 </navigation>
