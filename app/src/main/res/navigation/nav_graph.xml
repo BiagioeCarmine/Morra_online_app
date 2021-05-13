@@ -139,8 +139,8 @@
 
     <fragment
         android:id="@+id/matches"
-        android:name="com.carminezacc.morra.Matches"
+        android:name="com.carminezacc.morra.MatchScreen"
         android:label="Matches"
-        tools:layout="@layout/matches">
+        tools:layout="@layout/match_screen">
     </fragment>
 </navigation>
