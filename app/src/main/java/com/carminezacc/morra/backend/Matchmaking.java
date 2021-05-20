@@ -70,7 +70,7 @@ public class Matchmaking {
     }
 
     public static void addToPrivateQueue(Context context, final QueueStatusHandler handler){
-        String path = "mm/queue";
+        String path = "/mm/queue";
         RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
@@ -122,7 +122,7 @@ public class Matchmaking {
             public void onResponse(String res) {
                 try {
                     JSONObject response = new JSONObject(res);
-                    handler.handlerPlayWithFriend(true, response.getInt("id"));
+                    handler.handlerPlayWithFriend(true, response.getInt("match"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                     handler.handlerPlayWithFriend(false, 0);

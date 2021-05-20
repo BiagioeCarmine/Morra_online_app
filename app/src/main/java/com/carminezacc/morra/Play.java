@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -32,8 +31,10 @@ public class Play extends Fragment {
         mmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "public");
                 NavHostFragment.findNavController(Play.this)
-                        .navigate(R.id.goToMM);
+                        .navigate(R.id.goToMM, bundle);
             }
         });
 
