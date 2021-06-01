@@ -7,7 +7,7 @@
     tools:context=".MatchScreen">
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/imageButtonManoDue"
         android:layout_width="103dp"
         android:layout_height="105dp"
         android:layout_marginStart="148dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/imageButtonManoUno"
         android:layout_width="116dp"
         android:layout_height="101dp"
         android:layout_marginStart="4dp"
@@ -28,13 +28,40 @@
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/mano_uno"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton8"
+        app:layout_constraintBottom_toTopOf="@id/imageButtonManoQuattro"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/textViewNumberPicker"
+        android:layout_width="392dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginBottom="444dp"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonManoCinque"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="179dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="243dp"
+        app:layout_constraintBottom_toTopOf="@id/imageButtonManoCinque"
+        app:layout_constraintEnd_toEndOf="@id/imageButtonManoDue"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/imageButtonManoTre"
         android:layout_width="111dp"
         android:layout_height="0dp"
         android:layout_marginStart="284dp"
@@ -43,12 +70,12 @@
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/mano_tre"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton9"
+        app:layout_constraintBottom_toTopOf="@id/imageButtonManoCinque"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton8"
+        android:id="@+id/imageButtonManoQuattro"
         android:layout_width="0dp"
         android:layout_height="109dp"
         android:layout_marginStart="64dp"
@@ -58,13 +85,13 @@
         android:scaleType="fitXY"
         android:src="@drawable/mano_quattro"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageButton5"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton9"
+        app:layout_constraintEnd_toEndOf="@id/imageButtonManoDue"
+        app:layout_constraintEnd_toStartOf="@id/imageButtonManoCinque"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton9"
+        android:id="@+id/imageButtonManoCinque"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="70dp"
@@ -74,10 +101,8 @@
         android:src="@drawable/mano_cinque"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton8"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton7" />
-
-
+        app:layout_constraintStart_toEndOf="@id/imageButtonManoQuattro"
+        app:layout_constraintTop_toBottomOf="@id/numberPicker" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
