@@ -28,6 +28,7 @@ public class MatchScreen extends Fragment {
         return inflater.inflate(R.layout.match_screen, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -41,6 +42,8 @@ public class MatchScreen extends Fragment {
 
         numberPicker.setMaxValue(10);
         numberPicker.setMinValue(2);
+
+        textView.setText("HAI SCELTO DI GRIDARE: ");
 
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @SuppressLint("SetTextI18n")
