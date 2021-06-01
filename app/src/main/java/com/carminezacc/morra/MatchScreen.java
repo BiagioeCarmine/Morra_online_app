@@ -16,7 +16,7 @@ public class MatchScreen extends Fragment {
 
     private TextView textView;
     public NumberPicker numberPicker;
-    private ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
+    public ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
     boolean isPressed;
 
     @Override
