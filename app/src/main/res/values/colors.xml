@@ -3,6 +3,7 @@
     <color name="colorPrimary">#00c0ff</color>
     <color name="colorBackground">#42ffff</color>
     <color name="colorButtons">#0080c0</color>
+    <color name="colorBackgroundButton">#c04000</color>
 </resources>
 
     <!-- colorPrimary = #432c1c

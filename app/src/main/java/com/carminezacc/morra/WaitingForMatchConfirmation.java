@@ -99,7 +99,7 @@ public class WaitingForMatchConfirmation extends Fragment {
                     public void resultReturned(Match match) {
                         Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
                         MatchSingleton.getInstance().setMatchData(match, user1, user2);
-                        // TODO:NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id., );
+                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match);
                     }
                 });
 
