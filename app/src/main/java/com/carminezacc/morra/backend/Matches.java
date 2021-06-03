@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.models.LastRound;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.state.SessionSingleton;
 import com.google.gson.FieldNamingPolicy;
@@ -20,6 +21,8 @@ import com.google.gson.JsonParseException;
 import org.joda.time.DateTime;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Matches {
@@ -62,6 +65,56 @@ public class Matches {
             }
         }
         );
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+
+    public static void setMove(int matchId, final int hand, final int prediction, Context context, final SetMoveHandler handler){
+        String path = "/matches/" + matchId + "/move";
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        SessionSingleton session = SessionSingleton.getInstance();
+        final String jwt = session.getToken();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handler.handleSetMove(true);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                handler.handleSetMove(false);
+            }
+        }){
+            @Override
+            protected Map getParams() {
+                Map params = new HashMap();
+                params.put("hand", hand);
+                params.put("prediction", prediction);
+                return params;
+            }
+            @Override
+            public Map getHeaders() {
+                Map params = new HashMap();
+                params.put("Authorization", "Bearer " + jwt);
+                return params;
+            }
+        };
+        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+
+    public static void lastRound(int matchId, Context context, final LastRoundCallback handler){
+        String path = "/matches/" + matchId + "/last_round";
+        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                handler.resultReturned(gson.fromJson(response, LastRound.class));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
         QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }
