@@ -19,6 +19,8 @@ public class MatchSingleton {
     Match matchData = null;
     User user1 = null;
     User user2 = null;
+    int hand;
+    int prediction;
 
     /**
      * @return Dati della partita corrente.
@@ -56,6 +58,31 @@ public class MatchSingleton {
     }
 
     /**
+     * Imposta i dati della mossa
+     */
+    public void setHand(int hand) {
+        this.hand = hand;
+    }
+
+    public void setPrediction(int prediction) {
+        this.prediction = prediction;
+    }
+
+    /**
+     * @return La mano dell'utente
+     */
+    public int getHand() {
+        return hand;
+    }
+
+    /**
+     * @return La predizione dell'utente
+     */
+    public int getPrediction() {
+        return prediction;
+    }
+
+    /**
      * Elimina i dati contenuti nel Singleton.
      */
     public void wipe() {
@@ -71,7 +98,7 @@ public class MatchSingleton {
      * questo metodo la crea se non esiste ancora.
      * @return istanza del Singleton
      */
-    static public MatchSingleton getInstance() {
+    static synchronized public MatchSingleton getInstance() {
         if(instance == null) {
             instance = new MatchSingleton();
         }
