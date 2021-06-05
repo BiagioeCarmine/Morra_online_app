@@ -10,7 +10,7 @@ public class PollingThreadConfirmation implements Runnable {
     Context context;
     MatchResultCallback handler;
     int matchId;
-    boolean running = true;
+    public boolean running = true;
 
     public PollingThreadConfirmation(int matchId, Context context, MatchResultCallback handler) {
         this.context = context;

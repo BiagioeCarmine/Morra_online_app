@@ -54,4 +54,12 @@ public class Match {
     public DateTime getFirstRoundResults() {
         return firstRoundResults;
     }
+
+    public void incrementPunti1() {
+        punti1++;
+    }
+
+    public void incrementPunti2() {
+        punti2++;
+    }
 }

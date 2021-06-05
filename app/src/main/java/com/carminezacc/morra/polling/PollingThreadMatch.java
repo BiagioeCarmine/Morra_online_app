@@ -21,6 +21,8 @@ public class PollingThreadMatch implements Runnable{
     public boolean running = true;
     int hand;
     int prediction;
+    int lastPunti1 = 0;
+    int lastPunti2 = 0;
     MatchSingleton matchSingleton = MatchSingleton.getInstance();
 
     public PollingThreadMatch(Context context, DateTime startTime, DateTime lastRoundTime) {
@@ -59,6 +61,14 @@ public class PollingThreadMatch implements Runnable{
                     //TODO: ricordarsi che lastround va usato per dare le info delle mani e delle predizioni
                     startTime = lastRound.getNextRoundStart();
                     lastRoundTime = lastRound.getNextRoundResults();
+                    if(lastPunti1 != lastRound.getCurPoints1()){
+                        matchSingleton.incrementPunti1();
+                        lastPunti1 = lastRound.getCurPoints1();
+                    }
+                    if(lastPunti2 != lastRound.getCurPoints2()){
+                        matchSingleton.incrementPunti2();
+                        lastPunti2 = lastRound.getCurPoints2();
+                    }
                     run();
                 }
             });

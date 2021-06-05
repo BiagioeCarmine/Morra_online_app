@@ -7,10 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.carminezacc.morra.models.Match;
+import com.carminezacc.morra.polling.PollingThreadMatch;
+import com.carminezacc.morra.state.MatchSingleton;
+
+import org.joda.time.DateTime;
 
 public class MatchScreen extends Fragment {
 
@@ -18,6 +25,13 @@ public class MatchScreen extends Fragment {
     public NumberPicker numberPicker;
     public ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
     boolean isPressed;
+    boolean isClicked = false;
+    int isFree = 0;
+    int hand, prediction;
+    Match match;
+    DateTime startTime;
+    DateTime lastRoundTime;
+
 
     @Override
     public View onCreateView(
@@ -50,6 +64,7 @@ public class MatchScreen extends Fragment {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 textView.setText("HAI SCELTO DI GRIDARE: " + newVal);
+                prediction = newVal;
             }
         });
 
@@ -57,9 +72,15 @@ public class MatchScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isPressed){
-                    v.setBackgroundResource(R.color.colorBackgroundButton);
-                }else{
+                    if(!isClicked){
+                        v.setBackgroundResource(R.color.colorBackgroundButton);
+                        hand = 1;
+                        isClicked = true;
+                        isFree = 1;
+                    }
+                }else if(isFree == 1){
                     v.setBackgroundResource(R.color.colorBackground);
+                    isClicked = false;
                 }
                 isPressed = !isPressed;
             }
@@ -68,9 +89,15 @@ public class MatchScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isPressed){
-                    v.setBackgroundResource(R.color.colorBackgroundButton);
-                }else{
+                    if(!isClicked){
+                        v.setBackgroundResource(R.color.colorBackgroundButton);
+                        hand = 2;
+                        isClicked = true;
+                        isFree = 2;
+                    }
+                }else if(isFree == 2){
                     v.setBackgroundResource(R.color.colorBackground);
+                    isClicked = false;
                 }
                 isPressed = !isPressed;
             }
@@ -79,9 +106,15 @@ public class MatchScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isPressed){
-                    v.setBackgroundResource(R.color.colorBackgroundButton);
-                }else{
+                    if(!isClicked){
+                        v.setBackgroundResource(R.color.colorBackgroundButton);
+                        hand = 3;
+                        isClicked = true;
+                        isFree = 3;
+                    }
+                }else if(isFree == 3){
                     v.setBackgroundResource(R.color.colorBackground);
+                    isClicked = false;
                 }
                 isPressed = !isPressed;
             }
@@ -90,9 +123,15 @@ public class MatchScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isPressed){
-                    v.setBackgroundResource(R.color.colorBackgroundButton);
-                }else{
+                    if(!isClicked){
+                        v.setBackgroundResource(R.color.colorBackgroundButton);
+                        hand = 4;
+                        isClicked = true;
+                        isFree = 4;
+                    }
+                }else if(isFree == 4){
                     v.setBackgroundResource(R.color.colorBackground);
+                    isClicked = false;
                 }
                 isPressed = !isPressed;
             }
@@ -101,12 +140,29 @@ public class MatchScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isPressed){
-                    v.setBackgroundResource(R.color.colorBackgroundButton);
-                }else{
+                    if(!isClicked){
+                        v.setBackgroundResource(R.color.colorBackgroundButton);
+                        hand = 5;
+                        isClicked = true;
+                        isFree = 5;
+                    }
+                }else if(isFree == 5){
                     v.setBackgroundResource(R.color.colorBackground);
+                    isClicked = false;
                 }
                 isPressed = !isPressed;
             }
         });
+/*TODO:
+        MatchSingleton.getInstance().setHand(hand);
+        MatchSingleton.getInstance().setPrediction(prediction);
+        match = MatchSingleton.getInstance().getMatchData();
+        startTime = match.getStartTime();
+        lastRoundTime = match.getFirstRoundResults();
+        PollingThreadMatch pollingThreadMatch = new PollingThreadMatch(MatchScreen.this.getContext().getApplicationContext(), startTime, lastRoundTime);
+
+        Thread thread = new Thread(pollingThreadMatch);
+        thread.start();
+*/
     }
 }

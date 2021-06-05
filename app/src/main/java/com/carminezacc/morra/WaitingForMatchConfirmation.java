@@ -27,6 +27,7 @@ public class WaitingForMatchConfirmation extends Fragment {
     private int matchId;
     Match match;
     User user1, user2;
+    PollingThreadConfirmation pollingThreadConfirmation;
 
     public WaitingForMatchConfirmation() {
         // Required empty public constructor
@@ -94,7 +95,7 @@ public class WaitingForMatchConfirmation extends Fragment {
                 });
 
                 // attendiamo la conferma della partita
-                PollingThreadConfirmation pollingThreadConfirmation = new PollingThreadConfirmation(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
+                pollingThreadConfirmation = new PollingThreadConfirmation(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
                     @Override
                     public void resultReturned(Match match) {
                         Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
@@ -108,5 +109,12 @@ public class WaitingForMatchConfirmation extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(pollingThreadConfirmation != null)
+            pollingThreadConfirmation.running = false;
     }
 }

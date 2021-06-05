@@ -1,108 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MatchScreen">
 
     <ImageButton
-        android:id="@+id/imageButtonManoDue"
-        android:layout_width="103dp"
-        android:layout_height="105dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="148dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/mano_due"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
         android:id="@+id/imageButtonManoUno"
-        android:layout_width="116dp"
-        android:layout_height="101dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="478dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="132dp"
+        android:layout_height="103dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         android:src="@drawable/mano_uno"
-        app:layout_constraintBottom_toTopOf="@id/imageButtonManoQuattro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginTop="475dp" />
+    <ImageButton
+        android:id="@+id/imageButtonManoDue"
+        android:layout_width="132dp"
+        android:layout_height="103dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/mano_due"
+        android:layout_marginTop="475dp"
+        android:layout_marginStart="135dp"/>
+
+    <ImageButton
+        android:id="@+id/imageButtonManoQuattro"
+        android:layout_width="132dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="620dp"
+        android:layout_marginStart="70dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/mano_quattro" />
+
+    <ImageButton
+        android:id="@+id/imageButtonManoTre"
+        android:layout_width="132dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="480dp"
+        android:layout_marginStart="273dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/mano_tre" />
+
+    <ImageButton
+        android:id="@+id/imageButtonManoCinque"
+        android:layout_width="132dp"
+        android:layout_height="103dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:layout_marginTop="620dp"
+        android:layout_marginStart="220dp"
+        android:src="@drawable/mano_cinque"/>
 
     <TextView
         android:id="@+id/textViewNumberPicker"
-        android:layout_width="392dp"
+        android:layout_width="match_parent"
         android:layout_height="79dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginBottom="444dp"
+        android:layout_marginTop="90dp"
         android:textSize="30sp"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/imageButtonManoCinque"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.866" />
+        android:textColor="#000000"/>
 
     <NumberPicker
         android:id="@+id/numberPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="179dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="243dp"
-        app:layout_constraintBottom_toTopOf="@id/imageButtonManoCinque"
-        app:layout_constraintEnd_toEndOf="@id/imageButtonManoDue"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonManoTre"
-        android:layout_width="111dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="476dp"
-        android:layout_marginBottom="13dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/mano_tre"
-        app:layout_constraintBottom_toTopOf="@id/imageButtonManoCinque"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonManoQuattro"
-        android:layout_width="0dp"
-        android:layout_height="109dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/mano_quattro"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/imageButtonManoDue"
-        app:layout_constraintEnd_toStartOf="@id/imageButtonManoCinque"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButtonManoCinque"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/mano_cinque"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageButtonManoQuattro"
-        app:layout_constraintTop_toBottomOf="@id/numberPicker" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="175dp"
+        android:layout_marginStart="175dp" />
+</RelativeLayout>

@@ -58,6 +58,17 @@ public class MatchSingleton {
     }
 
     /**
+     * Imposta i dati del match per i round successivi al primo
+     */
+    public void incrementPunti1(){
+        matchData.incrementPunti1();
+    }
+
+    public void incrementPunti2(){
+        matchData.incrementPunti2();
+    }
+
+    /**
      * Imposta i dati della mossa
      */
     public void setHand(int hand) {
