@@ -28,7 +28,6 @@ import java.util.Objects;
 
 public class MatchScreen extends Fragment {
 
-    private static CountDownTimer countDownTimer1;
     private TextView textViewPrediction;
     TextView textViewOpponentPoints;
     TextView textViewYourPoints;
@@ -62,7 +61,6 @@ public class MatchScreen extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         textViewPrediction = view.findViewById(R.id.textViewNumberPicker);
-        //TextView textViewPunteggio = view.findViewById(R.id.textViewPunteggio);
         textViewOpponentPoints = view.findViewById(R.id.textViewOpponentPoints);
         textViewYourPoints = view.findViewById(R.id.textViewYourPoints);
         final TextView textViewTime = view.findViewById(R.id.textViewTime);
@@ -189,6 +187,7 @@ public class MatchScreen extends Fragment {
             }
         });
 
+        //TODO: togliere questo button che non serve piu a niente
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +195,7 @@ public class MatchScreen extends Fragment {
                 MatchSingleton.getInstance().setPrediction(prediction);
             }
         });
+        //TODO: fare in modo che il countdown si resetti ogni volta
         countDownTimer = new CountDownTimer(millisStartTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -217,6 +217,7 @@ public class MatchScreen extends Fragment {
         pollingThreadMatch = new PollingThreadMatch(Objects.requireNonNull(MatchScreen.this.getContext()).getApplicationContext(), startTime, lastRoundTime, new MatchInfoCallback() {
             @Override
             public void dateCallback(DateTime startTimeCallback, DateTime lastRoundTimeCallback) {
+                //TODO: parlare con Carmine del perche il tempo non è sync con i vari client
                 startTime = startTimeCallback;
                 lastRoundTime = lastRoundTimeCallback;
                 millisStartTime = (startTime.getMillis() - new DateTime().getMillis()) - 2000;
@@ -242,6 +243,7 @@ public class MatchScreen extends Fragment {
             @Override
             public void moveCallback(int hand1, int prediction1, int hand2, int prediction2) {
                 //TODO: Gestire tutte queste variabili
+                //TODO: parlare con Carmine del perchè a volte assegna il punto a chi non dovrebbe
                 if(match.getUserid1() != user.getId()){
                     textViewYourPoints.setText("Tu: " + match.getPunti1());
                     textViewOpponentPoints.setText("Avversario: " + match.getPunti2());
@@ -254,6 +256,7 @@ public class MatchScreen extends Fragment {
             @Override
             public void handleSetMoveSuccess(boolean success) {
                 if(success){
+                    //TODO: Capire cosa fare con questo handler
                     //Snackbar.make(view, "La mossa e' stata settata", Snackbar.LENGTH_LONG).show();
                 }else{
                     //Snackbar.make(view, "La mossa NON e' stata settata", Snackbar.LENGTH_LONG).show();
