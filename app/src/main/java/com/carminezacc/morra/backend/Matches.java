@@ -85,10 +85,10 @@ public class Matches {
             }
         }){
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
-                params.put("hand", hand);
-                params.put("prediction", prediction);
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("hand", String.valueOf(hand));
+                params.put("prediction", String.valueOf(prediction));
                 return params;
             }
             @Override

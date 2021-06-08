@@ -14,7 +14,7 @@
         android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_margin="4dp"
-        android:background="#0080c0"
+        android:background="@color/colorButtons"
         android:padding="10dp"
         android:text="Torna indietro"
         android:textColor="@android:color/white" />
