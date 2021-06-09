@@ -20,6 +20,7 @@ import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.models.User;
 import com.carminezacc.morra.polling.PollingThreadMatch;
 import com.carminezacc.morra.state.MatchSingleton;
+import com.carminezacc.morra.state.SessionSingleton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
@@ -31,6 +32,8 @@ public class MatchScreen extends Fragment {
     private TextView textViewPrediction;
     TextView textViewOpponentPoints;
     TextView textViewYourPoints;
+    TextView textViewOpponentHand;
+    TextView textViewOpponentPrediction;
     public NumberPicker numberPicker;
     public ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
     boolean isPressed;
@@ -39,7 +42,7 @@ public class MatchScreen extends Fragment {
     int hand, prediction;
     CountDownTimer countDownTimer;
     Match match;
-    User user;
+    int user;
     long secondStartTime;
     long millisStartTime;
     DateTime startTime;
@@ -63,16 +66,17 @@ public class MatchScreen extends Fragment {
         textViewPrediction = view.findViewById(R.id.textViewNumberPicker);
         textViewOpponentPoints = view.findViewById(R.id.textViewOpponentPoints);
         textViewYourPoints = view.findViewById(R.id.textViewYourPoints);
+        textViewOpponentHand = view.findViewById(R.id.textViewOpponentHand);
+        textViewOpponentPrediction = view.findViewById(R.id.textViewOpponentPrediction);
         final TextView textViewTime = view.findViewById(R.id.textViewTime);
         numberPicker = view.findViewById(R.id.numberPicker);
-        Button button = view.findViewById(R.id.ButtonProva);
         imageButton1 = view.findViewById(R.id.imageButtonManoUno);
         imageButton2 = view.findViewById(R.id.imageButtonManoDue);
         imageButton3 = view.findViewById(R.id.imageButtonManoTre);
         imageButton4 = view.findViewById(R.id.imageButtonManoQuattro);
         imageButton5 = view.findViewById(R.id.imageButtonManoCinque);
         match = MatchSingleton.getInstance().getMatchData();
-        user = MatchSingleton.getInstance().getUser1();
+        user = SessionSingleton.getInstance().getUserId();
         startTime = match.getStartTime();
 
         lastRoundTime = match.getFirstRoundResults();
@@ -187,14 +191,6 @@ public class MatchScreen extends Fragment {
             }
         });
 
-        //TODO: togliere questo button che non serve piu a niente
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MatchSingleton.getInstance().setHand(hand);
-                MatchSingleton.getInstance().setPrediction(prediction);
-            }
-        });
         //TODO: fare in modo che il countdown si resetti ogni volta
         countDownTimer = new CountDownTimer(millisStartTime, 1000) {
             @Override
@@ -217,7 +213,7 @@ public class MatchScreen extends Fragment {
         pollingThreadMatch = new PollingThreadMatch(Objects.requireNonNull(MatchScreen.this.getContext()).getApplicationContext(), startTime, lastRoundTime, new MatchInfoCallback() {
             @Override
             public void dateCallback(DateTime startTimeCallback, DateTime lastRoundTimeCallback) {
-                //TODO: parlare con Carmine del perche il tempo non è sync con i vari client
+                //TODO: parlare con Carmine del perche il tempo non è sync con i vari utenti
                 startTime = startTimeCallback;
                 lastRoundTime = lastRoundTimeCallback;
                 millisStartTime = (startTime.getMillis() - new DateTime().getMillis()) - 2000;
@@ -242,14 +238,23 @@ public class MatchScreen extends Fragment {
 
             @Override
             public void moveCallback(int hand1, int prediction1, int hand2, int prediction2) {
-                //TODO: Gestire tutte queste variabili
                 //TODO: parlare con Carmine del perchè a volte assegna il punto a chi non dovrebbe
-                if(match.getUserid1() != user.getId()){
+                Log.d("userid1DaMatch", String.valueOf(match.getUserid1()));
+                Log.d("userId1", String.valueOf(user));
+                Log.d("hand1", String.valueOf(hand1));
+                Log.d("prediction1", String.valueOf(prediction1));
+                Log.d("hand2", String.valueOf(hand2));
+                Log.d("prediction2", String.valueOf(prediction2));
+                if(match.getUserid1() == user){
                     textViewYourPoints.setText("Tu: " + match.getPunti1());
                     textViewOpponentPoints.setText("Avversario: " + match.getPunti2());
+                    textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand2);
+                    textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction2);
                 }else{
                     textViewYourPoints.setText("Tu: " + match.getPunti2());
                     textViewOpponentPoints.setText("Avversario: " + match.getPunti1());
+                    textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand1);
+                    textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction1);
                 }
             }
 
