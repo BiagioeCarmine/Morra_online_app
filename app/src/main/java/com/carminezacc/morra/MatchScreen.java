@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -17,11 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.carminezacc.morra.backend.MatchInfoCallback;
 import com.carminezacc.morra.models.Match;
-import com.carminezacc.morra.models.User;
 import com.carminezacc.morra.polling.PollingThreadMatch;
 import com.carminezacc.morra.state.MatchSingleton;
 import com.carminezacc.morra.state.SessionSingleton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.joda.time.DateTime;
 
@@ -42,7 +39,7 @@ public class MatchScreen extends Fragment {
     int hand, prediction;
     CountDownTimer countDownTimer;
     Match match;
-    int user;
+    int userId;
     long secondStartTime;
     long millisStartTime;
     DateTime startTime;
@@ -76,7 +73,7 @@ public class MatchScreen extends Fragment {
         imageButton4 = view.findViewById(R.id.imageButtonManoQuattro);
         imageButton5 = view.findViewById(R.id.imageButtonManoCinque);
         match = MatchSingleton.getInstance().getMatchData();
-        user = SessionSingleton.getInstance().getUserId();
+        userId = SessionSingleton.getInstance().getUserId();
         startTime = match.getStartTime();
 
         lastRoundTime = match.getFirstRoundResults();
@@ -240,12 +237,12 @@ public class MatchScreen extends Fragment {
             public void moveCallback(int hand1, int prediction1, int hand2, int prediction2) {
                 //TODO: parlare con Carmine del perchè a volte assegna il punto a chi non dovrebbe
                 Log.d("userid1DaMatch", String.valueOf(match.getUserid1()));
-                Log.d("userId1", String.valueOf(user));
+                Log.d("userId1", String.valueOf(userId));
                 Log.d("hand1", String.valueOf(hand1));
                 Log.d("prediction1", String.valueOf(prediction1));
                 Log.d("hand2", String.valueOf(hand2));
                 Log.d("prediction2", String.valueOf(prediction2));
-                if(match.getUserid1() == user){
+                if(match.getUserid1() == userId){
                     textViewYourPoints.setText("Tu: " + match.getPunti1());
                     textViewOpponentPoints.setText("Avversario: " + match.getPunti2());
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand2);
