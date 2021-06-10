@@ -1,4 +1,4 @@
-package com.carminezacc.morra.backend;
+package com.carminezacc.morra.interfaces;
 
 public interface SetMoveHandler {
     void handleSetMove(boolean success);

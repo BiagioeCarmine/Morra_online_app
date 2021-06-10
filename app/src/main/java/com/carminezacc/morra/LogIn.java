@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.carminezacc.morra.backend.LogInHandler;
 import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.interfaces.LogInHandler;
 import com.google.android.material.textfield.TextInputEditText;
 
 

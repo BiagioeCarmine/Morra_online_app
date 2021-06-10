@@ -2,8 +2,8 @@ package com.carminezacc.morra.polling;
 
 import android.content.Context;
 
-import com.carminezacc.morra.backend.MatchResultCallback;
 import com.carminezacc.morra.backend.Matches;
+import com.carminezacc.morra.interfaces.MatchResultCallback;
 import com.carminezacc.morra.models.Match;
 
 public class PollingThreadConfirmation implements Runnable {

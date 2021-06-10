@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Users;
-import com.carminezacc.morra.backend.VerifyHandler;
+import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.state.SessionSingleton;
 
 public class Home extends Fragment {

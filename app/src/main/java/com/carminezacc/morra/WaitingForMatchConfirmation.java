@@ -1,23 +1,21 @@
 package com.carminezacc.morra;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.carminezacc.morra.backend.GetUserHandler;
-import com.carminezacc.morra.backend.MatchResultCallback;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.carminezacc.morra.backend.Matches;
 import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.interfaces.GetUserHandler;
+import com.carminezacc.morra.interfaces.MatchResultCallback;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.models.User;
 import com.carminezacc.morra.polling.PollingThreadConfirmation;
-import com.carminezacc.morra.state.MatchSingleton;
 import com.carminezacc.morra.state.SessionSingleton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -28,10 +26,6 @@ public class WaitingForMatchConfirmation extends Fragment {
     Match match;
     User user1, user2;
     PollingThreadConfirmation pollingThreadConfirmation;
-
-    public WaitingForMatchConfirmation() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -99,8 +93,12 @@ public class WaitingForMatchConfirmation extends Fragment {
                     @Override
                     public void resultReturned(Match match) {
                         Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
-                        MatchSingleton.getInstance().setMatchData(match, user1, user2);
-                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("matchId", matchId);
+                        bundle.putLong("startTime", match.getStartTime().getMillis());
+                        bundle.putLong("firstRoundResultsTime", match.getFirstRoundResults().getMillis());
+                        bundle.putInt("userId1", match.getUserid1());
+                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
                     }
                 });
 

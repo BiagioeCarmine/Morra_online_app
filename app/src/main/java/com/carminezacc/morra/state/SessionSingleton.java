@@ -101,6 +101,12 @@ public class SessionSingleton {
      * Metodo usato per ottenere l'istanza del Singleton, che è unica per l'intera app in
      * esecuzione (trattandosi di un singleton sarebbe scorretto il contrario, ovviamente),
      * questo metodo la crea se non esiste ancora.
+     * <p>
+     * Non ci sono rischi di race condition perché le operazioni di scrittura sul singleton
+     * vengono eseguite solo dal thread principale in momenti in cui non è possibile che altri
+     * thread stiano cercando di leggere da esso, e logout e login vengono eseguiti in pagine
+     * diverse e necessariamente in momenti diversi.
+     *
      * @return istanza del Singleton
      */
     static public SessionSingleton getInstance() {

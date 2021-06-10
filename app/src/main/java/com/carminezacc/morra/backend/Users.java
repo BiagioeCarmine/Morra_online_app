@@ -8,10 +8,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.carminezacc.morra.models.Match;
+import com.carminezacc.morra.interfaces.GetUserHandler;
+import com.carminezacc.morra.interfaces.LogInHandler;
+import com.carminezacc.morra.interfaces.SignUpHandler;
+import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.models.User;
-
 import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +27,7 @@ public class Users {
 
     public static void signUp(final String username, final String password, Context context, final SignUpHandler handler) {
         String path = "/users/signup";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -47,11 +50,11 @@ public class Users {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
     public static void logIn(final String username, final String password, Context context, final LogInHandler handler) {
         String path = "/users/login";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -74,12 +77,12 @@ public class Users {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
     public static void verify(final String jwt, Context context, final VerifyHandler handler){
         String path = "/users/verify";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null,  new Response.Listener<JSONObject>() {
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -104,11 +107,11 @@ public class Users {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
     public static void getUser(int userId, Context context, final GetUserHandler handler){
         String path = "/users/user/" + userId;
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -122,6 +125,6 @@ public class Users {
             }
         }
         );
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

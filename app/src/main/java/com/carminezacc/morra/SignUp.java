@@ -13,8 +13,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.carminezacc.morra.backend.SignUpHandler;
 import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.interfaces.SignUpHandler;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.regex.Matcher;

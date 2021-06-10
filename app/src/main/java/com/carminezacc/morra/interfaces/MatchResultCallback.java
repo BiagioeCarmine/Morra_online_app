@@ -1,4 +1,4 @@
-package com.carminezacc.morra.backend;
+package com.carminezacc.morra.interfaces;
 
 import com.carminezacc.morra.models.Match;
 

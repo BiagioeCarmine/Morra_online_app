@@ -3,7 +3,6 @@ package com.carminezacc.morra;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,38 +13,59 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.carminezacc.morra.backend.MatchInfoCallback;
-import com.carminezacc.morra.models.Match;
+import com.carminezacc.morra.interfaces.MatchCallback;
 import com.carminezacc.morra.polling.PollingThreadMatch;
-import com.carminezacc.morra.state.MatchSingleton;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;
 
-import java.util.Objects;
-
 public class MatchScreen extends Fragment {
 
-    private TextView textViewPrediction;
+    TextView textViewPrediction;
     TextView textViewOpponentPoints;
     TextView textViewYourPoints;
     TextView textViewOpponentHand;
     TextView textViewOpponentPrediction;
-    public NumberPicker numberPicker;
-    public ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
+    NumberPicker numberPicker;
+    ImageButton[] imageButtons = new ImageButton[5];
     boolean isPressed;
     boolean isClicked = false;
     int isColored = 0;
-    int hand, prediction;
+    int hand;
     CountDownTimer countDownTimer;
-    Match match;
+    int matchId;
     int userId;
-    long secondStartTime;
-    long millisStartTime;
-    DateTime startTime;
-    DateTime lastRoundTime;
+    DateTime roundStartTime;
+    DateTime lastRoundResultsTime;
     PollingThreadMatch pollingThreadMatch;
+    int matchUserId1; // per vedere se siamo user 1 o user 2
 
+    void setHand(int n) {
+        hand = n;
+        for(int i = 0; i < 5; i++) {
+            if(i != n-1) {
+                imageButtons[i].setBackgroundResource(R.color.colorBackground);
+            } else {
+                imageButtons[i].setBackgroundResource(R.color.colorBackgroundButton);
+            }
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            matchId = getArguments().getInt("matchId");
+            roundStartTime = new DateTime(getArguments().getLong("startTime"));
+            lastRoundResultsTime = new DateTime(getArguments().getLong("firstRoundResultsTime"));
+            matchUserId1 = getArguments().getInt("userId1");
+        } else {
+            // TODO:error handling
+        }
+
+
+    }
 
     @Override
     public View onCreateView(
@@ -67,16 +87,12 @@ public class MatchScreen extends Fragment {
         textViewOpponentPrediction = view.findViewById(R.id.textViewOpponentPrediction);
         final TextView textViewTime = view.findViewById(R.id.textViewTime);
         numberPicker = view.findViewById(R.id.numberPicker);
-        imageButton1 = view.findViewById(R.id.imageButtonManoUno);
-        imageButton2 = view.findViewById(R.id.imageButtonManoDue);
-        imageButton3 = view.findViewById(R.id.imageButtonManoTre);
-        imageButton4 = view.findViewById(R.id.imageButtonManoQuattro);
-        imageButton5 = view.findViewById(R.id.imageButtonManoCinque);
-        match = MatchSingleton.getInstance().getMatchData();
+        imageButtons[0] = view.findViewById(R.id.imageButtonManoUno);
+        imageButtons[1] = view.findViewById(R.id.imageButtonManoDue);
+        imageButtons[2] = view.findViewById(R.id.imageButtonManoTre);
+        imageButtons[3] = view.findViewById(R.id.imageButtonManoQuattro);
+        imageButtons[4] = view.findViewById(R.id.imageButtonManoCinque);
         userId = SessionSingleton.getInstance().getUserId();
-        startTime = match.getStartTime();
-
-        lastRoundTime = match.getFirstRoundResults();
 
         //((ViewGroup) imageButton1.getParent()).removeView(imageButton1);
         //((ViewGroup) imageButton1.getParent()).addView(imageButton1);
@@ -85,121 +101,29 @@ public class MatchScreen extends Fragment {
         numberPicker.setMinValue(2);
 
         textViewPrediction.setText("HAI SCELTO DI GRIDARE: 0");
-        textViewYourPoints.setText("Tu: " + match.getPunti1());
-        textViewOpponentPoints.setText("Avversario: " + match.getPunti2());
+        textViewYourPoints.setText("Tu: 0");
+        textViewOpponentPoints.setText("Avversario: 0");
 
-
-        millisStartTime = (startTime.getMillis() - new DateTime().getMillis()) - 2000;
-        Log.d("Time", String.valueOf(millisStartTime / 1000));
-
-
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                textViewPrediction.setText("HAI SCELTO DI GRIDARE: " + newVal);
-                prediction = newVal;
-            }
-        });
-
-        imageButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPressed){
-                    if(!isClicked){
-                        v.setBackgroundResource(R.color.colorBackgroundButton);
-                        hand = 1;
-                        isClicked = true;
-                        isColored = 1;
-                    }
-                }else if(isColored == 1){
-                    v.setBackgroundResource(R.color.colorBackground);
-                    isClicked = false;
+        for(int i = 0; i < 4; i++) {
+            final int finalI = i; // deve essere final per poter essere passata a setHand
+            imageButtons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setHand(finalI + 1);
                 }
-                isPressed = !isPressed;
-            }
-        });
-        imageButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPressed){
-                    if(!isClicked){
-                        v.setBackgroundResource(R.color.colorBackgroundButton);
-                        hand = 2;
-                        isClicked = true;
-                        isColored = 2;
-                    }
-                }else if(isColored == 2){
-                    v.setBackgroundResource(R.color.colorBackground);
-                    isClicked = false;
-                }
-                isPressed = !isPressed;
-            }
-        });
-        imageButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPressed){
-                    if(!isClicked){
-                        v.setBackgroundResource(R.color.colorBackgroundButton);
-                        hand = 3;
-                        isClicked = true;
-                        isColored = 3;
-                    }
-                }else if(isColored == 3){
-                    v.setBackgroundResource(R.color.colorBackground);
-                    isClicked = false;
-                }
-                isPressed = !isPressed;
-            }
-        });
-        imageButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPressed){
-                    if(!isClicked){
-                        v.setBackgroundResource(R.color.colorBackgroundButton);
-                        hand = 4;
-                        isClicked = true;
-                        isColored = 4;
-                    }
-                }else if(isColored == 4){
-                    v.setBackgroundResource(R.color.colorBackground);
-                    isClicked = false;
-                }
-                isPressed = !isPressed;
-            }
-        });
-        imageButton5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isPressed){
-                    if(!isClicked){
-                        v.setBackgroundResource(R.color.colorBackgroundButton);
-                        hand = 5;
-                        isClicked = true;
-                        isColored = 5;
-                    }
-                }else if(isColored == 5){
-                    v.setBackgroundResource(R.color.colorBackground);
-                    isClicked = false;
-                }
-                isPressed = !isPressed;
-            }
-        });
+            });
+        }
 
+        final long msToStart = roundStartTime.getMillis() - DateTime.now().getMillis();
         //TODO: fare in modo che il countdown si resetti ogni volta
-        countDownTimer = new CountDownTimer(millisStartTime, 1000) {
+        countDownTimer = new CountDownTimer(msToStart, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                secondStartTime =  millisUntilFinished / 1000;
-                textViewTime.setText("Ti rimangono " + secondStartTime + " per fare la mossa");
+                textViewTime.setText("Ti rimangono " + msToStart / 1000 + " per fare la mossa");
             }
 
             @Override
             public void onFinish() {
-                MatchSingleton.getInstance().setHand(hand);
-                MatchSingleton.getInstance().setPrediction(prediction);
             }
         }.start();
 
@@ -207,65 +131,38 @@ public class MatchScreen extends Fragment {
         //MatchSingleton.getInstance().setHand(hand);
         //MatchSingleton.getInstance().setPrediction(prediction);
 
-        pollingThreadMatch = new PollingThreadMatch(Objects.requireNonNull(MatchScreen.this.getContext()).getApplicationContext(), startTime, lastRoundTime, new MatchInfoCallback() {
+        pollingThreadMatch = new PollingThreadMatch(MatchScreen.this.getContext().getApplicationContext(), matchId, roundStartTime, lastRoundResultsTime, new MatchCallback() {
             @Override
-            public void dateCallback(DateTime startTimeCallback, DateTime lastRoundTimeCallback) {
-                //TODO: parlare con Carmine del perche il tempo non è sync con i vari utenti
-                startTime = startTimeCallback;
-                lastRoundTime = lastRoundTimeCallback;
-                millisStartTime = (startTime.getMillis() - new DateTime().getMillis()) - 2000;
-                /*
-                countDownTimer = new CountDownTimer(millisStartTime, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        secondStartTime =  millisUntilFinished / 1000;
-                        Log.d("SecondStartTime", String.valueOf(secondStartTime));
-                        textViewTime.setText("Ti rimangono " + secondStartTime + " per fare la mossa");
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        MatchSingleton.getInstance().setHand(hand);
-                        MatchSingleton.getInstance().setPrediction(prediction);
-                    }
-                }.start();
-
-                 */
+            public int getUserPrediction() {
+                return numberPicker.getValue();
             }
 
             @Override
-            public void moveCallback(int hand1, int prediction1, int hand2, int prediction2) {
-                //TODO: parlare con Carmine del perchè a volte assegna il punto a chi non dovrebbe
-                Log.d("userid1DaMatch", String.valueOf(match.getUserid1()));
-                Log.d("userId1", String.valueOf(userId));
-                Log.d("hand1", String.valueOf(hand1));
-                Log.d("prediction1", String.valueOf(prediction1));
-                Log.d("hand2", String.valueOf(hand2));
-                Log.d("prediction2", String.valueOf(prediction2));
-                if(match.getUserid1() == userId){
-                    textViewYourPoints.setText("Tu: " + match.getPunti1());
-                    textViewOpponentPoints.setText("Avversario: " + match.getPunti2());
+            public int getUserHand() {
+                return hand;
+            }
+
+            @Override
+            public void moveSet(boolean success) {
+                // TODO: error handling, nascondere input
+            }
+
+            @Override
+            public void lastRoundDataReceived(DateTime nextRoundStart, int hand1, int hand2, int prediction1, int prediction2, int punti1, int punti2) {
+                roundStartTime = nextRoundStart;
+                if (userId == matchUserId1) {
+                    textViewYourPoints.setText("Tu: " + punti1);
+                    textViewOpponentPoints.setText("Avversario: " + punti2);
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand2);
                     textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction2);
-                }else{
-                    textViewYourPoints.setText("Tu: " + match.getPunti2());
-                    textViewOpponentPoints.setText("Avversario: " + match.getPunti1());
+                } else {
+                    textViewYourPoints.setText("Tu: " + punti1);
+                    textViewOpponentPoints.setText("Avversario: " + punti2);
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand1);
                     textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction1);
                 }
             }
-
-            @Override
-            public void handleSetMoveSuccess(boolean success) {
-                if(success){
-                    //TODO: Capire cosa fare con questo handler
-                    //Snackbar.make(view, "La mossa e' stata settata", Snackbar.LENGTH_LONG).show();
-                }else{
-                    //Snackbar.make(view, "La mossa NON e' stata settata", Snackbar.LENGTH_LONG).show();
-                }
-            }
         });
-
         Thread thread = new Thread(pollingThreadMatch);
         thread.start();
 

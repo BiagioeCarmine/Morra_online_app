@@ -2,9 +2,8 @@ package com.carminezacc.morra.polling;
 
 import android.content.Context;
 
-import com.carminezacc.morra.MatchMakingScreen;
 import com.carminezacc.morra.backend.Matchmaking;
-import com.carminezacc.morra.backend.QueueStatusHandler;
+import com.carminezacc.morra.interfaces.QueueStatusHandler;
 
 import org.joda.time.DateTime;
 

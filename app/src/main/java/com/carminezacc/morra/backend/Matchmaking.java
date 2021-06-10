@@ -9,6 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.interfaces.PlayWithFriendHandler;
+import com.carminezacc.morra.interfaces.QueueStatusHandler;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;
@@ -24,7 +26,7 @@ public class Matchmaking {
     public static void addToPublicQueue(Context context, final QueueStatusHandler handler) {
         String path = "/mm/queue";
         SessionSingleton session = SessionSingleton.getInstance();
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         final String jwt = session.getToken();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -66,12 +68,12 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void addToPrivateQueue(Context context, final QueueStatusHandler handler){
         String path = "/mm/queue";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -108,13 +110,13 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
 
     public static void playWithFriend(final String userId, Context context, final PlayWithFriendHandler handler){
         String path = "/mm/play_with_friend";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -148,12 +150,12 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void queueStatus(Context context, final QueueStatusHandler handler){
         String path = "/mm/queue_status";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null, new Response.Listener<JSONObject>() {
@@ -187,7 +189,7 @@ public class Matchmaking {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
 }

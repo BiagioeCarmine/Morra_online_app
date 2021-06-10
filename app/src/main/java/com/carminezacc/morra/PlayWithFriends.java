@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Matchmaking;
-import com.carminezacc.morra.backend.PlayWithFriendHandler;
+import com.carminezacc.morra.interfaces.PlayWithFriendHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 public class PlayWithFriends extends Fragment {

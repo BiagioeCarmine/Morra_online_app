@@ -7,6 +7,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.interfaces.LastRoundCallback;
+import com.carminezacc.morra.interfaces.MatchResultCallback;
+import com.carminezacc.morra.interfaces.SetMoveHandler;
 import com.carminezacc.morra.models.LastRound;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.state.SessionSingleton;
@@ -49,7 +52,7 @@ public class Matches {
     public static void getMatch(int matchId, Context context, final MatchResultCallback handler) {
         String path = "/matches/" + matchId; // MAGGICO FA DA SOLO String.valueOf(matchId)
         SessionSingleton session = SessionSingleton.getInstance();
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         final String jwt = session.getToken();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
@@ -65,12 +68,12 @@ public class Matches {
             }
         }
         );
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void setMove(int matchId, final int hand, final int prediction, Context context, final SetMoveHandler handler){
         String path = "/matches/" + matchId + "/move";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -98,12 +101,12 @@ public class Matches {
                 return params;
             }
         };
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public static void lastRound(int matchId, Context context, final LastRoundCallback handler){
         String path = "/matches/" + matchId + "/last_round";
-        RequestQueue queue = QueueSingleton.getInstance(context).getRequestQueue();
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -115,6 +118,6 @@ public class Matches {
                 error.printStackTrace();
             }
         });
-        QueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }
