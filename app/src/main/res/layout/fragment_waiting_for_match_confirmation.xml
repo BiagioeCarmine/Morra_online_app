@@ -6,7 +6,12 @@
     tools:context=".WaitingForMatchConfirmation"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trovata una partita.\nConferma in corso"
+        android:textSize="40dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +33,7 @@
         android:layout_height="wrap_content"
         android:textColor="#0080c0"
         android:layout_marginTop="100dp"
-        android:text="Altri dati partita:"
+        android:text="Utente contro cui giocherai:"
         android:textSize="25dp"/>
 
     <TextView

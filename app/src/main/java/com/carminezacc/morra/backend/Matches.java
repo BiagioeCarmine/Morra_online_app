@@ -105,6 +105,7 @@ public class Matches {
     }
 
     public static void lastRound(int matchId, Context context, final LastRoundCallback handler){
+        // TODO:gestire fine partita
         String path = "/matches/" + matchId + "/last_round";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {

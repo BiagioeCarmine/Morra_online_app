@@ -24,8 +24,8 @@ public class WaitingForMatchConfirmation extends Fragment {
 
     private int matchId;
     Match match;
-    User user1, user2;
     PollingThreadConfirmation pollingThreadConfirmation;
+    String opponentName;
 
 
     @Override
@@ -59,32 +59,13 @@ public class WaitingForMatchConfirmation extends Fragment {
             @Override
             public void resultReturned(Match returnedMatch) {
                 match = returnedMatch;
+                int opponentId = (match.getUserid1() == SessionSingleton.getInstance().getUserId()) ? match.getUserid2() : match.getUserid1();
                 // dati dei due utenti da mostrare all'utente
-                Users.getUser(match.getUserid1(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
+                Users.getUser(opponentId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
                     @Override
                     public void resultReturned(User user) {
-                        user1 = user;
-                        if(user2 != null){
-                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
-                                DataText.setText((user2.getUsername()));
-                            } else {
-                                DataText.setText((user1.getUsername()));
-                            }
-
-                        }
-                    }
-                });
-                Users.getUser(match.getUserid2(), WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
-                    @Override
-                    public void resultReturned(User user) {
-                        user2 = user;
-                        if(user1 != null){
-                            if(user1.getId() == SessionSingleton.getInstance().getUserId()) {
-                                DataText.setText((user2.getUsername()));
-                            } else {
-                                DataText.setText((user1.getUsername()));
-                            }
-                        }
+                        opponentName = user.getUsername();
+                        DataText.setText(opponentName);
                     }
                 });
 
@@ -98,6 +79,7 @@ public class WaitingForMatchConfirmation extends Fragment {
                         bundle.putLong("startTime", match.getStartTime().getMillis());
                         bundle.putLong("firstRoundResultsTime", match.getFirstRoundResults().getMillis());
                         bundle.putInt("userId1", match.getUserid1());
+                        bundle.putString("opponentName", opponentName);
                         NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
                     }
                 });

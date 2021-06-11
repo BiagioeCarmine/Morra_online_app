@@ -34,28 +34,25 @@ public class PollingThreadMatch implements Runnable {
     public void run() {
         try {
             waiting = true;
-            Log.d("startTimeThread", String.valueOf((nextRoundStartTime.getMillis() - new DateTime().getMillis()) / 1000));
-            Thread.sleep(nextRoundStartTime.getMillis() - new DateTime().getMillis());
+            Thread.sleep(nextRoundStartTime.getMillis() - new DateTime().getMillis()-1000);
+            Log.d("pollingThreadMatch", "t1");
             if (!running) {
                 return;
             }
             int hand = handler.getUserHand();
             int prediction = handler.getUserPrediction();
-            Log.d("matchId", String.valueOf(matchId));
-            Log.d("hand", String.valueOf(hand));
-            Log.d("prediction", String.valueOf(prediction));
+            Log.d("pollingThreadMatch", "t2");
             Matches.setMove(matchId, hand, prediction, context, new SetMoveHandler() {
                 @Override
                 public void handleSetMove(boolean success) {
                     handler.moveSet(success);
                 }
             });
-            Log.d("lastRoundTimeThread", String.valueOf((nextRoundResultsTime.getMillis() - new DateTime().getMillis()) / 1000));
             Thread.sleep(nextRoundResultsTime.getMillis() - new DateTime().getMillis());
             Matches.lastRound(matchId, context, new LastRoundCallback() {
                 @Override
                 public void resultReturned(LastRound lastRound) {
-                    //TODO: ricordarsi che lastround va usato per dare le info delle mani e delle predizioni
+                    //TODO: partita finita
                     nextRoundStartTime = lastRound.getNextRoundStart();
                     nextRoundResultsTime = lastRound.getNextRoundResults();
                     waiting=false;
@@ -63,6 +60,7 @@ public class PollingThreadMatch implements Runnable {
                 }
             });
             while(waiting) {
+                Log.d("pollingThreadMatch", "waiting");
                 if(!running) break;
             }
             run();

@@ -23,4 +23,6 @@ public interface MatchCallback {
     void moveSet(boolean success);
 
     void lastRoundDataReceived(DateTime nextRoundStart, int hand1, int hand2, int prediction1, int prediction2, int punti1, int punti2);
+
+    void matchFinished(int punti1, int punti2);
 }

@@ -3,6 +3,7 @@ package com.carminezacc.morra;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,12 @@ import org.joda.time.DateTime;
 
 public class MatchScreen extends Fragment {
 
-    TextView textViewPrediction;
     TextView textViewOpponentPoints;
     TextView textViewYourPoints;
     TextView textViewOpponentHand;
     TextView textViewOpponentPrediction;
     NumberPicker numberPicker;
     ImageButton[] imageButtons = new ImageButton[5];
-    boolean isPressed;
-    boolean isClicked = false;
-    int isColored = 0;
     int hand;
     CountDownTimer countDownTimer;
     int matchId;
@@ -39,6 +36,7 @@ public class MatchScreen extends Fragment {
     DateTime lastRoundResultsTime;
     PollingThreadMatch pollingThreadMatch;
     int matchUserId1; // per vedere se siamo user 1 o user 2
+    String opponentName;
 
     void setHand(int n) {
         hand = n;
@@ -60,6 +58,7 @@ public class MatchScreen extends Fragment {
             roundStartTime = new DateTime(getArguments().getLong("startTime"));
             lastRoundResultsTime = new DateTime(getArguments().getLong("firstRoundResultsTime"));
             matchUserId1 = getArguments().getInt("userId1");
+            opponentName = getArguments().getString("opponentName");
         } else {
             // TODO:error handling
         }
@@ -79,8 +78,10 @@ public class MatchScreen extends Fragment {
     @SuppressLint("SetTextI18n")
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextView textViewOpponentName = view.findViewById(R.id.textViewOpponentName);
 
-        textViewPrediction = view.findViewById(R.id.textViewNumberPicker);
+        textViewOpponentName.setText(opponentName);
+
         textViewOpponentPoints = view.findViewById(R.id.textViewOpponentPoints);
         textViewYourPoints = view.findViewById(R.id.textViewYourPoints);
         textViewOpponentHand = view.findViewById(R.id.textViewOpponentHand);
@@ -100,9 +101,11 @@ public class MatchScreen extends Fragment {
         numberPicker.setMaxValue(10);
         numberPicker.setMinValue(2);
 
-        textViewPrediction.setText("HAI SCELTO DI GRIDARE: 0");
-        textViewYourPoints.setText("Tu: 0");
-        textViewOpponentPoints.setText("Avversario: 0");
+        textViewYourPoints.setText("0");
+        textViewOpponentPoints.setText("0");
+
+        // inizializziamo la mano
+        setHand(1);
 
         for(int i = 0; i < 4; i++) {
             final int finalI = i; // deve essere final per poter essere passata a setHand
@@ -116,14 +119,17 @@ public class MatchScreen extends Fragment {
 
         final long msToStart = roundStartTime.getMillis() - DateTime.now().getMillis();
         //TODO: fare in modo che il countdown si resetti ogni volta
-        countDownTimer = new CountDownTimer(msToStart, 1000) {
+        textViewTime.setVisibility(View.VISIBLE);
+        countDownTimer = new CountDownTimer(msToStart, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
-                textViewTime.setText("Ti rimangono " + msToStart / 1000 + " per fare la mossa");
+                long secondsToStart = (roundStartTime.getMillis() - DateTime.now().getMillis()) / 1000;
+                textViewTime.setText(String.valueOf(secondsToStart));
             }
 
             @Override
             public void onFinish() {
+                textViewTime.setVisibility(View.INVISIBLE);
             }
         }.start();
 
@@ -144,20 +150,40 @@ public class MatchScreen extends Fragment {
 
             @Override
             public void moveSet(boolean success) {
+                Log.d("matchScreen", "impostata mossa");
                 // TODO: error handling, nascondere input
             }
 
             @Override
+            public void matchFinished(int punti1, int punti2) {
+
+            }
+
+            @Override
             public void lastRoundDataReceived(DateTime nextRoundStart, int hand1, int hand2, int prediction1, int prediction2, int punti1, int punti2) {
+                Log.d("matchScreen", "ricevuti dati ultimo round");
+                textViewTime.setVisibility(View.VISIBLE);
+                countDownTimer = new CountDownTimer(msToStart, 100) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long secondsToStart = (roundStartTime.getMillis() - DateTime.now().getMillis()) / 1000;
+                        textViewTime.setText(String.valueOf(secondsToStart));
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        textViewTime.setVisibility(View.INVISIBLE);
+                    }
+                }.start();
                 roundStartTime = nextRoundStart;
                 if (userId == matchUserId1) {
-                    textViewYourPoints.setText("Tu: " + punti1);
-                    textViewOpponentPoints.setText("Avversario: " + punti2);
+                    textViewYourPoints.setText(String.valueOf(punti1));
+                    textViewOpponentPoints.setText(String.valueOf(punti2));
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand2);
                     textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction2);
                 } else {
-                    textViewYourPoints.setText("Tu: " + punti1);
-                    textViewOpponentPoints.setText("Avversario: " + punti2);
+                    textViewYourPoints.setText(String.valueOf(punti2));
+                    textViewOpponentPoints.setText(String.valueOf(punti1));
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand1);
                     textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction1);
                 }
