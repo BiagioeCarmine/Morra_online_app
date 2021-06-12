@@ -108,7 +108,7 @@ public class MatchScreen extends Fragment {
         // inizializziamo la mano
         setHand(1);
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             final int finalI = i; // deve essere final per poter essere passata a setHand
             imageButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
