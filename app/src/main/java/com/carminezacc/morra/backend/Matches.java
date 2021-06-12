@@ -37,6 +37,9 @@ public class Matches {
     static private class DateTimeDeserializer implements JsonDeserializer<DateTime> {
         public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
+            if(json.getAsJsonPrimitive().getAsString().compareTo("over") == 0) {
+                return null;
+            }
             return new DateTime(json.getAsJsonPrimitive().getAsString());
         }
     }

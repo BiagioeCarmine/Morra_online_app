@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.interfaces.MatchCallback;
 import com.carminezacc.morra.polling.PollingThreadMatch;
@@ -156,7 +157,19 @@ public class MatchScreen extends Fragment {
 
             @Override
             public void matchFinished(int punti1, int punti2) {
-
+                Bundle bundle = new Bundle();
+                int puntiAvversario, puntiUtente;
+                if(userId == matchUserId1) {
+                    puntiUtente = punti1;
+                    puntiAvversario = punti2;
+                } else {
+                    puntiUtente = punti2;
+                    puntiAvversario = punti1;
+                }
+                bundle.putInt("puntiUtente", puntiUtente);
+                bundle.putInt("puntiAvversario", puntiAvversario);
+                bundle.putString("opponentName", opponentName);
+                NavHostFragment.findNavController(MatchScreen.this).navigate(R.id.match_end, bundle);
             }
 
             @Override

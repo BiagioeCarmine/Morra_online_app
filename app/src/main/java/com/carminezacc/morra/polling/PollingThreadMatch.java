@@ -52,16 +52,21 @@ public class PollingThreadMatch implements Runnable {
             Matches.lastRound(matchId, context, new LastRoundCallback() {
                 @Override
                 public void resultReturned(LastRound lastRound) {
-                    //TODO: partita finita
-                    nextRoundStartTime = lastRound.getNextRoundStart();
-                    nextRoundResultsTime = lastRound.getNextRoundResults();
-                    waiting=false;
-                    handler.lastRoundDataReceived(nextRoundStartTime, lastRound.getHand1(), lastRound.getHand2(), lastRound.getPrediction1(), lastRound.getPrediction2(), lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                    if(lastRound.getNextRoundStart() == null) {
+                        running = false;
+                        handler.matchFinished(lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                    } else {
+                        nextRoundStartTime = lastRound.getNextRoundStart();
+                        nextRoundResultsTime = lastRound.getNextRoundResults();
+                        waiting=false;
+                        handler.lastRoundDataReceived(nextRoundStartTime, lastRound.getHand1(), lastRound.getHand2(), lastRound.getPrediction1(), lastRound.getPrediction2(), lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                    }
+
                 }
             });
             while(waiting) {
                 Log.d("pollingThreadMatch", "waiting");
-                if(!running) break;
+                if(!running) return;
             }
             run();
         } catch (InterruptedException e) {

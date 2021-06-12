@@ -146,7 +146,17 @@
     <fragment
         android:id="@+id/matches"
         android:name="com.carminezacc.morra.MatchScreen"
-        android:label="Matches"
-        tools:layout="@layout/match_screen">
+        android:label="MatchScreen"
+        tools:layout="@layout/match_screen" >
+        <action
+            android:id="@+id/match_end"
+            app:destination="@id/match_finished_screen"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/match_finished_screen"
+        android:name="com.carminezacc.morra.MatchFinishedScreen"
+        android:label="MatchFinishedScreen"
+        tools:layout="@layout/fragment_match_finished_screen" />
+
 </navigation>
