@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -49,9 +51,18 @@ public class MatchFinishedScreen extends Fragment {
         TextView nomeAvversarioView = view.findViewById(R.id.nomeAvversario);
         TextView puntiUtenteView = view.findViewById(R.id.puntiUtente);
         TextView puntiAvversarioView = view.findViewById(R.id.puntiAvversario);
+        Button backHomeButton = view.findViewById(R.id.backHomeButton);
 
         nomeAvversarioView.setText(String.valueOf(opponentName));
         puntiUtenteView.setText(String.valueOf(puntiUtente));
         puntiAvversarioView.setText(String.valueOf(puntiAvversario));
+
+        backHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(MatchFinishedScreen.this)
+                        .navigate(R.id.match_finished_to_home);
+            }
+        });
     }
 }

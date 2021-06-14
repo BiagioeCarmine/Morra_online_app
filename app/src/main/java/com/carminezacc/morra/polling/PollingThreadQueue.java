@@ -13,8 +13,8 @@ public class PollingThreadQueue implements Runnable {
     DateTime pollTime;
     boolean queueIsPublic;
     QueueStatusHandler handler;
-    boolean waiting = true;
     public boolean running = true;
+    private boolean waiting = true;
 
     public PollingThreadQueue(DateTime date, boolean queueIsPublic, Context context, QueueStatusHandler handler) {
         this.context = context;
@@ -25,61 +25,63 @@ public class PollingThreadQueue implements Runnable {
 
     @Override
     public void run() {
-        if(!running){
-            return;
-        }
-        try {
-            Thread.sleep(pollTime.getMillis() - new DateTime().getMillis());
-            if(!running){
-                return;
+        while(running) {
+            waiting = true;
+            try {
+                Thread.sleep(pollTime.getMillis() - new DateTime().getMillis());
+                if (!running) {
+                    return;
+                }
+                Matchmaking.queueStatus(context, new QueueStatusHandler() {
+                    @Override
+                    public void handleMatchCreation(int matchId) {
+                        handler.handleMatchCreation(matchId);
+                        running = false;
+                    }
+
+                    @Override
+                    public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
+                        if (inQueue) {
+                            pollTime = pollBefore;
+                            waiting = false;
+                        } else {
+                            if (queueIsPublic) {
+                                Matchmaking.addToPublicQueue(context, new QueueStatusHandler() {
+                                    @Override
+                                    public void handleMatchCreation(int matchId) {
+                                        handler.handleMatchCreation(matchId);
+                                        running = false;
+                                    }
+
+                                    @Override
+                                    public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
+                                        pollTime = pollBefore;
+                                        waiting = false;
+                                    }
+                                });
+                            } else {
+                                Matchmaking.addToPrivateQueue(context, new QueueStatusHandler() {
+                                    @Override
+                                    public void handleMatchCreation(int matchId) {
+                                        // NON VERRÀ MAI CHIAMATO PERCHÉ NON È POSSIBILE CHE VENGA CREATA UNA PARTITA QUANDO TI AGGIUNGI ALLA PRIV QUEUE
+                                    }
+
+                                    @Override
+                                    public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
+                                        pollTime = pollBefore;
+                                        waiting = false;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+                while(waiting) {
+                    if(!running) return;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            Matchmaking.queueStatus(context, new QueueStatusHandler() {
-                @Override
-                public void handleMatchCreation(int matchId) {
-                    handler.handleMatchCreation(matchId);
-                }
-
-                @Override
-                public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
-                    if (inQueue) {
-                        pollTime = pollBefore;
-                        run();
-                    }
-                    else{
-                        if(queueIsPublic){
-                            Matchmaking.addToPublicQueue(context, new QueueStatusHandler() {
-                                @Override
-                                public void handleMatchCreation(int matchId) {
-                                    handler.handleMatchCreation(matchId);
-                                }
-
-                                @Override
-                                public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
-                                    pollTime = pollBefore;
-                                    run();
-                                }
-                            });
-                        }
-                        else{
-                            Matchmaking.addToPrivateQueue(context, new QueueStatusHandler() {
-                                @Override
-                                public void handleMatchCreation(int matchId) {
-                                    // NON VERRÀ MAI CHIAMATO PERCHÉ NON È POSSIBILE CHE VENGA CREATA UNA PARTITA QUANDO TI AGGIUNGI ALLA PRIV QUEUE
-                                    handler.handleMatchCreation(matchId);
-                                }
-
-                                @Override
-                                public void handlePollingRequired(boolean inQueue, DateTime pollBefore) {
-                                    pollTime = pollBefore;
-                                    run();
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -19,7 +19,7 @@ public class PollingThreadMatch implements Runnable {
     MatchCallback handler;
     public boolean running = true;
     int matchId;
-    boolean waiting;
+    boolean waiting = true;
 
     public PollingThreadMatch(Context context, int matchId, DateTime nextRoundStartTime, DateTime nextRoundResultsTime, MatchCallback handler) {
         this.matchId = matchId;
@@ -32,45 +32,43 @@ public class PollingThreadMatch implements Runnable {
 
     @Override
     public void run() {
-        try {
+        while(running) {
             waiting = true;
-            Thread.sleep(nextRoundStartTime.getMillis() - new DateTime().getMillis()-1000);
-            Log.d("pollingThreadMatch", "t1");
-            if (!running) {
-                return;
-            }
-            int hand = handler.getUserHand();
-            int prediction = handler.getUserPrediction();
-            Log.d("pollingThreadMatch", "t2");
-            Matches.setMove(matchId, hand, prediction, context, new SetMoveHandler() {
-                @Override
-                public void handleSetMove(boolean success) {
-                    handler.moveSet(success);
+            try {
+                Thread.sleep(nextRoundStartTime.getMillis() - new DateTime().getMillis() - 1000);
+                if (!running) {
+                    return;
                 }
-            });
-            Thread.sleep(nextRoundResultsTime.getMillis() - new DateTime().getMillis());
-            Matches.lastRound(matchId, context, new LastRoundCallback() {
-                @Override
-                public void resultReturned(LastRound lastRound) {
-                    if(lastRound.getNextRoundStart() == null) {
-                        running = false;
-                        handler.matchFinished(lastRound.getCurPoints1(), lastRound.getCurPoints2());
-                    } else {
-                        nextRoundStartTime = lastRound.getNextRoundStart();
-                        nextRoundResultsTime = lastRound.getNextRoundResults();
-                        waiting=false;
-                        handler.lastRoundDataReceived(nextRoundStartTime, lastRound.getHand1(), lastRound.getHand2(), lastRound.getPrediction1(), lastRound.getPrediction2(), lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                int hand = handler.getUserHand();
+                int prediction = handler.getUserPrediction();
+                Matches.setMove(matchId, hand, prediction, context, new SetMoveHandler() {
+                    @Override
+                    public void handleSetMove(boolean success) {
+                        handler.moveSet(success);
                     }
+                });
+                Thread.sleep(nextRoundResultsTime.getMillis() - new DateTime().getMillis());
+                Matches.lastRound(matchId, context, new LastRoundCallback() {
+                    @Override
+                    public void resultReturned(LastRound lastRound) {
+                        if (lastRound.getNextRoundStart() == null) {
+                            running = false;
+                            handler.matchFinished(lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                        } else {
+                            nextRoundStartTime = lastRound.getNextRoundStart();
+                            nextRoundResultsTime = lastRound.getNextRoundResults();
+                            waiting = false;
+                            handler.lastRoundDataReceived(nextRoundStartTime, lastRound.getHand1(), lastRound.getHand2(), lastRound.getPrediction1(), lastRound.getPrediction2(), lastRound.getCurPoints1(), lastRound.getCurPoints2());
+                        }
 
+                    }
+                });
+                while (waiting) {
+                    if (!running) return;
                 }
-            });
-            while(waiting) {
-                Log.d("pollingThreadMatch", "waiting");
-                if(!running) return;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

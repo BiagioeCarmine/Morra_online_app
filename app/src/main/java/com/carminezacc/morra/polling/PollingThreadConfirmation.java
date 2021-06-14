@@ -11,6 +11,7 @@ public class PollingThreadConfirmation implements Runnable {
     MatchResultCallback handler;
     int matchId;
     public boolean running = true;
+    private boolean waiting = true;
 
     public PollingThreadConfirmation(int matchId, Context context, MatchResultCallback handler) {
         this.context = context;
@@ -20,26 +21,31 @@ public class PollingThreadConfirmation implements Runnable {
 
     @Override
     public void run() {
-        if(!running){
-            return;
-        }
-        try {
-            Thread.sleep(800);
-            if(!running){
-                return;
-            }
-            Matches.getMatch(matchId, context, new MatchResultCallback() {
-                @Override
-                public void resultReturned(Match match) {
-                    if(!match.isConfirmed()) {
-                        run();
-                    } else {
-                        handler.resultReturned(match);
-                    }
+        while(running) {
+            waiting = true;
+            try {
+                Thread.sleep(800);
+                if(!running){
+                    return;
                 }
-            });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                Matches.getMatch(matchId, context, new MatchResultCallback() {
+                    @Override
+                    public void resultReturned(Match match) {
+                        if(!match.isConfirmed()) {
+                            waiting = false;
+                        } else {
+                            handler.resultReturned(match);
+                            running = false;
+                        }
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            while(waiting) {
+                if(!running) return;
+            }
         }
+
     }
 }

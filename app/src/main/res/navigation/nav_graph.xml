@@ -157,6 +157,10 @@
         android:id="@+id/match_finished_screen"
         android:name="com.carminezacc.morra.MatchFinishedScreen"
         android:label="MatchFinishedScreen"
-        tools:layout="@layout/fragment_match_finished_screen" />
+        tools:layout="@layout/fragment_match_finished_screen" >
+        <action
+            android:id="@+id/match_finished_to_home"
+            app:destination="@id/home"/>
+    </fragment>
 
 </navigation>
