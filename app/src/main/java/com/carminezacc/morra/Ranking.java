@@ -46,12 +46,12 @@ public class Ranking extends Fragment {
 
         Users.getRanking(Objects.requireNonNull(Ranking.this.getContext()).getApplicationContext(), new GetClassificaHandler() {
             @Override
-            public void resultReturned(List<User> userList) {
-              textViewFirst.setText(userList.get(0).getPunteggio());
-              textViewSecond.setText(userList.get(1).getPunteggio());
-              textViewThird.setText(userList.get(2).getPunteggio());
-              textViewFourth.setText(userList.get(3).getPunteggio());
-              textViewFifth.setText(userList.get(4).getPunteggio());
+            public void resultReturned(User[] userList) {
+              textViewFirst.setText(String.valueOf(userList[0].getPunteggio()));
+              textViewSecond.setText(String.valueOf(userList[1].getPunteggio()));
+              textViewThird.setText(String.valueOf(userList[2].getPunteggio()));
+              textViewFourth.setText(String.valueOf(userList[3].getPunteggio()));
+              textViewFifth.setText(String.valueOf(userList[4].getPunteggio()));
             }
         });
 

@@ -142,8 +142,7 @@ public class Users {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Type listType = new TypeToken<ArrayList<User>>(){}.getType();
-                List<User> userList = new Gson().fromJson(response, listType);
+                User[] userList = gson.fromJson(response, User[].class);
                 handler.resultReturned(userList);
             }
         }, new Response.ErrorListener() {
