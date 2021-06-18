@@ -130,6 +130,20 @@
         <action
             android:id="@+id/records_to_home"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/records_to_ranking"
+            app:destination="@id/ranking"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/ranking"
+        android:name="com.carminezacc.morra.Ranking"
+        android:label="Ranking"
+        tools:layout="@layout/ranking">
+
+        <action
+            android:id="@+id/ranking_to_records"
+            app:destination="@id/records"/>
     </fragment>
 
     <fragment

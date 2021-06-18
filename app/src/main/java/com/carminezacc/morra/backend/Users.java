@@ -8,17 +8,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.interfaces.GetClassificaHandler;
 import com.carminezacc.morra.interfaces.GetUserHandler;
 import com.carminezacc.morra.interfaces.LogInHandler;
 import com.carminezacc.morra.interfaces.SignUpHandler;
 import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.models.User;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Users {
@@ -52,6 +57,7 @@ public class Users {
         };
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
+
     public static void logIn(final String username, final String password, Context context, final LogInHandler handler) {
         String path = "/users/login";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
@@ -79,6 +85,7 @@ public class Users {
         };
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
+
     public static void verify(final String jwt, Context context, final VerifyHandler handler){
         String path = "/users/verify";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
@@ -109,6 +116,7 @@ public class Users {
         };
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
+
     public static void getUser(int userId, Context context, final GetUserHandler handler){
         String path = "/users/user/" + userId;
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
@@ -125,6 +133,35 @@ public class Users {
             }
         }
         );
+        VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
+    }
+
+    public static void getRanking(Context context, final GetClassificaHandler handler){
+        String path = "/users/";
+        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+                List<User> userList = new Gson().fromJson(response, listType);
+                handler.resultReturned(userList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                //TODO: Error handling
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("order_by", "punteggio");
+                params.put("descending", "true");
+                params.put("n", "5");
+                return params;
+            }
+        };
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

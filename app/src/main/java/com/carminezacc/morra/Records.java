@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Users;
 import com.carminezacc.morra.interfaces.GetUserHandler;
@@ -23,6 +25,7 @@ public class Records extends Fragment {
     TextView textViewPunteggio;
     TextView textViewSconfitte;
     TextView textViewVittorie;
+    Button rankingButton;
     int userId;
 
     @Override
@@ -41,6 +44,7 @@ public class Records extends Fragment {
         textViewPunteggio = view.findViewById(R.id.textViewPunteggio);
         textViewSconfitte = view.findViewById(R.id.textViewSconfitte);
         textViewVittorie = view.findViewById(R.id.textViewVittorie);
+        rankingButton = view.findViewById(R.id.rankingButton);
         userId = SessionSingleton.getInstance().getUserId();
 
         Users.getUser(userId, Objects.requireNonNull(Records.this.getContext()).getApplicationContext(), new GetUserHandler() {
@@ -51,6 +55,14 @@ public class Records extends Fragment {
                 textViewPunteggio.setText("Il tuo punteggio e' di: " + user.getPunteggio() + " punti");
                 textViewVittorie.setText("Hai totalizzato " + user.getVittorie() + " vittorie");
                 textViewSconfitte.setText("Hai totalizzato " + user.getSconfitte() + " sconfitte");
+            }
+        });
+
+        rankingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(Records.this)
+                        .navigate(R.id.records_to_ranking);
             }
         });
 
