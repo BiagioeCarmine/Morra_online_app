@@ -45,13 +45,14 @@ public class Ranking extends Fragment {
         textViewFifth = view.findViewById(R.id.textViewFifth);
 
         Users.getRanking(Objects.requireNonNull(Ranking.this.getContext()).getApplicationContext(), new GetClassificaHandler() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void resultReturned(User[] userList) {
-              textViewFirst.setText(String.valueOf(userList[0].getPunteggio()));
-              textViewSecond.setText(String.valueOf(userList[1].getPunteggio()));
-              textViewThird.setText(String.valueOf(userList[2].getPunteggio()));
-              textViewFourth.setText(String.valueOf(userList[3].getPunteggio()));
-              textViewFifth.setText(String.valueOf(userList[4].getPunteggio()));
+              textViewFirst.setText("1  " + userList[0].getUsername() + "       " + userList[0].getPunteggio());
+              textViewSecond.setText("2 " + userList[1].getUsername() + "       " + userList[1].getPunteggio());
+              textViewThird.setText("3  " + userList[2].getUsername() + "       " + userList[2].getPunteggio());
+              textViewFourth.setText("4 " + userList[3].getUsername() + "       " + userList[3].getPunteggio());
+              textViewFifth.setText("5  " + userList[4].getUsername() + "       " + userList[4].getPunteggio());
             }
         });
 
