@@ -95,7 +95,6 @@ public class WaitingForMatchConfirmation extends Fragment {
             public void resultReturned(Match returnedMatch) {
                 match = returnedMatch;
                 int opponentId = (match.getUserid1() == SessionSingleton.getInstance().getUserId()) ? match.getUserid2() : match.getUserid1();
-                // dati dei due utenti da mostrare all'utente
                 Users.getUser(opponentId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new GetUserHandler() {
                     @Override
                     public void resultReturned(User user) {
@@ -105,22 +104,12 @@ public class WaitingForMatchConfirmation extends Fragment {
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
-                        if(statusCode == 404) {
-                            NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.login); // TODO: controllare se funziona
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                            builder.setMessage(R.string.dialog_user_deleted_title)
-                                    .setTitle(R.string.dialog_user_deleted_message);
-
-                            builder.show();
-
-                        } else {
-                            showServerDownDialog();
-                        }
+                        // se fallisce la GET per l'avversario
+                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.home);
+                        showServerDownDialog();
                     }
                 });
 
-                // attendiamo la conferma della partita
                 pollingThreadConfirmation = new PollingThreadConfirmation(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
                     @Override
                     public void resultReturned(Match match) {
@@ -136,6 +125,8 @@ public class WaitingForMatchConfirmation extends Fragment {
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
+                        // se fallisce la conferma della partita
+                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.home);
                         showServerDownDialog();
                     }
                 });
@@ -146,6 +137,7 @@ public class WaitingForMatchConfirmation extends Fragment {
         }, new ServerErrorHandler() {
             @Override
             public void error(int statusCode) {
+                // se fallisce get match
                 NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.home);
                 showServerDownDialog();
             }
