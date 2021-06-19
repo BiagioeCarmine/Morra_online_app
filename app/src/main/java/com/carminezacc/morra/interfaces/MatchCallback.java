@@ -20,7 +20,7 @@ public interface MatchCallback {
      */
     int getUserPrediction();
 
-    void moveSet(boolean success);
+    void moveSet();
 
     void lastRoundDataReceived(DateTime nextRoundStart, int hand1, int hand2, int prediction1, int prediction2, int punti1, int punti2);
 

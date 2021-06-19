@@ -43,8 +43,8 @@ public class PollingThreadMatch implements Runnable {
                 int prediction = handler.getUserPrediction();
                 Matches.setMove(matchId, hand, prediction, context, new SetMoveHandler() {
                     @Override
-                    public void handleSetMove(boolean success) {
-                        handler.moveSet(success);
+                    public void handleSetMove() {
+                        handler.moveSet();
                     }
                 });
                 Thread.sleep(nextRoundResultsTime.getMillis() - new DateTime().getMillis());

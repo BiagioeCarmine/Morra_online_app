@@ -11,6 +11,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.carminezacc.morra.interfaces.GetClassificaHandler;
 import com.carminezacc.morra.interfaces.GetUserHandler;
 import com.carminezacc.morra.interfaces.LogInHandler;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.interfaces.SignUpHandler;
 import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.models.User;
@@ -30,7 +31,7 @@ public class Users {
     static final String url = "https://morra.carminezacc.com";
     static final Gson gson = new Gson();
 
-    public static void signUp(final String username, final String password, Context context, final SignUpHandler handler) {
+    public static void signUp(final String username, final String password, Context context, final SignUpHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/signup";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -42,13 +43,19 @@ public class Users {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handler.handleSignUp(false);
+                if(error.networkResponse.statusCode == 409) {
+                    handler.handleSignUp(false);
+                } else {
+                    error.printStackTrace();
+                    serverErrorHandler.error();
+                }
+
             }
         }
         ) {
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 params.put("password", password);
 
@@ -58,7 +65,7 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void logIn(final String username, final String password, Context context, final LogInHandler handler) {
+    public static void logIn(final String username, final String password, Context context, final LogInHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/login";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -70,13 +77,18 @@ public class Users {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handler.handleLogIn(false, null);
+                if(error.networkResponse.statusCode == 401)
+                    handler.handleLogIn(false, null);
+                else {
+                    error.printStackTrace();
+                    serverErrorHandler.error();
+                }
             }
         }
         ) {
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("username", username);
                 params.put("password", password);
 
@@ -86,7 +98,7 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void verify(final String jwt, Context context, final VerifyHandler handler){
+    public static void verify(final String jwt, Context context, final VerifyHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/verify";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null, new Response.Listener<JSONObject>() {
@@ -96,20 +108,25 @@ public class Users {
                     handler.handleVerify(true, response.getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    handler.handleVerify(false, 0);
+                    serverErrorHandler.error();
                 }
             }
         }, new Response.ErrorListener()
             {
                 @Override
                 public void onErrorResponse(VolleyError error){
-                    handler.handleVerify(false, 0);
+                    if(error.networkResponse.statusCode == 401)
+                        handler.handleVerify(false, 0);
+                    else {
+                        error.printStackTrace();
+                        serverErrorHandler.error();
+                    }
                 }
             }
         ){
             @Override
-            public Map getHeaders() {
-                Map params = new HashMap();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
@@ -117,7 +134,7 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void getUser(int userId, Context context, final GetUserHandler handler){
+    public static void getUser(int userId, Context context, final GetUserHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/user/" + userId;
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
@@ -129,14 +146,14 @@ public class Users {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                //TODO: Error handling
+                serverErrorHandler.error();
             }
         }
         );
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void getRanking(Context context, final GetClassificaHandler handler){
+    public static void getRanking(Context context, final GetClassificaHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
@@ -149,7 +166,7 @@ public class Users {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                //TODO: Error handling
+                serverErrorHandler.error();
             }
         }){
             @Override

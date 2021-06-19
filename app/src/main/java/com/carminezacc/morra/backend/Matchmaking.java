@@ -1,7 +1,6 @@
 package com.carminezacc.morra.backend;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -9,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.interfaces.PlayWithFriendHandler;
 import com.carminezacc.morra.interfaces.QueueStatusHandler;
 import com.carminezacc.morra.state.SessionSingleton;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class Matchmaking {
     static final String url = "https://morra.carminezacc.com";
 
-    public static void addToPublicQueue(Context context, final QueueStatusHandler handler) {
+    public static void addToPublicQueue(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/mm/queue";
         SessionSingleton session = SessionSingleton.getInstance();
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
@@ -34,36 +34,34 @@ public class Matchmaking {
             public void onResponse(String res) {
                 try {
                     JSONObject response = new JSONObject(res);
-                    if(response.getBoolean("created")) {
+                    if (response.getBoolean("created")) {
                         handler.handleMatchCreation(response.getInt("match"));
-                    }
-                    else if (response.getBoolean("inQueue")){
+                    } else if (response.getBoolean("inQueue")) {
                         handler.handlePollingRequired(true, new DateTime(DateTime.parse(response.getString("pollBefore"))));
-                    }
-                    else{
+                    } else {
                         handler.handlePollingRequired(false, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    serverErrorHandler.error();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("public queue", String.valueOf(error.networkResponse.statusCode));
                 error.printStackTrace();
+                serverErrorHandler.error();
             }
-        }
-        ) {
+        }) {
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("type", "public");
                 return params;
             }
             @Override
-            public Map getHeaders() {
-                Map params = new HashMap();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
@@ -71,7 +69,7 @@ public class Matchmaking {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void addToPrivateQueue(Context context, final QueueStatusHandler handler){
+    public static void addToPrivateQueue(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/queue";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
@@ -88,24 +86,26 @@ public class Matchmaking {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    serverErrorHandler.error();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO: Error handling
+                error.printStackTrace();
+                serverErrorHandler.error();
             }
         }
         ){
             @Override
-            public Map getHeaders() {
-                Map params = new HashMap();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("type", "private");
                 return params;
             }
@@ -114,7 +114,7 @@ public class Matchmaking {
     }
 
 
-    public static void playWithFriend(final String userId, Context context, final PlayWithFriendHandler handler){
+    public static void playWithFriend(final String userId, Context context, final PlayWithFriendHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/play_with_friend";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
@@ -127,7 +127,7 @@ public class Matchmaking {
                     handler.handlerPlayWithFriend(true, response.getInt("match"));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    handler.handlerPlayWithFriend(false, 0);
+                    serverErrorHandler.error();
                 }
             }
         }, new Response.ErrorListener() {
@@ -138,14 +138,14 @@ public class Matchmaking {
         }
         ){
             @Override
-            public Map getHeaders() {
-                Map params = new HashMap();
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
             @Override
-            protected Map getParams() {
-                Map params = new HashMap();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("user", userId);
                 return params;
             }
@@ -153,7 +153,7 @@ public class Matchmaking {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void queueStatus(Context context, final QueueStatusHandler handler){
+    public static void queueStatus(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/queue_status";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
@@ -173,18 +173,20 @@ public class Matchmaking {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    serverErrorHandler.error();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO: Error handling
+                error.printStackTrace();
+                serverErrorHandler.error();
             }
         }
         ){
             @Override
-            public Map getHeaders(){
-                Map params = new HashMap();
+            public Map<String, String> getHeaders(){
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }

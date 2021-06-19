@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 
 public class LogIn extends Fragment {
+    // TODO: controllare lunghezza e contenuto username e password
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
     Button loginButton, signupButton;
     private AlertDialog mDialog;
