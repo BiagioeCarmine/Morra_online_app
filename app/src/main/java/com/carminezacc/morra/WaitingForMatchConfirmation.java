@@ -146,6 +146,7 @@ public class WaitingForMatchConfirmation extends Fragment {
         }, new ServerErrorHandler() {
             @Override
             public void error(int statusCode) {
+                NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.home);
                 showServerDownDialog();
             }
         });

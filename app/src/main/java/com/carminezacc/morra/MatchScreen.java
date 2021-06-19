@@ -2,6 +2,9 @@ package com.carminezacc.morra;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,6 +29,26 @@ import org.joda.time.DateTime;
 import java.util.Objects;
 
 public class MatchScreen extends Fragment {
+    void showServerDownDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.dialog_server_down_message)
+                .setTitle(R.string.dialog_server_down_title)
+                .setPositiveButton(R.string.dialog_server_down_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        String uriString = "mailto:" + Uri.encode("carmine@carminezacc.com") +
+                                "?cc=" + Uri.encode("biagiogrimos@gmail.com") +
+                                "&subject=" + Uri.encode(getString(R.string.dialog_server_down_email_title)) +
+                                "&body=" + Uri.encode(getString(R.string.dialog_server_down_email_body));
+                        emailIntent.setData(Uri.parse(uriString));
+                        startActivity(Intent.createChooser(emailIntent, getString(R.string.dialog_server_down_button)));
+                    }
+                });
+
+        builder.show();
+    }
 
     TextView textViewOpponentPoints;
     TextView textViewYourPoints;
@@ -212,7 +235,8 @@ public class MatchScreen extends Fragment {
         }, new ServerErrorHandler() {
             @Override
             public void error(int statusCode) {
-
+                NavHostFragment.findNavController(MatchScreen.this).navigate(R.id.home);
+                showServerDownDialog();
             }
         });
         Thread thread = new Thread(pollingThreadMatch);

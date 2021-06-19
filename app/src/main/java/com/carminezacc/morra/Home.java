@@ -53,8 +53,6 @@ public class Home extends Fragment {
     Button aboutButton; // tasto "informazioni"
     Button playButton; //tasto play
     Button exitButton; //tasto exit
-    boolean waiting = true;
-    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -88,7 +86,48 @@ public class Home extends Fragment {
                     if (success) {
                         SessionSingleton session = SessionSingleton.getInstance();
                         session.setSession(userId, token);
-                        waiting = false;
+                        settingsButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavHostFragment.findNavController(Home.this)
+                                        .navigate(R.id.goToSettings);
+                            }
+                        });
+
+                        recordsButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavHostFragment.findNavController(Home.this)
+                                        .navigate(R.id.goToRecords);
+                            }
+                        });
+
+                        playButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavHostFragment.findNavController(Home.this)
+                                        .navigate(R.id.goToPlay);
+                            }
+                        });
+
+                        aboutButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                NavHostFragment.findNavController(Home.this)
+                                        .navigate(R.id.goToAbout);
+                            }
+                        });
+                        exitButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.remove("token");
+                                editor.apply();
+                                SessionSingleton.getInstance().logOut();
+                                NavHostFragment.findNavController(Home.this)
+                                        .navigate(R.id.goToLoginfromHome);
+                            }
+                        });
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -110,48 +149,6 @@ public class Home extends Fragment {
                 }
             });
         }
-        // TODO: ho avviato l' app e non si vedeva la home MI DOMANDO IL PERCHÈ while(waiting) {} // TODO: fare in maniera più sensata
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToSettings);
-            }
-        });
 
-        recordsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToRecords);
-            }
-        });
-
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToPlay);
-            }
-        });
-
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToAbout);
-            }
-        });
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.remove("token");
-                editor.apply();
-                SessionSingleton.getInstance().logOut();
-                NavHostFragment.findNavController(Home.this)
-                        .navigate(R.id.goToLoginfromHome);
-            }
-        });
     }
 }

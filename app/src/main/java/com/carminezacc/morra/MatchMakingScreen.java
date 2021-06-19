@@ -18,6 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.interfaces.QueueStatusHandler;
 import com.carminezacc.morra.interfaces.ServerErrorHandler;
+import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.polling.PollingThreadQueue;
 import com.carminezacc.morra.state.SessionSingleton;
 
@@ -115,6 +116,7 @@ public class MatchMakingScreen extends Fragment {
                         }, new ServerErrorHandler() {
                             @Override
                             public void error(int statusCode) {
+                                NavHostFragment.findNavController(MatchMakingScreen.this).navigate(R.id.home);
                                 showServerDownDialog();
                             }
                         });

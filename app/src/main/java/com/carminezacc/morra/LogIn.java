@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,64 @@ import java.util.regex.Pattern;
 
 
 public class LogIn extends Fragment {
+
+    void logIn() {
+        final String username, password;
+        username = String.valueOf(usernameEditText.getText());
+        password = String.valueOf(passwordEditText.getText());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        if (password.length() < 5 || password.length() > 50){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_bad_password);
+            builder.setCancelable(true);
+            builder.show();
+            return;
+        }
+        if (username.length() < 3 || username.length() > 30){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_bad_username);
+            builder.setCancelable(true);
+            builder.show();
+            return;
+        }
+        String pattern = "^[A-Za-z0-9]*$";
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(username);
+        boolean b = m.matches();
+        if (!b){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_unsupported_characters);
+            builder.setCancelable(true);
+            builder.show();
+            return;
+        }
+
+        Users.logIn(username, password, Objects.requireNonNull(LogIn.this.getContext()).getApplicationContext(), new LogInHandler() {
+            @Override
+            public void handleLogIn(boolean success, String jwt) {
+                if (success) {
+                    Log.d("jwt", jwt);
+                    SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token", jwt);
+                    editor.apply();
+                    NavHostFragment.findNavController(LogIn.this)
+                            .navigate(R.id.goToHome);
+                } else {
+                    builder.setTitle(R.string.dialog_something_wrong_title);
+                    builder.setMessage(R.string.dialog_bad_credential);
+                    builder.setCancelable(true);
+                    builder.show();
+                }
+            }
+        }, new ServerErrorHandler() {
+            @Override
+            public void error(int statusCode) {
+                showServerDownDialog();
+            }
+        });
+    }
 
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -50,7 +109,7 @@ public class LogIn extends Fragment {
         builder.show();
     }
 
-    TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
+    TextInputEditText usernameEditText, passwordEditText;
     Button loginButton, signupButton;
 
     @Override
@@ -65,68 +124,26 @@ public class LogIn extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginButton = view.findViewById(R.id.buttonLogIn);
         signupButton = view.findViewById(R.id.buttonSignUp_2);
-        textInputEditTextUsername = view.findViewById(R.id.username_l);
-        textInputEditTextPassword = view.findViewById(R.id.password_l);
+        usernameEditText = view.findViewById(R.id.username_l);
+        passwordEditText = view.findViewById(R.id.password_l);
+
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER) {
+                    logIn();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final String username, password;
-                username = String.valueOf(textInputEditTextUsername.getText());
-                password = String.valueOf(textInputEditTextPassword.getText());
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                if (password.length() < 5 || password.length() > 50){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_bad_password);
-                    builder.setCancelable(true);
-                    builder.show();
-                    return;
-                }
-                if (username.length() < 3 || username.length() > 30){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_bad_username);
-                    builder.setCancelable(true);
-                    builder.show();
-                    return;
-                }
-                String pattern = "^[A-Za-z0-9]*$";
-                Pattern p = Pattern.compile(pattern);
-                Matcher m = p.matcher(username);
-                boolean b = m.matches();
-                if (!b){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_unsupported_characters);
-                    builder.setCancelable(true);
-                    builder.show();
-                    return;
-                }
-
-                Users.logIn(username, password, Objects.requireNonNull(LogIn.this.getContext()).getApplicationContext(), new LogInHandler() {
-                    @Override
-                    public void handleLogIn(boolean success, String jwt) {
-                        if (success) {
-                            Log.d("jwt", jwt);
-                            SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("token", jwt);
-                            editor.apply();
-                            NavHostFragment.findNavController(LogIn.this)
-                                    .navigate(R.id.goToHome);
-                        } else {
-                            builder.setTitle(R.string.dialog_something_wrong_title);
-                            builder.setMessage(R.string.dialog_bad_credential);
-                            builder.setCancelable(true);
-                            builder.show();
-                        }
-                    }
-                }, new ServerErrorHandler() {
-                    @Override
-                    public void error(int statusCode) {
-                        showServerDownDialog();
-                    }
-                });
+              logIn();
             }
         });
 

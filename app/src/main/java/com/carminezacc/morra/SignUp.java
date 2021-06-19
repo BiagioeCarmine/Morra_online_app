@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,62 @@ import java.util.regex.Pattern;
 
 public class SignUp extends Fragment {
 
+    void signUp() {
+        final String username, password, confPass;
+        username = String.valueOf(usernameEditText.getText());
+        password = String.valueOf(passwordEditText.getText());
+        confPass = String.valueOf(confirmPasswordEditText.getText());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        if (password.length() < 5 || password.length() > 50){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_bad_password);
+            builder.show();
+            return;
+        }
+        if (!(password.equals(confPass))){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_password_not_equals);
+            builder.show();
+            return;
+        }
+        if (username.length() < 3 || username.length() > 30){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_bad_username);
+            builder.show();
+            return;
+        }
+        String pattern = "^[A-Za-z0-9]*$";
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(username);
+        boolean b = m.matches();
+        if (!b){
+            builder.setTitle(R.string.dialog_something_wrong_title);
+            builder.setMessage(R.string.dialog_unsupported_characters);
+            builder.show();
+            return;
+        }
+        Users.signUp(username, password, Objects.requireNonNull(SignUp.this.getContext()).getApplicationContext(), new SignUpHandler() {
+            @Override
+            public void handleSignUp(boolean success) {
+                if (success) {
+                    NavHostFragment.findNavController(SignUp.this)
+                            .navigate(R.id.goToLogin);
+                } else {
+                    builder.setTitle(R.string.dialog_something_wrong_title);
+                    builder.setMessage(R.string.dialog_existing_user);
+                    builder.show();
+                }
+            }
+        }, new ServerErrorHandler() {
+            @Override
+            public void error(int statusCode) {
+                showServerDownDialog();
+            }
+        });
+
+    }
+
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -49,8 +106,8 @@ public class SignUp extends Fragment {
         builder.show();
     }
 
-    TextInputEditText textInputEditTextUsername, textInputEditTextPassword, textInputEditTextConfPassword;
-    Button RegistratiButton;
+    TextInputEditText usernameEditText, passwordEditText, confirmPasswordEditText;
+    Button signupButton;
 
     @Override
     public View onCreateView(
@@ -63,68 +120,26 @@ public class SignUp extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RegistratiButton = view.findViewById(R.id.buttonSignUp);
-        textInputEditTextConfPassword = view.findViewById(R.id.conf_password);
-        textInputEditTextUsername = view.findViewById(R.id.username_s);
-        textInputEditTextPassword = view.findViewById(R.id.password_s);
+        signupButton = view.findViewById(R.id.buttonSignUp);
+        confirmPasswordEditText = view.findViewById(R.id.conf_password);
+        usernameEditText = view.findViewById(R.id.username_s);
+        passwordEditText = view.findViewById(R.id.password_s);
 
-        RegistratiButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+        passwordEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER) {
+                    signUp();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final String username, password, confpass;
-                username = String.valueOf(textInputEditTextUsername.getText());
-                password = String.valueOf(textInputEditTextPassword.getText());
-                confpass = String.valueOf(textInputEditTextConfPassword.getText());
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                if (password.length() < 5 || password.length() > 50){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_bad_password);
-                    builder.show();
-                    return;
-                }
-                if (!(password.equals(confpass))){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_password_not_equals);
-                    builder.show();
-                    return;
-                }
-                if (username.length() < 3 || username.length() > 30){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_bad_username);
-                    builder.show();
-                    return;
-                }
-                String pattern = "^[A-Za-z0-9]*$";
-                Pattern p = Pattern.compile(pattern);
-                Matcher m = p.matcher(username);
-                boolean b = m.matches();
-                if (!b){
-                    builder.setTitle(R.string.dialog_something_wrong_title);
-                    builder.setMessage(R.string.dialog_unsupported_characters);
-                    builder.show();
-                    return;
-                }
-                Users.signUp(username, password, Objects.requireNonNull(SignUp.this.getContext()).getApplicationContext(), new SignUpHandler() {
-                    @Override
-                    public void handleSignUp(boolean success) {
-                        if (success) {
-                            NavHostFragment.findNavController(SignUp.this)
-                                    .navigate(R.id.goToLogin);
-                        } else {
-                            builder.setTitle(R.string.dialog_something_wrong_title);
-                            builder.setMessage(R.string.dialog_existing_user);
-                            builder.show();
-                        }
-                    }
-                }, new ServerErrorHandler() {
-                    @Override
-                    public void error(int statusCode) {
-                        showServerDownDialog();
-                    }
-                });
+                signUp();
             }
         });
 

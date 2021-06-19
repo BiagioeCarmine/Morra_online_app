@@ -88,6 +88,7 @@ public class PollingThreadQueue implements Runnable {
                                 }, new ServerErrorHandler() {
                                     @Override
                                     public void error(int statusCode) {
+                                        running = false;
                                         serverErrorHandler.error(statusCode);
                                     }
                                 });
@@ -97,6 +98,7 @@ public class PollingThreadQueue implements Runnable {
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
+                        running = false;
                         serverErrorHandler.error(statusCode);
                     }
                 });
@@ -104,6 +106,7 @@ public class PollingThreadQueue implements Runnable {
                     if(!running) return;
                 }
             } catch (InterruptedException e) {
+                // TODO: bisogno di fare error handling per questo??
                 e.printStackTrace();
             }
         }

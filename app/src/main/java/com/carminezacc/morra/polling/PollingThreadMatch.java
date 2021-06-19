@@ -73,6 +73,7 @@ public class PollingThreadMatch implements Runnable {
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
+                        running = false;
                         serverErrorHandler.error(statusCode);
                     }
                 });
@@ -80,6 +81,7 @@ public class PollingThreadMatch implements Runnable {
                     if (!running) return;
                 }
             } catch (InterruptedException e) {
+                // TODO: bisogno di fare error handling per questo??
                 e.printStackTrace();
             }
         }
