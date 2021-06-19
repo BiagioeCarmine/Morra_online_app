@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -121,6 +122,7 @@ public class MatchScreen extends Fragment {
         textViewOpponentPrediction = view.findViewById(R.id.textViewOpponentPrediction);
         final TextView textViewTime = view.findViewById(R.id.textViewTime);
         numberPicker = view.findViewById(R.id.numberPicker);
+        Button exitButton = view.findViewById(R.id.exitButton);
         imageButtons[0] = view.findViewById(R.id.imageButtonManoUno);
         imageButtons[1] = view.findViewById(R.id.imageButtonManoDue);
         imageButtons[2] = view.findViewById(R.id.imageButtonManoTre);
@@ -130,6 +132,13 @@ public class MatchScreen extends Fragment {
 
         //((ViewGroup) imageButton1.getParent()).removeView(imageButton1);
         //((ViewGroup) imageButton1.getParent()).addView(imageButton1);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(MatchScreen.this).navigate(R.id.home);
+            }
+        });
 
         numberPicker.setMaxValue(10);
         numberPicker.setMinValue(2);

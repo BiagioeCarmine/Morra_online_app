@@ -72,6 +72,11 @@ public class Home extends Fragment {
 
         //TODO: approfondire mancata rimozione bad token
 
+        playButton.setVisibility(View.INVISIBLE);
+        recordsButton.setVisibility(View.INVISIBLE);
+
+
+
         final SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         final String token = sharedPref.getString("token","");
         Log.d("token", token);
@@ -80,54 +85,56 @@ public class Home extends Fragment {
                     .navigate(R.id.goToLoginfromHome);
         }
         else{
+            settingsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(Home.this)
+                            .navigate(R.id.goToSettings);
+                }
+            });
+
+            recordsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(Home.this)
+                            .navigate(R.id.goToRecords);
+                }
+            });
+
+            playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(Home.this)
+                            .navigate(R.id.goToPlay);
+                }
+            });
+
+            aboutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavHostFragment.findNavController(Home.this)
+                            .navigate(R.id.goToAbout);
+                }
+            });
+            exitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.remove("token");
+                    editor.apply();
+                    SessionSingleton.getInstance().logOut();
+                    NavHostFragment.findNavController(Home.this)
+                            .navigate(R.id.goToLoginfromHome);
+                }
+            });
             Users.verify(token, Objects.requireNonNull(Home.this.getContext()).getApplicationContext(), new VerifyHandler() {
                 @Override
                 public void handleVerify(boolean success, int userId) {
                     if (success) {
                         SessionSingleton session = SessionSingleton.getInstance();
                         session.setSession(userId, token);
-                        settingsButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                NavHostFragment.findNavController(Home.this)
-                                        .navigate(R.id.goToSettings);
-                            }
-                        });
-
-                        recordsButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                NavHostFragment.findNavController(Home.this)
-                                        .navigate(R.id.goToRecords);
-                            }
-                        });
-
-                        playButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                NavHostFragment.findNavController(Home.this)
-                                        .navigate(R.id.goToPlay);
-                            }
-                        });
-
-                        aboutButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                NavHostFragment.findNavController(Home.this)
-                                        .navigate(R.id.goToAbout);
-                            }
-                        });
-                        exitButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.remove("token");
-                                editor.apply();
-                                SessionSingleton.getInstance().logOut();
-                                NavHostFragment.findNavController(Home.this)
-                                        .navigate(R.id.goToLoginfromHome);
-                            }
-                        });
+                        playButton.setVisibility(View.VISIBLE);
+                        recordsButton.setVisibility(View.VISIBLE);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         SharedPreferences.Editor editor = sharedPref.edit();

@@ -155,5 +155,15 @@
             android:src="@drawable/mano_cinque" />
 
     </LinearLayout>
+    <Button
+        android:id="@+id/exitMatchButton"
+        android:layout_width="144dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:background="#0080c0"
+        android:padding="10dp"
+        android:text="Esci"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
