@@ -47,7 +47,7 @@ public class Users {
                     handler.handleSignUp(false);
                 } else {
                     error.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(error.networkResponse.statusCode);
                 }
 
             }
@@ -81,7 +81,7 @@ public class Users {
                     handler.handleLogIn(false, null);
                 else {
                     error.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(error.networkResponse.statusCode);
                 }
             }
         }
@@ -108,7 +108,7 @@ public class Users {
                     handler.handleVerify(true, response.getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(0);
                 }
             }
         }, new Response.ErrorListener()
@@ -119,7 +119,7 @@ public class Users {
                         handler.handleVerify(false, 0);
                     else {
                         error.printStackTrace();
-                        serverErrorHandler.error();
+                        serverErrorHandler.error(error.networkResponse.statusCode);
                     }
                 }
             }
@@ -146,7 +146,7 @@ public class Users {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }
         );
@@ -166,7 +166,7 @@ public class Users {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }){
             @Override

@@ -43,14 +43,14 @@ public class Matchmaking {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(0);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }) {
             @Override
@@ -86,14 +86,14 @@ public class Matchmaking {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(0);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }
         ){
@@ -127,7 +127,7 @@ public class Matchmaking {
                     handler.handlerPlayWithFriend(true, response.getInt("match"));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(0);
                 }
             }
         }, new Response.ErrorListener() {
@@ -173,14 +173,14 @@ public class Matchmaking {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    serverErrorHandler.error();
+                    serverErrorHandler.error(0);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }
         ){

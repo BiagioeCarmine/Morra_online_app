@@ -23,7 +23,7 @@ public class Home extends Fragment {
     Button aboutButton; // tasto "informazioni"
     Button playButton; //tasto play
     Button exitButton; //tasto exit
-
+    boolean waiting = true;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -33,6 +33,7 @@ public class Home extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         settingsButton = view.findViewById(R.id.settingsButton);
         recordsButton = view.findViewById(R.id.recordsButton);
@@ -56,6 +57,7 @@ public class Home extends Fragment {
                     if (success){
                         SessionSingleton session = SessionSingleton.getInstance();
                         session.setSession(userId, token);
+                        waiting = false;
                     }
                     else{
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -68,7 +70,7 @@ public class Home extends Fragment {
                 }
             });
         }
-
+        while(waiting) {} // TODO: fare in maniera più sensata
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

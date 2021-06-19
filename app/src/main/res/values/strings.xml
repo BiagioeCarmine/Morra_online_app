@@ -8,10 +8,14 @@
     <string name="previous">Previous</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="about_text">
         La schermata \"Play\" contiene illustrazioni (le mani) estratte dal logo utilizzato per promuovere il Campionato Regionale di Morra organizzato dall\'ASD \"Giochiamo Insieme la Morra\" a Sant\'Ilario di Atella (PZ).
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_user_deleted_title">Il tuo account è stato eliminato</string>
+    <string name="dialog_user_deleted_message">Dovrai eseguire di nuovo la registrazione, e stavolta comportati bene, oppure ci arrabbiamo!</string>
+    <string name="dialog_server_down_title">Server offline</string>
+    <string name="dialog_server_down_message">Il server è offline, stiamo lavorando duramente per risolvere il problema. Se il problema persiste, mandare una mail a carmine@carminezacc.com e biagiogrimos@gmail.com</string>
+    <string name="dialog_server_down_button">Invia mail di lamentela</string>
+    <string name="dialog_server_down_email_title">Server morra online offline</string>
+    <string name="dialog_server_down_email_body">Ciao, il server dell\'app della morra è offline, fate qualcosa per aiutare noi poveri giocatori di morra online.</string>
 </resources>

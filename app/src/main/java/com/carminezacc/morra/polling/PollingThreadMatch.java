@@ -63,7 +63,7 @@ public class PollingThreadMatch implements Runnable {
 
                     }
                 });
-                while (waiting) {
+                while (waiting) { // TODO: fare in maniera più sensata
                     if (!running) return;
                 }
             } catch (InterruptedException e) {

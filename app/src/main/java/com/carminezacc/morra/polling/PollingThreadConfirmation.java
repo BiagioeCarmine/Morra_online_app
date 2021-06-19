@@ -42,7 +42,7 @@ public class PollingThreadConfirmation implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            while(waiting) {
+            while(waiting) { // TODO: fare in maniera più sensata
                 if(!running) return;
             }
         }

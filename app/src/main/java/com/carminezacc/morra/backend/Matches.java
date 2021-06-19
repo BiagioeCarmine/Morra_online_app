@@ -68,7 +68,7 @@ public class Matches {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }
         );
@@ -89,7 +89,7 @@ public class Matches {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         }){
             @Override
@@ -121,7 +121,7 @@ public class Matches {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                serverErrorHandler.error();
+                serverErrorHandler.error(error.networkResponse.statusCode);
             }
         });
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
