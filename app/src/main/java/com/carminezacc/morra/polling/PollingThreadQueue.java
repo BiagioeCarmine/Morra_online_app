@@ -1,26 +1,35 @@
 package com.carminezacc.morra.polling;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 
+import com.carminezacc.morra.R;
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.interfaces.QueueStatusHandler;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 
 import org.joda.time.DateTime;
 
 
 public class PollingThreadQueue implements Runnable {
+
     Context context;
     DateTime pollTime;
     boolean queueIsPublic;
     QueueStatusHandler handler;
+    ServerErrorHandler serverErrorHandler;
     public boolean running = true;
     private boolean waiting = true;
 
-    public PollingThreadQueue(DateTime date, boolean queueIsPublic, Context context, QueueStatusHandler handler) {
+    public PollingThreadQueue(DateTime date, boolean queueIsPublic, Context context, QueueStatusHandler handler, ServerErrorHandler serverErrorHandler) {
         this.context = context;
         this.pollTime = date;
         this.handler = handler;
         this.queueIsPublic = queueIsPublic;
+        this.serverErrorHandler = serverErrorHandler;
     }
 
     @Override
@@ -58,6 +67,11 @@ public class PollingThreadQueue implements Runnable {
                                         pollTime = pollBefore;
                                         waiting = false;
                                     }
+                                }, new ServerErrorHandler() {
+                                    @Override
+                                    public void error(int statusCode) {
+                                        serverErrorHandler.error(statusCode);
+                                    }
                                 });
                             } else {
                                 Matchmaking.addToPrivateQueue(context, new QueueStatusHandler() {
@@ -71,9 +85,19 @@ public class PollingThreadQueue implements Runnable {
                                         pollTime = pollBefore;
                                         waiting = false;
                                     }
+                                }, new ServerErrorHandler() {
+                                    @Override
+                                    public void error(int statusCode) {
+                                        serverErrorHandler.error(statusCode);
+                                    }
                                 });
                             }
                         }
+                    }
+                }, new ServerErrorHandler() {
+                    @Override
+                    public void error(int statusCode) {
+                        serverErrorHandler.error(statusCode);
                     }
                 });
                 while(waiting) { // TODO: fare in maniera più sensata

@@ -55,13 +55,13 @@ public class Matchmaking {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("type", "public");
                 return params;
             }
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
@@ -99,13 +99,13 @@ public class Matchmaking {
         ){
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("type", "private");
                 return params;
             }
@@ -139,13 +139,13 @@ public class Matchmaking {
         ){
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("user", userId);
                 return params;
             }
@@ -186,7 +186,7 @@ public class Matchmaking {
         ){
             @Override
             public Map<String, String> getHeaders(){
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }

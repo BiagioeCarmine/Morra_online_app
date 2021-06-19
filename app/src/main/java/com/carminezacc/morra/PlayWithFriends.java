@@ -1,5 +1,9 @@
 package com.carminezacc.morra;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +17,34 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.interfaces.PlayWithFriendHandler;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 public class PlayWithFriends extends Fragment {
+
+    void showServerDownDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.dialog_server_down_message)
+                .setTitle(R.string.dialog_server_down_title)
+                .setPositiveButton(R.string.dialog_server_down_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        String uriString = "mailto:" + Uri.encode("carmine@carminezacc.com") +
+                                "?cc=" + Uri.encode("biagiogrimos@gmail.com") +
+                                "&subject=" + Uri.encode(getString(R.string.dialog_server_down_email_title)) +
+                                "&body=" + Uri.encode(getString(R.string.dialog_server_down_email_body));
+                        emailIntent.setData(Uri.parse(uriString));
+                        startActivity(Intent.createChooser(emailIntent, getString(R.string.dialog_server_down_button)));
+                    }
+                });
+
+        builder.show();
+    }
+
     Button createLobbyButton;
     EditText lobbyIdText;
     Button joinFriendButton;
@@ -60,7 +89,7 @@ public class PlayWithFriends extends Fragment {
                         return;
                     }
                 }
-                Matchmaking.playWithFriend(friendId, PlayWithFriends.this.getContext().getApplicationContext(), new PlayWithFriendHandler() {
+                Matchmaking.playWithFriend(friendId, Objects.requireNonNull(PlayWithFriends.this.getContext()).getApplicationContext(), new PlayWithFriendHandler() {
                     @Override
                     public void handlerPlayWithFriend(boolean success, int matchId) {
                         if (success) {
@@ -68,6 +97,11 @@ public class PlayWithFriends extends Fragment {
                         } else {
                             Snackbar.make(view, "L'amico non è online", 4000).show();
                         }
+                    }
+                }, new ServerErrorHandler() {
+                    @Override
+                    public void error(int statusCode) {
+                        showServerDownDialog();
                     }
                 });
             }

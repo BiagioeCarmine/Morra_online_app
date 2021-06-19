@@ -1,7 +1,12 @@
 package com.carminezacc.morra;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,16 +19,42 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.backend.Users;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.state.SessionSingleton;
 
+import java.util.Objects;
+
 public class Home extends Fragment {
+
+    void showServerDownDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.dialog_server_down_message)
+                .setTitle(R.string.dialog_server_down_title)
+                .setPositiveButton(R.string.dialog_server_down_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                        String uriString = "mailto:" + Uri.encode("carmine@carminezacc.com") +
+                                "?cc=" + Uri.encode("biagiogrimos@gmail.com") +
+                                "&subject=" + Uri.encode(getString(R.string.dialog_server_down_email_title)) +
+                                "&body=" + Uri.encode(getString(R.string.dialog_server_down_email_body));
+                        emailIntent.setData(Uri.parse(uriString));
+                        startActivity(Intent.createChooser(emailIntent, getString(R.string.dialog_server_down_button)));
+                    }
+                });
+
+        builder.show();
+    }
+
     Button settingsButton; // tasto options
     Button recordsButton;  // tasto records
     Button aboutButton; // tasto "informazioni"
     Button playButton; //tasto play
     Button exitButton; //tasto exit
     boolean waiting = true;
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -43,7 +74,7 @@ public class Home extends Fragment {
 
         //TODO: approfondire mancata rimozione bad token
 
-        final SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences sharedPref = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE);
         final String token = sharedPref.getString("token","");
         Log.d("token", token);
         if (token.length() == 0){
@@ -51,26 +82,35 @@ public class Home extends Fragment {
                     .navigate(R.id.goToLoginfromHome);
         }
         else{
-            Users.verify(token, Home.this.getContext().getApplicationContext(), new VerifyHandler() {
+            Users.verify(token, Objects.requireNonNull(Home.this.getContext()).getApplicationContext(), new VerifyHandler() {
                 @Override
                 public void handleVerify(boolean success, int userId) {
-                    if (success){
+                    if (success) {
                         SessionSingleton session = SessionSingleton.getInstance();
                         session.setSession(userId, token);
                         waiting = false;
-                    }
-                    else{
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.remove("token");
-                        editor.commit();
+                        editor.apply();
                         Log.d("token", token);
                         NavHostFragment.findNavController(Home.this)
                                 .navigate(R.id.goToLoginfromHome);
+                        builder.setMessage(R.string.dialog_something_wrong_title)
+                                .setTitle(R.string.dialog_bad_token);
+
+                        builder.show();
                     }
+                }
+            }, new ServerErrorHandler() {
+                @Override
+                public void error(int statusCode) {
+                    showServerDownDialog();
                 }
             });
         }
-        while(waiting) {} // TODO: fare in maniera più sensata
+        // TODO: ho avviato l' app e non si vedeva la home MI DOMANDO IL PERCHÈ while(waiting) {} // TODO: fare in maniera più sensata
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +147,7 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.remove("token");
-                editor.commit();
+                editor.apply();
                 SessionSingleton.getInstance().logOut();
                 NavHostFragment.findNavController(Home.this)
                         .navigate(R.id.goToLoginfromHome);

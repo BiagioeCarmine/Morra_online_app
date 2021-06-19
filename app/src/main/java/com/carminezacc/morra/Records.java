@@ -43,7 +43,7 @@ public class Records extends Fragment {
                     }
                 });
 
-        builder.create();
+        builder.show();
     }
 
     TextView textViewId;
@@ -91,7 +91,7 @@ public class Records extends Fragment {
                     builder.setMessage(R.string.dialog_user_deleted_title)
                             .setTitle(R.string.dialog_user_deleted_message);
 
-                    builder.create();
+                    builder.show();
 
                 } else {
                     showServerDownDialog();

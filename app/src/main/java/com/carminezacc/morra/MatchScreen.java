@@ -1,6 +1,7 @@
 package com.carminezacc.morra;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -16,10 +17,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.interfaces.MatchCallback;
+import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.polling.PollingThreadMatch;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;
+
+import java.util.Objects;
 
 public class MatchScreen extends Fragment {
 
@@ -61,7 +65,12 @@ public class MatchScreen extends Fragment {
             matchUserId1 = getArguments().getInt("userId1");
             opponentName = getArguments().getString("opponentName");
         } else {
-            // TODO:error handling
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setMessage(R.string.dialog_problemone_message)
+                    .setTitle(R.string.dialog_problemone_title);
+
+            builder.show();
         }
 
 
@@ -119,7 +128,6 @@ public class MatchScreen extends Fragment {
         }
 
         final long msToStart = roundStartTime.getMillis() - DateTime.now().getMillis();
-        //TODO: fare in modo che il countdown si resetti ogni volta
         textViewTime.setVisibility(View.VISIBLE);
         countDownTimer = new CountDownTimer(msToStart, 100) {
             @Override
@@ -138,7 +146,7 @@ public class MatchScreen extends Fragment {
         //MatchSingleton.getInstance().setHand(hand);
         //MatchSingleton.getInstance().setPrediction(prediction);
 
-        pollingThreadMatch = new PollingThreadMatch(MatchScreen.this.getContext().getApplicationContext(), matchId, roundStartTime, lastRoundResultsTime, new MatchCallback() {
+        pollingThreadMatch = new PollingThreadMatch(Objects.requireNonNull(MatchScreen.this.getContext()).getApplicationContext(), matchId, roundStartTime, lastRoundResultsTime, new MatchCallback() {
             @Override
             public int getUserPrediction() {
                 return numberPicker.getValue();
@@ -150,7 +158,7 @@ public class MatchScreen extends Fragment {
             }
 
             @Override
-            public void moveSet(boolean success) {
+            public void moveSet() {
                 Log.d("matchScreen", "impostata mossa");
                 // TODO: error handling, nascondere input
             }
@@ -159,7 +167,7 @@ public class MatchScreen extends Fragment {
             public void matchFinished(int punti1, int punti2) {
                 Bundle bundle = new Bundle();
                 int puntiAvversario, puntiUtente;
-                if(userId == matchUserId1) {
+                if (userId == matchUserId1) {
                     puntiUtente = punti1;
                     puntiAvversario = punti2;
                 } else {
@@ -200,6 +208,11 @@ public class MatchScreen extends Fragment {
                     textViewOpponentHand.setText("Il tuo avversario ha buttato: " + hand1);
                     textViewOpponentPrediction.setText("Il tuo avversario ha urlato: " + prediction1);
                 }
+            }
+        }, new ServerErrorHandler() {
+            @Override
+            public void error(int statusCode) {
+
             }
         });
         Thread thread = new Thread(pollingThreadMatch);
