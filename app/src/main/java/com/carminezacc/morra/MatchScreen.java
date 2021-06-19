@@ -122,7 +122,7 @@ public class MatchScreen extends Fragment {
         textViewOpponentPrediction = view.findViewById(R.id.textViewOpponentPrediction);
         final TextView textViewTime = view.findViewById(R.id.textViewTime);
         numberPicker = view.findViewById(R.id.numberPicker);
-        Button exitButton = view.findViewById(R.id.exitButton);
+        Button exitButton = view.findViewById(R.id.exitMatchButton);
         imageButtons[0] = view.findViewById(R.id.imageButtonManoUno);
         imageButtons[1] = view.findViewById(R.id.imageButtonManoDue);
         imageButtons[2] = view.findViewById(R.id.imageButtonManoTre);
