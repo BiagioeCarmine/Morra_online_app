@@ -16,15 +16,11 @@ import com.carminezacc.morra.interfaces.SignUpHandler;
 import com.carminezacc.morra.interfaces.VerifyHandler;
 import com.carminezacc.morra.models.User;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Users {
@@ -55,7 +51,7 @@ public class Users {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", password);
 
@@ -88,7 +84,7 @@ public class Users {
         ) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", password);
 
@@ -126,7 +122,7 @@ public class Users {
         ){
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
@@ -155,7 +151,6 @@ public class Users {
 
     public static void getRanking(Context context, final GetClassificaHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/?order_by=punteggio&descending=true&n=5";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -168,16 +163,7 @@ public class Users {
                 error.printStackTrace();
                 serverErrorHandler.error(error.networkResponse.statusCode);
             }
-        });/*{
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("order_by", "punteggio");
-                params.put("descending", "true");
-                params.put("n", "5");
-                return params;
-            }
-        };*/
+        });
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }
