@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class Ranking extends Fragment {
                 textViewThird.setText("3  " + userList[2].getUsername() + "       " + userList[2].getPunteggio());
                 textViewFourth.setText("4 " + userList[3].getUsername() + "       " + userList[3].getPunteggio());
                 textViewFifth.setText("5  " + userList[4].getUsername() + "       " + userList[4].getPunteggio());
+                Log.d("user4", userList[3].getUsername());
             }
         }, new ServerErrorHandler() {
             @Override

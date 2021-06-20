@@ -154,7 +154,7 @@ public class Users {
     }
 
     public static void getRanking(Context context, final GetClassificaHandler handler, final ServerErrorHandler serverErrorHandler){
-        String path = "/users/";
+        String path = "/users/?order_by=punteggio&descending=true&n=5";
         RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
@@ -168,16 +168,16 @@ public class Users {
                 error.printStackTrace();
                 serverErrorHandler.error(error.networkResponse.statusCode);
             }
-        }){
+        });/*{
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("order_by", "punteggio");
                 params.put("descending", "true");
                 params.put("n", "5");
                 return params;
             }
-        };
+        };*/
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 }

@@ -1,6 +1,5 @@
 package com.carminezacc.morra;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,7 +57,7 @@ public class Home extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.home, null);
+        return inflater.inflate(R.layout.home, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
