@@ -3,7 +3,6 @@ package com.carminezacc.morra.backend;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -55,9 +54,6 @@ public class Matches {
 
     public static void getMatch(int matchId, Context context, final MatchResultCallback handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/matches/" + matchId; // MAGGICO FA DA SOLO String.valueOf(matchId)
-        SessionSingleton session = SessionSingleton.getInstance();
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
-        final String jwt = session.getToken();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
@@ -77,7 +73,6 @@ public class Matches {
 
     public static void setMove(int matchId, final int hand, final int prediction, Context context, final SetMoveHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/matches/" + matchId + "/move";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         SessionSingleton session = SessionSingleton.getInstance();
         final String jwt = session.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -94,14 +89,14 @@ public class Matches {
         }){
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("hand", String.valueOf(hand));
                 params.put("prediction", String.valueOf(prediction));
                 return params;
             }
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer " + jwt);
                 return params;
             }
@@ -111,7 +106,6 @@ public class Matches {
 
     public static void lastRound(int matchId, Context context, final LastRoundCallback handler, final ServerErrorHandler serverErrorHandler){
         String path = "/matches/" + matchId + "/last_round";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

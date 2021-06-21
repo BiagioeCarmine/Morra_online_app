@@ -3,7 +3,6 @@ package com.carminezacc.morra.backend;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -23,13 +22,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TODO: FARE DOCUMENTAZIONEEEEEEEEEEEEE
+ */
 public class Users {
     static final String url = "https://morra.carminezacc.com";
     static final Gson gson = new Gson();
 
     public static void signUp(final String username, final String password, Context context, final SignUpHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/signup";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -63,7 +64,6 @@ public class Users {
 
     public static void logIn(final String username, final String password, Context context, final LogInHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/login";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -96,7 +96,6 @@ public class Users {
 
     public static void verify(final String jwt, Context context, final VerifyHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/verify";
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -132,7 +131,6 @@ public class Users {
 
     public static void getUser(int userId, Context context, final GetUserHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/user/" + userId;
-        RequestQueue queue = VolleyRequestQueueSingleton.getInstance(context).getRequestQueue();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

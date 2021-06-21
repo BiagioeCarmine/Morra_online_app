@@ -50,6 +50,11 @@ public class Ranking extends Fragment {
     TextView textViewThird;
     TextView textViewFourth;
     TextView textViewFifth;
+    TextView textViewPuntiPrimo;
+    TextView textViewPuntiSecondo;
+    TextView textViewPuntiTerzo;
+    TextView textViewPuntiQuarto;
+    TextView textViewPuntiQuinto;
 
     @Override
     public View onCreateView(
@@ -68,15 +73,25 @@ public class Ranking extends Fragment {
         textViewThird = view.findViewById(R.id.textViewThird);
         textViewFourth = view.findViewById(R.id.textViewFourth);
         textViewFifth = view.findViewById(R.id.textViewFifth);
+        textViewPuntiPrimo = view.findViewById(R.id.textViewPuntiPrimo);
+        textViewPuntiSecondo = view.findViewById(R.id.textViewPuntiSecondo);
+        textViewPuntiTerzo = view.findViewById(R.id.textViewPuntiTerzo);
+        textViewPuntiQuarto = view.findViewById(R.id.textViewPuntiQuarto);
+        textViewPuntiQuinto = view.findViewById(R.id.textViewPuntiQuinto);
 
         Users.getRanking(Objects.requireNonNull(Ranking.this.getContext()).getApplicationContext(), new GetClassificaHandler() {
             @Override
             public void resultReturned(User[] userList) {
-                textViewFirst.setText("1  " + userList[0].getUsername() + "       " + userList[0].getPunteggio());
-                textViewSecond.setText("2 " + userList[1].getUsername() + "       " + userList[1].getPunteggio());
-                textViewThird.setText("3  " + userList[2].getUsername() + "       " + userList[2].getPunteggio());
-                textViewFourth.setText("4 " + userList[3].getUsername() + "       " + userList[3].getPunteggio());
-                textViewFifth.setText("5  " + userList[4].getUsername() + "       " + userList[4].getPunteggio());
+                textViewFirst.setText(String.valueOf(userList[0].getUsername()));
+                textViewSecond.setText(String.valueOf(userList[1].getUsername()));
+                textViewThird.setText(String.valueOf(userList[2].getUsername()));
+                textViewFourth.setText(String.valueOf(userList[3].getUsername()));
+                textViewFifth.setText(String.valueOf(userList[4].getUsername()));
+                textViewPuntiPrimo.setText(String.valueOf(userList[0].getPunteggio()));
+                textViewPuntiSecondo.setText(String.valueOf(userList[1].getPunteggio()));
+                textViewPuntiTerzo.setText(String.valueOf(userList[2].getPunteggio()));
+                textViewPuntiQuarto.setText(String.valueOf(userList[3].getPunteggio()));
+                textViewPuntiQuinto.setText(String.valueOf(userList[4].getPunteggio()));
                 Log.d("user4", userList[3].getUsername());
             }
         }, new ServerErrorHandler() {
