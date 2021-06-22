@@ -21,7 +21,7 @@ import com.carminezacc.morra.interfaces.MatchResultCallback;
 import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.models.Match;
 import com.carminezacc.morra.models.User;
-import com.carminezacc.morra.polling.PollingThreadConfirmation;
+import com.carminezacc.morra.runnables.MatchConfirmationThread;
 import com.carminezacc.morra.state.SessionSingleton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -54,7 +54,7 @@ public class WaitingForMatchConfirmation extends Fragment {
 
     private int matchId;
     Match match;
-    PollingThreadConfirmation pollingThreadConfirmation;
+    MatchConfirmationThread matchConfirmationThread;
     String opponentName;
 
 
@@ -110,28 +110,33 @@ public class WaitingForMatchConfirmation extends Fragment {
                     }
                 });
 
-                pollingThreadConfirmation = new PollingThreadConfirmation(matchId, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
+                matchConfirmationThread = new MatchConfirmationThread(match, WaitingForMatchConfirmation.this.getContext().getApplicationContext(), new MatchResultCallback() {
                     @Override
-                    public void resultReturned(Match match) {
-                        Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("matchId", matchId);
-                        bundle.putLong("startTime", match.getStartTime().getMillis());
-                        bundle.putLong("firstRoundResultsTime", match.getFirstRoundResults().getMillis());
-                        bundle.putInt("userId1", match.getUserid1());
-                        bundle.putString("opponentName", opponentName);
-                        NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
+                    public void resultReturned(Match matchWithConfirmationStatus) {
+                        if(matchWithConfirmationStatus.isConfirmed()) {
+                            Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("matchId", matchId);
+                            bundle.putLong("startTime", matchWithConfirmationStatus.getStartTime().getMillis());
+                            bundle.putLong("firstRoundResultsTime", matchWithConfirmationStatus.getFirstRoundResults().getMillis());
+                            bundle.putInt("userId1", matchWithConfirmationStatus.getUserid1());
+                            bundle.putString("opponentName", opponentName);
+                            NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
+                        } else {
+                            Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
+                            NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.matchmaking);
+                        }
                     }
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
-                        // se fallisce la conferma della partita
+                        // se fallisce la richiesta per conferma della partita
                         NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.home);
                         showServerDownDialog();
                     }
                 });
 
-                Thread thread = new Thread(pollingThreadConfirmation);
+                Thread thread = new Thread(matchConfirmationThread);
                 thread.start();
             }
         }, new ServerErrorHandler() {
@@ -143,12 +148,7 @@ public class WaitingForMatchConfirmation extends Fragment {
             }
         });
 
-    }
+        // non serve fermare il thread in onDestroy perché non va in loop
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if(pollingThreadConfirmation != null)
-            pollingThreadConfirmation.running = false;
     }
 }

@@ -22,7 +22,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.carminezacc.morra.interfaces.MatchCallback;
 import com.carminezacc.morra.interfaces.ServerErrorHandler;
-import com.carminezacc.morra.polling.PollingThreadMatch;
+import com.carminezacc.morra.runnables.PollingThreadMatch;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;

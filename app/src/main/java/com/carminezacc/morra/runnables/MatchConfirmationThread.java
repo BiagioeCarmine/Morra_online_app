@@ -1,4 +1,4 @@
-package com.carminezacc.morra.polling;
+package com.carminezacc.morra.runnables;
 
 import android.content.Context;
 
@@ -7,44 +7,33 @@ import com.carminezacc.morra.interfaces.MatchResultCallback;
 import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.carminezacc.morra.models.Match;
 
-public class PollingThreadConfirmation implements Runnable {
+import org.joda.time.DateTime;
+
+public class MatchConfirmationThread implements Runnable {
     Context context;
     MatchResultCallback handler;
     ServerErrorHandler serverErrorHandler;
-    int matchId;
-    public boolean running = true;
-    private boolean waiting = true;
+    Match match;
 
-    public PollingThreadConfirmation(int matchId, Context context, MatchResultCallback handler, ServerErrorHandler serverErrorHandler) {
+    public MatchConfirmationThread(Match match, Context context, MatchResultCallback handler, ServerErrorHandler serverErrorHandler) {
         this.context = context;
-        this.matchId = matchId;
+        this.match = match;
         this.handler = handler;
         this.serverErrorHandler = serverErrorHandler;
     }
 
     @Override
     public void run() {
-        while(running) {
-            waiting = true;
             try {
-                Thread.sleep(800);
-                if(!running){
-                    return;
-                }
-                Matches.getMatch(matchId, context, new MatchResultCallback() {
+                Thread.sleep(match.getConfirmationTime().getMillis()- DateTime.now().getMillis());
+                Matches.getMatch(match.getId(), context, new MatchResultCallback() {
                     @Override
                     public void resultReturned(Match match) {
-                        if (!match.isConfirmed()) {
-                            waiting = false;
-                        } else {
-                            handler.resultReturned(match);
-                            running = false;
-                        }
+                        handler.resultReturned(match);
                     }
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
-                        running = false;
                         serverErrorHandler.error(statusCode);
                     }
                 });
@@ -52,10 +41,7 @@ public class PollingThreadConfirmation implements Runnable {
                 // TODO: bisogno di fare error handling per questo??
                 e.printStackTrace();
             }
-            while(waiting) { // TODO: fare in maniera più sensata
-                if(!running) return;
-            }
+
         }
 
-    }
 }

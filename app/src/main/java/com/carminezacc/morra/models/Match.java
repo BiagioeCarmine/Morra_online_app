@@ -5,9 +5,13 @@ import org.joda.time.DateTime;
 public class Match {
     boolean confirmed, finished;
     int id, punti1, punti2, userid1, userid2;
-    DateTime startTime, firstRoundResults;
+    DateTime startTime, firstRoundResults, confirmationTime;
 
-    public Match(boolean confirmed, boolean finished, int id, int punti1, int punti2, int userid1, int userid2, DateTime startTime, DateTime firstRoundResults) {
+    public DateTime getConfirmationTime() {
+        return confirmationTime;
+    }
+
+    public Match(boolean confirmed, boolean finished, int id, int punti1, int punti2, int userid1, int userid2, DateTime startTime, DateTime firstRoundResults, DateTime confirmationTime) {
         this.confirmed = confirmed;
         this.finished = finished;
         this.id = id;
@@ -17,6 +21,7 @@ public class Match {
         this.userid2 = userid2;
         this.startTime = startTime;
         this.firstRoundResults = firstRoundResults;
+        this.confirmationTime = confirmationTime;
     }
 
     public boolean isConfirmed() {
