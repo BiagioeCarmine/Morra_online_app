@@ -113,10 +113,10 @@ public class PollingThreadQueue implements Runnable {
                         @Override
                         public void error(int statusCode) {
                             running = false;
-                            serverErrorHandler.error(statusCode);
                             synchronized (sync) {
                                 sync.notify();
                             }
+                            serverErrorHandler.error(statusCode);
 
                         }
                     });

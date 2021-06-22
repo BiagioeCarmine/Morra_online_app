@@ -46,9 +46,6 @@ public class PollingThreadMatch implements Runnable {
                     @Override
                     public void handleSetMove() {
                         handler.moveSet();
-                        synchronized (sync) {
-                            sync.notify();
-                        }
                     }
                 }, new ServerErrorHandler() {
                     @Override
