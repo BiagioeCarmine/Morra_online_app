@@ -48,8 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="270dp"
             android:background="@android:color/transparent"
-            android:paddingLeft="0dp"
-            android:paddingRight="100dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/new_mano_2" />
 
@@ -58,30 +58,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="137dp"
-            android:paddingLeft="250dp"
+            android:paddingStart="250dp"
             android:text="RICERCA AUTOMATICA PARTITA"
             android:textColor="#4242ff"
             android:textSize="25sp" />
     </RelativeLayout>
-    <!--TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AMICI"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MATCHMAKING"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" /-->
-
-
-<!--
-TODO: aggiustare questo layout
-/-->
 
 </LinearLayout>
