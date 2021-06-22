@@ -124,7 +124,7 @@ public class WaitingForMatchConfirmation extends Fragment {
                             NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
                         } else {
                             Snackbar.make(view, "La partita non è stata confermata", Snackbar.LENGTH_LONG).show();
-                            NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.matchmaking);
+                            NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.play);
                         }
                     }
                 }, new ServerErrorHandler() {
