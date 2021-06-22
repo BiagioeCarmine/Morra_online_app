@@ -76,10 +76,10 @@ public class Records extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void resultReturned(User user) {
-                textViewId.setText("Il tuo id e': " + user.getId());
-                textViewPunteggio.setText("Il tuo punteggio e' di: " + user.getPunteggio() + " punti");
-                textViewVittorie.setText("Hai totalizzato " + user.getVittorie() + " vittorie");
-                textViewSconfitte.setText("Hai totalizzato " + user.getSconfitte() + " sconfitte");
+                textViewId.setText(String.valueOf(user.getId()));
+                textViewPunteggio.setText(String.valueOf(user.getPunteggio()));
+                textViewVittorie.setText(String.valueOf(user.getVittorie()));
+                textViewSconfitte.setText(String.valueOf(user.getSconfitte()));
             }
         }, new ServerErrorHandler() {
             @Override
