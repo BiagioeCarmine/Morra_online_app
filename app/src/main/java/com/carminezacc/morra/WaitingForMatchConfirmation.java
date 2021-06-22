@@ -123,7 +123,7 @@ public class WaitingForMatchConfirmation extends Fragment {
                             bundle.putString("opponentName", opponentName);
                             NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.confirm_to_match, bundle);
                         } else {
-                            Snackbar.make(view, "La partita è stata confermata", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(view, "La partita non è stata confermata", Snackbar.LENGTH_LONG).show();
                             NavHostFragment.findNavController(WaitingForMatchConfirmation.this).navigate(R.id.matchmaking);
                         }
                     }
