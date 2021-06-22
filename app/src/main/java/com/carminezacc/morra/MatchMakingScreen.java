@@ -18,8 +18,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.carminezacc.morra.backend.Matchmaking;
 import com.carminezacc.morra.interfaces.QueueStatusHandler;
 import com.carminezacc.morra.interfaces.ServerErrorHandler;
-import com.carminezacc.morra.models.Match;
-import com.carminezacc.morra.polling.PollingThreadQueue;
+import com.carminezacc.morra.runnables.PollingThreadQueue;
 import com.carminezacc.morra.state.SessionSingleton;
 
 import org.joda.time.DateTime;

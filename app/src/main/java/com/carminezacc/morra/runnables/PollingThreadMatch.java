@@ -1,7 +1,6 @@
-package com.carminezacc.morra.polling;
+package com.carminezacc.morra.runnables;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.carminezacc.morra.backend.Matches;
 import com.carminezacc.morra.interfaces.LastRoundCallback;
@@ -21,7 +20,7 @@ public class PollingThreadMatch implements Runnable {
     ServerErrorHandler serverErrorHandler;
     public boolean running = true;
     int matchId;
-    boolean waiting = true;
+    Object sync = new Object();
 
     public PollingThreadMatch(Context context, int matchId, DateTime nextRoundStartTime, DateTime nextRoundResultsTime, MatchCallback handler, ServerErrorHandler serverErrorHandler) {
         this.matchId = matchId;
@@ -36,7 +35,6 @@ public class PollingThreadMatch implements Runnable {
     @Override
     public void run() {
         while(running) {
-            waiting = true;
             try {
                 Thread.sleep(nextRoundStartTime.getMillis() - new DateTime().getMillis() - 1000);
                 if (!running) {
@@ -52,10 +50,15 @@ public class PollingThreadMatch implements Runnable {
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
+                        running = false;
+                        synchronized (sync) {
+                            sync.notify();
+                        }
                         serverErrorHandler.error(statusCode);
                     }
                 });
                 Thread.sleep(nextRoundResultsTime.getMillis() - new DateTime().getMillis());
+                if(!running) break;
                 Matches.lastRound(matchId, context, new LastRoundCallback() {
                     @Override
                     public void resultReturned(LastRound lastRound) {
@@ -65,20 +68,26 @@ public class PollingThreadMatch implements Runnable {
                         } else {
                             nextRoundStartTime = lastRound.getNextRoundStart();
                             nextRoundResultsTime = lastRound.getNextRoundResults();
-                            waiting = false;
                             handler.lastRoundDataReceived(nextRoundStartTime, lastRound.getHand1(), lastRound.getHand2(), lastRound.getPrediction1(), lastRound.getPrediction2(), lastRound.getCurPoints1(), lastRound.getCurPoints2());
                         }
+                        synchronized (sync) {
+                            sync.notify();
+                        }
+
 
                     }
                 }, new ServerErrorHandler() {
                     @Override
                     public void error(int statusCode) {
                         running = false;
+                        synchronized (sync) {
+                            sync.notify();
+                        }
                         serverErrorHandler.error(statusCode);
                     }
                 });
-                while (waiting) { // TODO: fare in maniera più sensata
-                    if (!running) return;
+                synchronized (sync) {
+                    sync.wait();
                 }
             } catch (InterruptedException e) {
                 // TODO: bisogno di fare error handling per questo??
