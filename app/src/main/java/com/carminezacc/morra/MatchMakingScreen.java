@@ -130,7 +130,7 @@ public class MatchMakingScreen extends Fragment {
                 }
             });
         else {
-            userIdText.setText("User ID: " + SessionSingleton.getInstance().getUserId());
+            userIdText.setText("ID Utente: " + SessionSingleton.getInstance().getUserId());
             Matchmaking.addToPrivateQueue(Objects.requireNonNull(MatchMakingScreen.this.getContext()).getApplicationContext(), new QueueStatusHandler() {
                 @Override
                 public void handleMatchCreation(int matchId) {

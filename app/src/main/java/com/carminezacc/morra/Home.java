@@ -63,7 +63,7 @@ public class Home extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        settingsButton = view.findViewById(R.id.settingsButton);
+        //settingsButton = view.findViewById(R.id.settingsButton);
         recordsButton = view.findViewById(R.id.recordsButton);
         aboutButton = view.findViewById(R.id.aboutButton);
         playButton = view.findViewById(R.id.playButton);
@@ -83,7 +83,9 @@ public class Home extends Fragment {
             NavHostFragment.findNavController(Home.this)
                     .navigate(R.id.goToLoginfromHome);
         }
-        else{
+        else{/*
+        TODO: lascio commentata questa parte perchè ancora non sappiamo bene come implementare la schermata settings... WORK IN PROGRESS
+
             settingsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -91,7 +93,7 @@ public class Home extends Fragment {
                             .navigate(R.id.goToSettings);
                 }
             });
-
+*/
             recordsButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

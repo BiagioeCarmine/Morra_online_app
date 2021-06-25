@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:gravity="center"
-        android:text="Sign Up"
+        android:text="Registrati"
         android:textColor="#0080c0"
         android:textSize="40sp"
         android:textStyle="bold"

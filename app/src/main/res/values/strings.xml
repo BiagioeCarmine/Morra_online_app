@@ -9,7 +9,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="about_text">
-        La schermata \"Play\" contiene illustrazioni (le mani) estratte dal logo utilizzato per promuovere il Campionato Regionale di Morra organizzato dall\'ASD \"Giochiamo Insieme la Morra\" a Sant\'Ilario di Atella (PZ).
+        La schermata \"Gioca\" contiene illustrazioni (le mani) estratte dal logo utilizzato per promuovere il Campionato Regionale di Morra organizzato dall\'ASD \"Giochiamo Insieme la Morra\" a Sant\'Ilario di Atella (PZ).
     </string>
     <string name="dialog_user_deleted_title">Il tuo account è stato eliminato</string>
     <string name="dialog_user_deleted_message">Dovrai eseguire di nuovo la registrazione, e stavolta comportati bene, oppure ci arrabbiamo!</string>
