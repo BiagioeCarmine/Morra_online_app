@@ -24,9 +24,14 @@ import com.carminezacc.morra.state.SessionSingleton;
 import org.joda.time.DateTime;
 
 import java.util.Objects;
-
+/**
+ * Codice che implementa le funzionalità della schermata matchmaking (layout {@code res/layout/matchmaking.xml})
+ */
 public class MatchMakingScreen extends Fragment {
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -89,8 +94,9 @@ public class MatchMakingScreen extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        userIdText = view.findViewById(R.id.userIdText);
         super.onViewCreated(view, savedInstanceState);
+        userIdText = view.findViewById(R.id.userIdText);
+
         if (type.equals("public"))
             Matchmaking.addToPublicQueue(Objects.requireNonNull(MatchMakingScreen.this.getContext()).getApplicationContext(), new QueueStatusHandler() {
                 @Override

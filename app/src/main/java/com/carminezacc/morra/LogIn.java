@@ -27,9 +27,13 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * Codice che implementa le funzionalità della schermata login (layout {@code res/layout/login.xml})
+ */
 public class LogIn extends Fragment {
-
+    /**
+     * Metodo che verifica che gli input dell'utente siano validi
+     */
     void logIn() {
         final String username, password;
         username = String.valueOf(usernameEditText.getText());
@@ -87,7 +91,10 @@ public class LogIn extends Fragment {
             }
         });
     }
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

@@ -1,6 +1,5 @@
 package com.carminezacc.morra;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,8 +21,14 @@ import com.carminezacc.morra.models.User;
 
 import java.util.Objects;
 
-
+/**
+ * Codice che implementa le funzionalità della schermata ranking (layout {@code res/layout/ranking.xml})
+ */
 public class Ranking extends Fragment {
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

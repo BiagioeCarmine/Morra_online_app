@@ -16,6 +16,9 @@ public class PollingThreadQueue implements Runnable {
     boolean queueIsPublic;
     QueueStatusHandler handler;
     ServerErrorHandler serverErrorHandler;
+    /**
+     * Booleano usato per fermare l'esecuzione del thread impostato a false
+     */
     public boolean running = true;
     final Object sync = new Object();
 

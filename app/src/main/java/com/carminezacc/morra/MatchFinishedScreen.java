@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-
+/**
+ * Classe che imposta i valori da mostrare all'utente a fine partita (layout {@code res/layout/
+ * fragment_match_finished_screen.xml})
+ */
 public class MatchFinishedScreen extends Fragment {
 
     private static final String ARG_PARAM1 = "puntiAvversario";
@@ -22,10 +25,6 @@ public class MatchFinishedScreen extends Fragment {
     private int puntiUtente;
     private int puntiAvversario;
     private String opponentName;
-
-    public MatchFinishedScreen() {
-        // Required empty public constructor
-    }
 
 
     @Override

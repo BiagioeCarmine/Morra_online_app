@@ -26,9 +26,15 @@ import com.carminezacc.morra.state.SessionSingleton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
-
+/**
+ * Codice che implementa le funzionalità della schermata fragment_waiting_for_match_confirmation
+ * (layout {@code res/layout/fragment_waiting_for_match_confirmation.xml})
+ */
 public class WaitingForMatchConfirmation extends Fragment {
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

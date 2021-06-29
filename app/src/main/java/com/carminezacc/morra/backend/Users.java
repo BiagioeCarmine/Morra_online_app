@@ -23,12 +23,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: FARE DOCUMENTAZIONEEEEEEEEEEEEE
+ * Classe usata per accedere alle route del backend per la gestione degli utenti
  */
 public class Users {
     static final String url = "https://morra.carminezacc.com";
     static final Gson gson = new Gson();
 
+    /**
+     * Metodo usato per la registrazione di un utente all'app
+     * @param username username dell'utente da registrare
+     * @param password password dell'utente da registrare
+     * @param context context attuale dell'app
+     * @param handler interfaccia usata per comunicare l'avvenuta registrazione dell'utente
+     * @param serverErrorHandler interfaccia usata per comunicare eventuali errori durante il
+     *                           tentativo di registrazione
+     */
     public static void signUp(final String username, final String password, Context context, final SignUpHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/signup";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {

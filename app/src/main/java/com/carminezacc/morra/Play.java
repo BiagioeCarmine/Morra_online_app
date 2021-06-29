@@ -9,7 +9,9 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
+/**
+ * Codice che implementa le funzionalità della schermata play (layout {@code res/layout/play.xml})
+ */
 public class Play extends Fragment {
     ImageButton mmButton; // tasto matchmaking
     ImageButton friendsButton;  // tasto gioca con amici

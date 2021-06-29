@@ -21,9 +21,14 @@ import com.carminezacc.morra.interfaces.ServerErrorHandler;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
-
+/**
+ * Codice che implementa le funzionalità della schermata play_with_friends (layout {@code res/layout/play_with_friends.xml})
+ */
 public class PlayWithFriends extends Fragment {
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -49,6 +54,10 @@ public class PlayWithFriends extends Fragment {
     EditText lobbyIdText;
     Button joinFriendButton;
 
+    /**
+     * Metodo usato per passare il parametro matchId a {@code WaitingForMatchConfirmation.java}
+     * @param matchId parametro che viene passato a WaitingForMatchConfirmation.java
+     */
     private void playMatch(int matchId) {
         Bundle bundle = new Bundle();
         bundle.putInt("matchId", matchId);

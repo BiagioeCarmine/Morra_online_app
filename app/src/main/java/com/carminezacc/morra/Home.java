@@ -24,8 +24,14 @@ import com.carminezacc.morra.state.SessionSingleton;
 
 import java.util.Objects;
 
+/**
+ * Codice che implementa le funzionalità della schermata home (layout {@code res/layout/home.xml})
+ */
 public class Home extends Fragment {
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -69,7 +75,6 @@ public class Home extends Fragment {
         playButton = view.findViewById(R.id.playButton);
         exitButton = view.findViewById(R.id.exitButton);
 
-        //TODO: approfondire mancata rimozione bad token
 
         playButton.setVisibility(View.INVISIBLE);
         recordsButton.setVisibility(View.INVISIBLE);
@@ -84,7 +89,7 @@ public class Home extends Fragment {
                     .navigate(R.id.goToLoginfromHome);
         }
         else{/*
-        TODO: lascio commentata questa parte perchè ancora non sappiamo bene come implementare la schermata settings... WORK IN PROGRESS
+        TODO: lascio commentata questa parte perchè ancora non sappiamo bene a cosa può servire la schermata settings... WORK IN PROGRESS
 
             settingsButton.setOnClickListener(new View.OnClickListener() {
                 @Override

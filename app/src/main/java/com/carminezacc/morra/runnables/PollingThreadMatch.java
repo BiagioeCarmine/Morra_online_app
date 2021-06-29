@@ -18,6 +18,9 @@ public class PollingThreadMatch implements Runnable {
     DateTime nextRoundResultsTime;
     MatchCallback handler;
     ServerErrorHandler serverErrorHandler;
+    /**
+     * Booleano usato per fermare l'esecuzione del thread impostato a false
+     */
     public boolean running = true;
     int matchId;
     Object sync = new Object();

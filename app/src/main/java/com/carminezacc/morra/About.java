@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+/**
+ * layout {@code res/layout/about.xml}
+ */
 public class About extends Fragment {
 
 

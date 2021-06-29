@@ -28,8 +28,14 @@ import com.carminezacc.morra.state.SessionSingleton;
 import org.joda.time.DateTime;
 
 import java.util.Objects;
-
+/**
+ * Codice che implementa le funzionalità della schermata match_screen (layout {@code res/layout/match_screen.xml})
+ */
 public class MatchScreen extends Fragment {
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -67,6 +73,10 @@ public class MatchScreen extends Fragment {
     int matchUserId1; // per vedere se siamo user 1 o user 2
     String opponentName;
 
+    /**
+     * Metodo usato per impostare il valore della mano e colorare il corrispettivo button
+     * @param n usato per passare la mano da impostare
+     */
     void setHand(int n) {
         hand = n;
         for(int i = 0; i < 5; i++) {

@@ -24,9 +24,13 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * Codice che implementa le funzionalità della schermata signup (layout {@code res/layout/signup.xml})
+ */
 public class SignUp extends Fragment {
-
+    /**
+     * Metodo che verifica che gli input dell'utente siano validi
+     */
     void signUp() {
         final String username, password, confPass;
         username = String.valueOf(usernameEditText.getText());
@@ -82,7 +86,10 @@ public class SignUp extends Fragment {
         });
 
     }
-
+    /**
+     * Metodo che avvisa l'utente che c'è un problema con il server e gli consente di inviare una
+     * mail
+     */
     void showServerDownDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
