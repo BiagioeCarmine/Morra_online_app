@@ -19,7 +19,7 @@ public class PollingThreadMatch implements Runnable {
     MatchCallback handler;
     ServerErrorHandler serverErrorHandler;
     /**
-     * Booleano usato per fermare l'esecuzione del thread impostato a false
+     * Booleano usato per fermare l'esecuzione del thread quando viene impostato a false
      */
     public boolean running = true;
     int matchId;
