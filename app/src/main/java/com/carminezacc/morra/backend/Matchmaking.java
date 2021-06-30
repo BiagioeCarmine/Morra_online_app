@@ -24,6 +24,9 @@ import java.util.Map;
 public class Matchmaking {
     static final String url = "https://morra.carminezacc.com";
 
+    /**
+     * Metodo che aggiunge un utente alla public queue
+     */
     public static void addToPublicQueue(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/mm/queue";
         SessionSingleton session = SessionSingleton.getInstance();
@@ -69,6 +72,9 @@ public class Matchmaking {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Metodo che aggiunge un utente alla private queue
+     */
     public static void addToPrivateQueue(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/queue";
         SessionSingleton session = SessionSingleton.getInstance();
@@ -112,7 +118,9 @@ public class Matchmaking {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-
+    /**
+     * Metodo che ti permette di giocare con un amico dato il suo Id
+     */
     public static void playWithFriend(final String userId, Context context, final PlayWithFriendHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/play_with_friend";
         SessionSingleton session = SessionSingleton.getInstance();
@@ -151,6 +159,9 @@ public class Matchmaking {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Metodo usato per sapere se una partita è stata trovata o meno
+     */
     public static void queueStatus(Context context, final QueueStatusHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/mm/queue_status";
         SessionSingleton session = SessionSingleton.getInstance();
