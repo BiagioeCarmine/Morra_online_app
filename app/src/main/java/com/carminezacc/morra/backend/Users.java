@@ -71,6 +71,9 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Metodo usato per far accedere un utente all'app
+     */
     public static void logIn(final String username, final String password, Context context, final LogInHandler handler, final ServerErrorHandler serverErrorHandler) {
         String path = "/users/login";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url + path, new Response.Listener<String>() {
@@ -103,6 +106,9 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Metodo usato per verificare il token di un utente
+     */
     public static void verify(final String jwt, Context context, final VerifyHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/verify";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url + path, null, new Response.Listener<JSONObject>() {
@@ -138,6 +144,9 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
+    /**
+     * Metodo che ritorna un utente dato un certo Id
+     */
     public static void getUser(int userId, Context context, final GetUserHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/user/" + userId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
@@ -156,6 +165,9 @@ public class Users {
         VolleyRequestQueueSingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Metodo che ritorna i primi n utenti in ordine descrescente per punteggio
+     */
     public static void getRanking(Context context, final GetClassificaHandler handler, final ServerErrorHandler serverErrorHandler){
         String path = "/users/?order_by=punteggio&descending=true&n=5";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + path, new Response.Listener<String>() {
