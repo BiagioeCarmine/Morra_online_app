@@ -93,7 +93,6 @@ public class PollingThreadMatch implements Runnable {
                     sync.wait();
                 }
             } catch (InterruptedException e) {
-                // TODO: bisogno di fare error handling per questo??
                 e.printStackTrace();
             }
         }

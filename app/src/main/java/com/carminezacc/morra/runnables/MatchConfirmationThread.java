@@ -38,7 +38,6 @@ public class MatchConfirmationThread implements Runnable {
                     }
                 });
             } catch (InterruptedException e) {
-                // TODO: bisogno di fare error handling per questo??
                 e.printStackTrace();
             }
 

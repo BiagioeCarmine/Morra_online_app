@@ -2,7 +2,9 @@ package com.carminezacc.morra.models;
 
 
 import org.joda.time.DateTime;
-
+/**
+ * Classe che contiene i dati che restituisce il backend dopo che viene giocato un round
+ */
 public class LastRound {
     int curPoints1, curPoints2, hand1, hand2, prediction1, prediction2;
     DateTime nextRoundStart, nextRoundResults;
@@ -42,10 +44,16 @@ public class LastRound {
         return prediction2;
     }
 
+    /**
+     * Metodo che ritorna l'istante in cui va inviata la mossa del prossimo round
+     */
     public DateTime getNextRoundStart() {
         return nextRoundStart;
     }
-
+    /**
+     * Metodo che ritorna l'istante in cui va inviata le richiesta per ricevere i risultati del
+     * prossimo round
+     */
     public DateTime getNextRoundResults() {
         return nextRoundResults;
     }

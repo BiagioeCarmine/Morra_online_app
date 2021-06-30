@@ -27,7 +27,9 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Classe usata per accedere alle route del backend per la gestione delle partite
+ */
 public class Matches {
 
     /**

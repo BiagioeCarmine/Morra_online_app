@@ -202,7 +202,6 @@ public class MatchScreen extends Fragment {
             @Override
             public void moveSet() {
                 Log.d("matchScreen", "impostata mossa");
-                // TODO: error handling, nascondere input
             }
 
             @Override

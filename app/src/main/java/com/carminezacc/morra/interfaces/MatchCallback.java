@@ -3,7 +3,7 @@ package com.carminezacc.morra.interfaces;
 import org.joda.time.DateTime;
 
 /**
- * Questo è ilsd sd jsdahbasj  jh dsajd
+ * Interfaccia usata per la comunicazione tra il thread UI e il thread di PollingThreadMatch
  */
 public interface MatchCallback {
     /**
@@ -20,9 +20,18 @@ public interface MatchCallback {
      */
     int getUserPrediction();
 
+    /**
+     * Metodo che viene chiamato dopo che è stata impostata una mossa per un dato round
+     */
     void moveSet();
 
+    /**
+     * Metodo che viene chiamato dopo che viene giocato un round e passa i risultati del dato round
+     */
     void lastRoundDataReceived(DateTime nextRoundStart, int hand1, int hand2, int prediction1, int prediction2, int punti1, int punti2);
 
+    /**
+     * Metodo che viene chiamato quando la partita è finita e passa i risultati della partita
+     */
     void matchFinished(int punti1, int punti2);
 }

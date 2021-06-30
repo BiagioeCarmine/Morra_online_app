@@ -18,7 +18,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Classe usata per accedere alle route del backend per la gestione del matchmaking
+ */
 public class Matchmaking {
     static final String url = "https://morra.carminezacc.com";
 

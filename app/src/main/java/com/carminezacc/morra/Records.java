@@ -91,7 +91,7 @@ public class Records extends Fragment {
             @Override
             public void error(int statusCode) {
                 if(statusCode == 404) {
-                    NavHostFragment.findNavController(Records.this).navigate(R.id.login); // TODO: controllare se funziona
+                    NavHostFragment.findNavController(Records.this).navigate(R.id.login);
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                     builder.setMessage(R.string.dialog_user_deleted_title)
