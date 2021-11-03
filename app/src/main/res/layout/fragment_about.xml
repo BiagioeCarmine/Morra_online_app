@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,9 +21,48 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/about_text"
         android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/about_text_git"
+        android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/toGitHub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_github_1"
+            android:text="GitHub"
+            android:background="@color/colorButtons"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/toInstaGrimos"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_height="wrap_content"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
+            android:text="Grimos10"
+            android:background="@color/colorButtons"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/toInstaZac"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_height="wrap_content"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
+            android:text="Carmine"
+            android:background="@color/colorButtons"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -23,6 +23,9 @@
     <string name="dialog_problemone_title">C\'E\' UN PROBLEMONE</string>
     <string name="dialog_problemone_message">c\'e\' stato un problemone</string>
     <string name="dialog_bad_password">La password che hai usato è troppo corta o troppo lunga</string>
+    <string name="about_text_git">
+        Inoltre il nostro progetto è completamente open source vieni a trovarci su GitHub e seguici su Instagram per rimanere sempre aggiornato sui nostri progetti futuri
+    </string>
     <string name="dialog_password_not_equals">Le 2 password messe non sono uguali</string>
     <string name="dialog_bad_username">L\'username che hai usato è troppo corto o troppo lungo</string>
     <string name="dialog_unsupported_characters">L\'username che hai usato ha caratteri non supportati</string>
