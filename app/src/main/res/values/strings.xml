@@ -11,6 +11,10 @@
     <string name="about_text">
         La schermata \"Gioca\" contiene illustrazioni (le mani) estratte dal logo utilizzato per promuovere il Campionato Regionale di Morra organizzato dall\'ASD \"Giochiamo Insieme la Morra\" a Sant\'Ilario di Atella (PZ).
     </string>
+    <string name="rules_text">
+        Il gioco consiste nell\'indovinare la somma dei numeri che vengono mostrati con le dita dai giocatori.
+    Simultaneamente i due giocatori tendono il braccio stendendo un numero di dita a scelta, mentre gridano (quasi a voler intimorire l\'avversario) un numero da due a dieci generalmente in lingua locale, a volte storpiati con espressioni molto colorite che variano di paese in paese; spesso il nome del numero è modificato per renderlo monosillabico. Il giocatore che indovina la somma conquista il punto. Se entrambi i giocatori indovinano la somma il gioco continua e nessuno guadagna il punto. Il gioco finisce quando si raggiunge il punteggio deciso a priori.
+    </string>
     <string name="dialog_user_deleted_title">Il tuo account è stato eliminato</string>
     <string name="dialog_user_deleted_message">Dovrai eseguire di nuovo la registrazione, e stavolta comportati bene, oppure ci arrabbiamo!</string>
     <string name="dialog_server_down_title">Server offline</string>

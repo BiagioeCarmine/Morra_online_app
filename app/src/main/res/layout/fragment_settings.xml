@@ -3,17 +3,23 @@
 TODO: per ora lascio questo fragment vuoto da completare in futuro quando si deciderà sul da farsi
 WORK IN PROGRESS
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/colorBackground"
-    tools:context=".Settings">
-
-    <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Impostazioni" />
+        android:orientation="horizontal"
+        android:background="@color/colorBackground"
+        tools:context=".Settings">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/rules_text"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+</ScrollView>

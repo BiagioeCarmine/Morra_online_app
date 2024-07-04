@@ -1,68 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorBackground"
-    tools:context=".About">
 
-    <Button
-        android:id="@+id/aboutToHome"
-        android:layout_width="144dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:background="@color/colorButtons"
-        android:padding="10dp"
-        android:text="Torna indietro"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/about_text"
-        android:textSize="30sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/about_text_git"
-        android:textSize="30sp" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:background="@color/colorBackground"
+        tools:context=".About">
+
+        <Button
+            android:id="@+id/aboutToHome"
+            android:layout_width="144dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:background="@color/colorButtons"
+            android:padding="10dp"
+            android:text="Torna indietro"
+            android:textColor="@android:color/white"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/about_text"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/about_text_git"
+            android:textSize="30sp" />
+
         <Button
             android:id="@+id/toGitHub"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            app:drawableEndCompat="@drawable/ic_iconmonstr_github_1"
-            android:text="GitHub"
+            android:layout_margin="20dp"
             android:background="@color/colorButtons"
-            android:textColor="@android:color/white"/>
+            android:text="GitHub"
+            android:textColor="@android:color/white"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_github_1"
+            tools:ignore="TextContrastCheck" />
+
         <Button
             android:id="@+id/toInstaGrimos"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_marginStart="50dp"
             android:layout_height="wrap_content"
-            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
-            android:text="Grimos10"
             android:background="@color/colorButtons"
-            android:textColor="@android:color/white"/>
+            android:layout_margin="20dp"
+            android:text="Grimos10"
+            android:textColor="@android:color/white"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
+            tools:ignore="TextContrastCheck" />
+
         <Button
             android:id="@+id/toInstaZac"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="45dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
-            android:text="Carmine"
+            android:layout_marginEnd="40dp"
+            android:layout_margin="20dp"
             android:background="@color/colorButtons"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
+            android:text="Carmine"
+            android:textColor="@android:color/white"
+            app:drawableEndCompat="@drawable/ic_iconmonstr_instagram_11"
+            tools:ignore="TextContrastCheck" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
